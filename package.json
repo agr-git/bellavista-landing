@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "tsx scripts/validate-content.ts",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "validate:content": "tsx scripts/validate-content.ts"
   },
   "dependencies": {
     "@notionhq/client": "^5.20.0",
