@@ -1,6 +1,7 @@
 import Hero from "@/components/sections/Hero";
 import Story from "@/components/sections/Story";
 import Farm from "@/components/sections/Farm";
+import Chapters from "@/components/sections/Chapters";
 import Coffee from "@/components/sections/Coffee";
 import Stay from "@/components/sections/Stay";
 import Journal from "@/components/sections/Journal";
@@ -17,6 +18,11 @@ export default function Home() {
       <MotionWrapper>
         <Farm />
       </MotionWrapper>
+      {/* ChapterScrolly sections — La Vega, El Bosque, La Cumbre.
+          NOT wrapped in MotionWrapper: the sticky pinning relies on
+          unobstructed ancestor scroll context; the motion transform
+          would break position: sticky. */}
+      <Chapters />
       <MotionWrapper>
         <Coffee />
       </MotionWrapper>
