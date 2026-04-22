@@ -1,17 +1,180 @@
+"use client";
+
 /**
  * Hero — full-bleed cinematic, 100vh.
- * B3 stub: anchor + minimal layout. B4 fills in.
+ *
+ * - Background: placeholder gradient (drone video swaps in post-ship).
+ *   The <video> element is wired: if /media/hero.mp4 is present at build,
+ *   it'll autoplay muted looped. Otherwise falls back to the CSS gradient.
+ * - Headline: "From lines of code / to lines of coffee trees" with italic
+ *   + --accent-2 on "to lines of".
+ * - Primary CTA: 72px circular play button (toggles mute, scrolls to #story).
+ * - Chapter strip: 5 chapters with IntersectionObserver-driven active
+ *   underline (scrolls to matching section on click).
+ * - Gradient overlay keeps text legible.
+ *
+ * B4 scope. Real drone video is a post-ship asset.
  */
 
+import { useEffect, useRef, useState } from "react";
+
+const CHAPTERS = [
+  { n: "01", label: "CASA", href: "#story" },
+  { n: "02", label: "LA VEGA", href: "#la-vega" },
+  { n: "03", label: "EL BOSQUE", href: "#el-bosque" },
+  { n: "04", label: "LA CUMBRE", href: "#la-cumbre" },
+  { n: "05", label: "BENEFICIO", href: "#beneficio" },
+];
+
 export default function Hero() {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [muted, setMuted] = useState(true);
+  const [activeChapter, setActiveChapter] = useState<string>("#story");
+
+  // Track which chapter section is in view
+  useEffect(() => {
+    const ids = CHAPTERS.map((c) => c.href.slice(1));
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => !!el);
+    if (sections.length === 0) return;
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActiveChapter(`#${e.target.id}`);
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+    sections.forEach((s) => obs.observe(s));
+    return () => obs.disconnect();
+  }, []);
+
+  const handlePlay = () => {
+    const v = videoRef.current;
+    if (v) {
+      v.muted = false;
+      setMuted(false);
+      v.play().catch(() => {
+        /* autoplay-with-sound may be blocked; ignore */
+      });
+    }
+    // Scroll to first chapter
+    document.getElementById("story")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <section id="hero" className="relative min-h-screen w-full">
-      {/* Nav sentinel: when this scrolls out of view, Nav fades to opaque */}
+    <section id="hero" className="relative min-h-screen w-full overflow-hidden">
+      {/* Nav sentinel */}
       <div id="nav-sentinel" className="absolute top-0 h-[60vh] w-full pointer-events-none" />
-      <div className="flex items-center justify-center min-h-screen px-6">
-        <p className="font-mono text-meta uppercase text-ink-3">
-          [B3 stub] Hero · drone video + headline lands in B4
-        </p>
+
+      {/* Background — video or gradient fallback */}
+      <div className="absolute inset-0 z-0">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted={muted}
+          loop
+          playsInline
+          poster="/media/hero-poster.jpg"
+          className="absolute inset-0 w-full h-full object-cover"
+          aria-hidden
+        >
+          {/* Source will 404 until media is uploaded — video element stays invisible and gradient below shows */}
+          <source src="/media/hero.mp4" type="video/mp4" />
+        </video>
+        {/* Fallback / decorative gradient (shows even when video fails/hasn't loaded) */}
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-bg"
+          style={{
+            backgroundImage:
+              "radial-gradient(ellipse at 30% 20%, rgba(232,155,74,0.14), transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(245,201,138,0.08), transparent 55%), linear-gradient(180deg, #243049 0%, #1b2437 60%)",
+          }}
+        />
+        {/* Legibility overlay */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(27,36,55,0.33) 0%, rgba(27,36,55,0.13) 35%, rgba(27,36,55,0.93) 100%)",
+          }}
+        />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col min-h-screen">
+        {/* Top spacer (nav is fixed) */}
+        <div className="h-20" />
+
+        {/* Center text block */}
+        <div className="flex-1 flex items-center justify-center px-6">
+          <div className="max-w-[760px] text-center space-y-6">
+            <p className="font-mono text-meta uppercase text-ink-3 tracking-[0.15em]">
+              Manizales · Colombia · 1,300 MASL
+            </p>
+            <h1 className="font-serif text-h1 leading-[0.92] text-ink text-balance">
+              From lines of code
+              <br />
+              <em className="not-italic">
+                <span className="italic text-accent-2">to lines of </span>
+                coffee trees.
+              </em>
+            </h1>
+            <p className="font-sans text-body text-ink-2/90 max-w-[440px] mx-auto leading-relaxed">
+              A small production project in the hills of Manizales — documented in
+              drone footage, field notes, and every batch of coffee we ship.
+            </p>
+
+            {/* Primary CTA */}
+            <div className="pt-4 flex items-center justify-center gap-4">
+              <button
+                type="button"
+                onClick={handlePlay}
+                aria-label="Start the tour"
+                className="group relative w-[72px] h-[72px] rounded-full border-[1.5px] border-ink flex items-center justify-center hover:border-accent-2 transition-colors"
+              >
+                <span className="block w-0 h-0 ml-1 border-y-[10px] border-y-transparent border-l-[14px] border-l-ink group-hover:border-l-accent-2 transition-colors" />
+              </button>
+              <div className="text-left">
+                <p className="font-serif italic text-h4 text-ink">Start the tour</p>
+                <p className="font-mono text-meta uppercase text-ink-3 mt-1">
+                  5 chapters · 08:42
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Chapter strip */}
+        <div className="border-t border-line backdrop-blur-sm bg-bg/20">
+          <div className="max-w-[1400px] mx-auto px-8 py-4 flex items-center gap-6 overflow-x-auto">
+            <span className="font-mono text-meta uppercase text-ink-3 whitespace-nowrap">
+              ↓ Scroll to explore
+            </span>
+            <ul className="flex items-center gap-6 ml-auto">
+              {CHAPTERS.map((c) => {
+                const isActive = activeChapter === c.href;
+                return (
+                  <li key={c.n}>
+                    <a
+                      href={c.href}
+                      className={`font-mono text-meta uppercase whitespace-nowrap transition-colors inline-block pb-1 border-b-[1.5px] ${
+                        isActive
+                          ? "text-ink border-accent-2"
+                          : "text-ink-3 border-transparent hover:text-ink-2"
+                      }`}
+                    >
+                      {c.n} {c.label}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   );
