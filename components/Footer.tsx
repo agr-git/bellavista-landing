@@ -12,10 +12,18 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { submitLead, errorMessage } from "@/lib/submit-lead";
+
+type SubscribeState =
+  | { kind: "idle" }
+  | { kind: "sending" }
+  | { kind: "success" }
+  | { kind: "error"; message: string };
 
 export default function Footer() {
   const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
+  const [state, setState] = useState<SubscribeState>({ kind: "idle" });
+  const subscribed = state.kind === "success";
 
   return (
     <footer
@@ -46,28 +54,46 @@ export default function Footer() {
             </p>
           ) : (
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                // B7 UI stub; wired in B9 alongside the other forms.
-                setSubscribed(true);
+                if (state.kind === "sending") return;
+                setState({ kind: "sending" });
+                const res = await submitLead("subscribe", { email });
+                if (res.ok) setState({ kind: "success" });
+                else
+                  setState({
+                    kind: "error",
+                    message: errorMessage(res.code),
+                  });
               }}
-              className="flex items-stretch gap-2"
+              className="flex flex-col gap-2 items-end"
             >
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@roastery.com"
-                aria-label="Email to subscribe"
-                className="bg-bg border border-line px-3 py-2 text-ink font-sans text-body focus:outline-none focus:border-accent-2 transition-colors min-w-[220px]"
-              />
-              <button
-                type="submit"
-                className="font-mono text-meta uppercase bg-accent text-bg px-4 py-2 hover:bg-accent-2 transition-colors"
-              >
-                Subscribe
-              </button>
+              <div className="flex items-stretch gap-2">
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@roastery.com"
+                  aria-label="Email to subscribe"
+                  className="bg-bg border border-line px-3 py-2 text-ink font-sans text-body focus:outline-none focus:border-accent-2 transition-colors min-w-[220px]"
+                />
+                <button
+                  type="submit"
+                  disabled={state.kind === "sending"}
+                  className="font-mono text-meta uppercase bg-accent text-bg px-4 py-2 hover:bg-accent-2 disabled:opacity-50 transition-colors"
+                >
+                  {state.kind === "sending" ? "Sending…" : "Subscribe"}
+                </button>
+              </div>
+              {state.kind === "error" && (
+                <p
+                  role="alert"
+                  className="font-mono text-meta uppercase text-accent-2"
+                >
+                  {state.message}
+                </p>
+              )}
             </form>
           )}
 
