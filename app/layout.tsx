@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import { GeistSans } from "geist/font/sans";
+import Nav from "@/components/Nav";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -22,6 +23,13 @@ export const metadata: Metadata = {
   title: "Bellavista Coffee — Manizales, Colombia",
   description:
     "A small specialty coffee production project in the hills of Manizales — documented in drone footage, field notes, and every batch of coffee we ship.",
+  metadataBase: new URL("https://www.bellavista-coffee.com.co"),
+  openGraph: {
+    title: "Bellavista Coffee",
+    description:
+      "Specialty coffee from the hills of Manizales, Colombia. Documented in drone footage and field notes.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -34,7 +42,10 @@ export default function RootLayout({
       lang="en"
       className={`${instrumentSerif.variable} ${GeistSans.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body id="top">
+        <Nav />
+        {children}
+      </body>
     </html>
   );
 }
