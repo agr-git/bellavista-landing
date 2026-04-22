@@ -19,8 +19,8 @@ The framework has **5 phases, advanced by gate criteria, not calendar**:
 | # | Phase | Primary Tool | Key Output | Status |
 |---|---|---|---|---|
 | **0** | **Discover** | Claude Desktop + Notion | Data Inventory, Constraints | ✅ **Complete** (this planning conversation) |
-| **1** | **Design** | Claude Desktop | Architecture, ADRs, Execution Briefs | 🟡 **Next** |
-| **2** | **Build** | Claude Code + GitHub | Working code, deploy scripts | ⬜ |
+| **1** | **Design** | Claude Desktop | Architecture, ADRs, Execution Briefs | ✅ **Complete** (D1_DESIGN, 2026-04-21) |
+| **2** | **Build** | Claude Code + GitHub | Working code, deploy scripts | 🟡 **Next** (B1_SCAFFOLD) |
 | **3** | **Validate** | Claude Desktop + Code | Metrics, Feedback | ⬜ |
 | **4** | **Ship** | All tools | Case Study, production live | ⬜ |
 
@@ -430,10 +430,10 @@ Future Claude Code session should:
 ### Current status
 
 ```
-Last completed checkpoint: Phase 0 (Discover) — complete
-Next checkpoint: D1_DESIGN (Phase 1)
+Last completed checkpoint: D1_DESIGN (Phase 1 — Design) — 2026-04-21
+Next checkpoint: B1_SCAFFOLD (Phase 2 — Build)
 Blockers: none
-Open question: use tpm-project-blueprint-generator-v2 skill for D1, or author manually?
+GitHub repo: https://github.com/agr-git/bellavista-landing
 ```
 
 **Update this block after every checkpoint before pushing.**
