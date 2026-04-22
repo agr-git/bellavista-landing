@@ -430,8 +430,8 @@ Future Claude Code session should:
 ### Current status
 
 ```
-Last completed checkpoint: D1_DESIGN (Phase 1 — Design) — 2026-04-21
-Next checkpoint: B1_SCAFFOLD (Phase 2 — Build)
+Last completed checkpoint: B1_SCAFFOLD (Phase 2 — Build) — 2026-04-21
+Next checkpoint: B2_TOKENS (design tokens + Tailwind bridge + typography)
 Blockers: none
 GitHub repo: https://github.com/agr-git/bellavista-landing
 ```

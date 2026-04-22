@@ -23,7 +23,8 @@ Update this file every time a new deliverable is produced. One row per artifact.
 | ADR-005 | `/docs/decisions/ADR-005-self-hosted-video-v1.md` | ✅ | Media hosting decision |
 | Retro template | `/docs/retrospectives/TEMPLATE.md` | ✅ | Used at B6, B9, V1, S1 |
 | Implementation plan | `/PLAN.md` | ✅ | Master plan, all phases + checkpoint detail |
-| Design handoff | `/README.md` | ✅ | Amanecer palette, 7 sections, Journal model |
+| Design handoff | `/HANDOFF.md` | ✅ | Amanecer palette, 7 sections, Journal model (renamed from README.md in B1) |
+| Project README | `/README.md` | ✅ | Quick-start + doc map (B1) |
 
 ---
 
@@ -31,7 +32,8 @@ Update this file every time a new deliverable is produced. One row per artifact.
 
 | Artifact | Path | Status | Notes |
 |---|---|---|---|
-| Next.js scaffold | `/` | ⬜ | B1_SCAFFOLD |
+| Next.js scaffold | `/` | ✅ | B1_SCAFFOLD — package.json, app/, tailwind, eslint, tsconfig |
+| .env.example | `/.env.example` | ✅ | B1_SCAFFOLD — all env vars stubbed |
 | tokens.css | `/app/styles/tokens.css` | ⬜ | B2_TOKENS |
 | tailwind.config.ts | `/tailwind.config.ts` | ⬜ | B2_TOKENS |
 | Layout shell | `/app/layout.tsx` | ⬜ | B3_SHELL |

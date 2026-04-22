@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Bellavista · Landing Wireframes v3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: #f0eee9; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="wireframes/shared-v2.jsx"></script>
+<script type="text/babel" src="wireframes/direction-a.jsx"></script>
+<script type="text/babel" src="wireframes/direction-b.jsx"></script>
+<script type="text/babel" src="wireframes/direction-c.jsx"></script>
+<script type="text/babel" src="wireframes/palettes.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+const TWEAKS = /*EDITMODE-BEGIN*/{
+  "language": "EN",
+  "density": "comfortable",
+  "showAnnotations": true,
+  "cinematicPalette": "amanecer"
+}/*EDITMODE-END*/;
+
+function Title() {
+  return (
+    <div style={{ position: 'absolute', top: 20, left: 28, zIndex: 20, pointerEvents: 'none', maxWidth: 560 }}>
+      <div style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: 38, fontWeight: 400, color: '#1a1613', lineHeight: 1, letterSpacing: '-0.02em' }}>
+        Bellavista Coffee <span style={{ fontStyle: 'italic', color: 'oklch(55% 0.09 50)' }}>— landing page v3</span>
+      </div>
+      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#6b5f54', letterSpacing: '0.15em', marginTop: 6 }}>
+        3 DIRECTIONS · 5 PALETTES · REFINED TYPE · LO-FI WIREFRAMES
+      </div>
+    </div>
+  );
+}
+
+function CinematicDirection() {
+  const [palette, setPalette] = React.useState('ceniza');
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      if (e.data?.type === '__edit_mode_set_keys' && e.data.edits?.cinematicPalette) {
+        setPalette(e.data.edits.cinematicPalette);
+      }
+    };
+    // listen to our own panel's postMessage too (local update)
+    window.addEventListener('cinematic-palette', (e) => setPalette(e.detail));
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+  const p = PALETTES_C[palette] || PALETTES_C.ceniza;
+  const W = 960, H = 680;
+  return (
+    <DCSection
+      id="dc"
+      title="Direction C · Cinematic Atlas (refined)"
+      subtitle="Video-first. Full-bleed drone hero; each chapter pairs pinned editorial copy with overlay-pinned video footage. Built around the 5 plots/facilities as named chapters. Use the Tweaks panel to swap palette between Ceniza (warm dark) and Amanecer (deep blue dawn)."
+    >
+      <DCArtboard id="c1" label="01 · Full-bleed cinematic hero + chapter strip" width={W} height={H}><DC_Home p={p}/></DCArtboard>
+      <DCArtboard id="c2" label="02 · Story · the producer (Ch. 01)" width={W} height={H}><DC_Story p={p}/></DCArtboard>
+      <DCArtboard id="c3" label="03 · The Farm · map + milestones (Ch. 02)" width={W} height={H}><DC_Farm p={p}/></DCArtboard>
+      <DCArtboard id="c4" label="04 · Chapter scrolly · pinned text + video" width={W} height={H}><DC_Chapter p={p}/></DCArtboard>
+      <DCArtboard id="c5" label="05 · Coffee · B2B + direct split + quote" width={W} height={H}><DC_Coffee p={p}/></DCArtboard>
+      <DCArtboard id="c6" label="06 · Stay · dark bento" width={W} height={H}><DC_Stay p={p}/></DCArtboard>
+      <DCArtboard id="c7" label="07 · Journal + Contact footer" width={W} height={H}><DC_Journal p={p}/></DCArtboard>
+      <DCPostIt top={-12} left={W + 40} rotate={2}>
+        The video-first cinematic direction. Each plot IS a chapter — click from hero strip or farm map. Works best full-screen, ambient.
+      </DCPostIt>
+      <DCPostIt top={H * 2 + 200} left={W + 40} rotate={-3}>
+        Palette swap in Tweaks — Ceniza is warm and nocturnal; Amanecer is dawn blue + ochre for a brighter mood.
+      </DCPostIt>
+    </DCSection>
+  );
+}
+
+function App() {
+  const W = 960, H = 680;
+  const PW = 520, PH = 560;
+
+  return (
+    <>
+      <Title/>
+      <DesignCanvas>
+        <DCSection
+          id="da"
+          title="Direction A · Editorial + Dark Hero (refined)"
+          subtitle="Your Direction 1 structure (Story · Farm · Coffee · Stay · Journal · Contact) with full-bleed dark video hero from D3, bento stay from D3, and dark contrast slabs woven through. New typography: Instrument Serif (display) + Geist (sans)."
+        >
+          <DCArtboard id="a1" label="01 · Dark video hero + Ch. 01 producer" width={W} height={H}><DA_Home/></DCArtboard>
+          <DCArtboard id="a2" label="02 · The Farm + milestones timeline" width={W} height={H}><DA_Farm/></DCArtboard>
+          <DCArtboard id="a3" label="03 · Coffee (B2B + direct) + pull quote" width={W} height={H}><DA_Coffee/></DCArtboard>
+          <DCArtboard id="a4" label="04 · Stay · bento (dark, from D3)" width={W} height={H}><DA_Stay/></DCArtboard>
+          <DCArtboard id="a5" label="05 · Journal · projects + experiments" width={W} height={H}><DA_Journal/></DCArtboard>
+          <DCPostIt top={-12} left={W + 40} rotate={2}>
+            Story is the spine. Dark hero + stay give the cinematic beat. Journal splits public projects / private tracking.
+          </DCPostIt>
+        </DCSection>
+
+        <DCSection
+          id="db"
+          title="Direction B · Field Notebook"
+          subtitle="The landing page feels like opening the producer's own working notebook. A ledger-style grid — each section is a filed entry. Spec-sheet clarity for coffee, italic serif warmth on the beats, mono filing metadata throughout."
+        >
+          <DCArtboard id="b1" label="00 · Index · ledger home" width={W} height={H}><DB_Home/></DCArtboard>
+          <DCArtboard id="b2" label="02 · Farm · map-in-ledger" width={W} height={H}><DB_Farm/></DCArtboard>
+          <DCArtboard id="b3" label="03 · Coffee · spec sheet" width={W} height={H}><DB_Coffee/></DCArtboard>
+          <DCArtboard id="b4" label="04 · Stay · single-listing" width={W} height={H}><DB_Stay/></DCArtboard>
+          <DCArtboard id="b5" label="05 · Journal + contact · dual feed" width={W} height={H}><DB_Journal/></DCArtboard>
+          <DCPostIt top={-12} left={W + 40} rotate={-2}>
+            On-brand with your engineer background — ledger, spec sheets, tracked data. Feels like a tool, not a brochure.
+          </DCPostIt>
+        </DCSection>
+
+        <CinematicDirection/>
+
+        <DCSection
+          id="palettes"
+          title="Palettes · 5 options"
+          subtitle="Each card shows the hero under that palette + type pairing. Warm, professional, casual — no cold or overused combinations."
+        >
+          <DCArtboard id="p1" label="P1 · Cerro — warm earth + forest" width={PW} height={PH}><PaletteCard p={PALETTES[0]}/></DCArtboard>
+          <DCArtboard id="p2" label="P2 · Neblina — mist green + terracotta" width={PW} height={PH}><PaletteCard p={PALETTES[1]}/></DCArtboard>
+          <DCArtboard id="p3" label="P3 · Ceniza — warm dark + bone + ochre" width={PW} height={PH}><PaletteCard p={PALETTES[2]}/></DCArtboard>
+          <DCArtboard id="p4" label="P4 · Guadua — bamboo green + cream" width={PW} height={PH}><PaletteCard p={PALETTES[3]}/></DCArtboard>
+          <DCArtboard id="p5" label="P5 · Amanecer — deep blue + dawn ochre" width={PW} height={PH}><PaletteCard p={PALETTES[4]}/></DCArtboard>
+          <DCPostIt top={-12} left={PW + 40} rotate={2}>
+            P3 Ceniza is the default for Direction C; P1 Cerro is warmest for daytime; P5 Amanecer is the bolder choice.
+          </DCPostIt>
+        </DCSection>
+      </DesignCanvas>
+
+      <TweaksPanel/>
+    </>
+  );
+}
+
+function TweaksPanel() {
+  const [active, setActive] = React.useState(false);
+  const [tweaks, setTweaks] = React.useState(TWEAKS);
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      if (e.data?.type === '__activate_edit_mode') setActive(true);
+      if (e.data?.type === '__deactivate_edit_mode') setActive(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+  const patch = (k, v) => {
+    const next = { ...tweaks, [k]: v };
+    setTweaks(next);
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [k]: v } }, '*');
+    if (k === 'showAnnotations') document.querySelectorAll('.wf2-note').forEach(el => el.style.display = v ? '' : 'none');
+    if (k === 'cinematicPalette') window.dispatchEvent(new CustomEvent('cinematic-palette', { detail: v }));
+  };
+  if (!active) return null;
+  const Btn = ({ on, onClick, children }) => (
+    <button onClick={onClick} style={{
+      border: `1px solid ${on ? '#1a1613' : '#a89d90'}`,
+      background: on ? '#1a1613' : '#fbf8f2', color: on ? '#fbf8f2' : '#1a1613',
+      padding: '5px 10px', borderRadius: 2, cursor: 'pointer',
+      fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase',
+    }}>{children}</button>
+  );
+  return (
+    <div style={{
+      position: 'fixed', bottom: 20, right: 20, zIndex: 50,
+      background: '#fbf8f2', border: '1.5px solid #1a1613', borderRadius: 2,
+      padding: 14, width: 240, boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+    }}>
+      <div style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 22, marginBottom: 10, letterSpacing: '-0.01em' }}>Tweaks</div>
+      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: '0.12em', color: '#6b5f54', marginBottom: 6 }}>LANGUAGE</div>
+      <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
+        <Btn on={tweaks.language === 'EN'} onClick={() => patch('language', 'EN')}>EN</Btn>
+        <Btn on={tweaks.language === 'ES'} onClick={() => patch('language', 'ES')}>ES</Btn>
+      </div>
+      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: '0.12em', color: '#6b5f54', marginBottom: 6 }}>DENSITY</div>
+      <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
+        <Btn on={tweaks.density === 'compact'} onClick={() => patch('density', 'compact')}>compact</Btn>
+        <Btn on={tweaks.density === 'comfortable'} onClick={() => patch('density', 'comfortable')}>comfy</Btn>
+      </div>
+      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: '0.12em', color: '#6b5f54', marginBottom: 6 }}>ANNOTATIONS</div>
+      <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
+        <Btn on={tweaks.showAnnotations} onClick={() => patch('showAnnotations', true)}>show</Btn>
+        <Btn on={!tweaks.showAnnotations} onClick={() => patch('showAnnotations', false)}>hide</Btn>
+      </div>
+      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: '0.12em', color: '#6b5f54', marginBottom: 6 }}>DIRECTION C · PALETTE</div>
+      <div style={{ display: 'flex', gap: 6 }}>
+        <Btn on={tweaks.cinematicPalette === 'ceniza'} onClick={() => patch('cinematicPalette', 'ceniza')}>Ceniza</Btn>
+        <Btn on={tweaks.cinematicPalette === 'amanecer'} onClick={() => patch('cinematicPalette', 'amanecer')}>Amanecer</Btn>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
