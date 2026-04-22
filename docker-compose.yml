@@ -1,0 +1,66 @@
+# Bellavista Coffee — standalone stack.
+#
+# CRITICAL: this file is SEPARATE from the existing n8n docker-compose.
+# Never merge the two. Lives at /srv/bellavista/docker-compose.yml on
+# the Lightsail VPS. n8n stays wherever it was (typically ~/n8n or
+# /srv/n8n). See docs/deploy.md.
+#
+# Networks:
+# - bellavista-net is the private bridge for app ↔ nginx.
+# - If you also want Nginx to reach n8n (e.g. for routing n8n.yourdomain
+#   through the same reverse proxy later), create an external shared
+#   network and attach both stacks to it. Not required for v1.
+
+services:
+  app:
+    container_name: bellavista-app
+    image: bellavista-app:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    # Never expose the app directly on the host — only Nginx talks to it.
+    expose:
+      - "3000"
+    environment:
+      NODE_ENV: production
+      # Forms backend (B9). Blank values = dev-mode fallback logging;
+      # production MUST have these set in .env or the service refuses.
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      RESEND_FROM: ${RESEND_FROM}
+      NOTION_TOKEN: ${NOTION_TOKEN}
+      NOTION_RESOURCES_DB_ID: ${NOTION_RESOURCES_DB_ID}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      # NextAuth env — wired in B10, safe to set early.
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH}
+    networks:
+      - bellavista-net
+    # Tight memory cap so a runaway request can't starve n8n.
+    mem_limit: 512m
+    mem_reservation: 256m
+
+  nginx:
+    container_name: bellavista-nginx
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./media:/srv/media:ro
+      # certbot certs mount; created in S1 when DNS is live.
+      - ./letsencrypt:/etc/letsencrypt:ro
+      - ./certbot-www:/var/www/certbot:ro
+    networks:
+      - bellavista-net
+    mem_limit: 128m
+
+networks:
+  bellavista-net:
+    driver: bridge
