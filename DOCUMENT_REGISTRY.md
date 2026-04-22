@@ -34,8 +34,9 @@ Update this file every time a new deliverable is produced. One row per artifact.
 |---|---|---|---|
 | Next.js scaffold | `/` | ✅ | B1_SCAFFOLD — package.json, app/, tailwind, eslint, tsconfig |
 | .env.example | `/.env.example` | ✅ | B1_SCAFFOLD — all env vars stubbed |
-| tokens.css | `/app/styles/tokens.css` | ⬜ | B2_TOKENS |
-| tailwind.config.ts | `/tailwind.config.ts` | ⬜ | B2_TOKENS |
+| tokens.css | `/app/styles/tokens.css` | ✅ | B2_TOKENS — Amanecer palette + type scale + spacing |
+| tailwind.config.ts | `/tailwind.config.ts` | ✅ | B2_TOKENS — CSS var bridge (colors/type/spacing/radius/shadow) |
+| Token test page | `/app/(dev)/tokens/page.tsx` | ✅ | B2_TOKENS — dev-only; delete with app/(dev)/ in S1 |
 | Layout shell | `/app/layout.tsx` | ⬜ | B3_SHELL |
 | Nav | `/components/Nav.tsx` | ⬜ | B3_SHELL |
 | MotionWrapper | `/components/MotionWrapper.tsx` | ⬜ | B3_SHELL |

@@ -124,7 +124,7 @@ Each sub-checkpoint ends with the 4-step discipline: commit (`feat(BN): ...`), p
 - [ ] Import in `app/globals.css`
 - [ ] `next/font` in `app/layout.tsx` for Instrument Serif, Geist, JetBrains Mono → CSS vars
 - [ ] `tailwind.config.ts` extends from CSS vars (see Design token system below)
-- [ ] `/app/_test/page.tsx` — all type roles + color swatches (dev-only)
+- [x] `/app/(dev)/tokens/page.tsx` — all type roles + color swatches (dev-only route group)
 - [ ] **Commit:** `feat(B2): tokens — CSS vars + Tailwind bridge + fonts + test page`
 
 ### B3 — Shell + Nav + MotionWrapper
@@ -157,7 +157,7 @@ Each sub-checkpoint ends with the 4-step discipline: commit (`feat(BN): ...`), p
 
 ### B6 — Chapter scrolly ⚠️ hardest piece
 **Checkpoint:** `B6_SCROLLY` · **Resume signal:** works on Chrome + iOS Safari + Android Chrome
-- [ ] `/app/_lab/scrolly/page.tsx` — isolated test page
+- [ ] `/app/(dev)/scrolly/page.tsx` — isolated test page in the (dev) route group
 - [ ] `components/sections/ChapterScrolly.tsx` — props `{ chapterNumber, plot, headline, body, stats, pins, videoSrc }`
 - [ ] Left col: `position: sticky; top: 0` inside `min-height: 250vh` (NOT calculated heights)
 - [ ] Right col: video placeholder, 22×22 accent pins → label card on hover/tap
@@ -278,7 +278,7 @@ Each sub-checkpoint ends with the 4-step discipline: commit (`feat(BN): ...`), p
 - [ ] Certbot for Let's Encrypt inside Nginx
 - [ ] HTTP → HTTPS redirect, both `www` + apex work
 - [ ] Cert auto-renewal cron
-- [ ] Delete `/app/_test/` and `/app/_lab/` before final build
+- [ ] Delete `/app/(dev)/` (contains `/tokens` and `/scrolly` lab pages) before final build
 - [ ] Final smoke test on production domain
 - [ ] **Author Case Study** (`docs/case-study.md`) — problem, decisions, tradeoffs, outcomes (hiring-manager audience per AutonomIA+ dual-audience rule)
 - [ ] Post-ship retrospective: `docs/retrospectives/S1-ship.md`
@@ -430,8 +430,8 @@ Future Claude Code session should:
 ### Current status
 
 ```
-Last completed checkpoint: B1_SCAFFOLD (Phase 2 — Build) — 2026-04-21
-Next checkpoint: B2_TOKENS (design tokens + Tailwind bridge + typography)
+Last completed checkpoint: B2_TOKENS (Phase 2 — Build) — 2026-04-21
+Next checkpoint: B3_SHELL (layout shell + nav + MotionWrapper)
 Blockers: none
 GitHub repo: https://github.com/agr-git/bellavista-landing
 ```
