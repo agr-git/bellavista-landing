@@ -1,15 +1,19 @@
-# Bellavista Coffee — standalone stack.
+# Bellavista Coffee — standalone stack (Option A: shared edge nginx).
 #
-# CRITICAL: this file is SEPARATE from the existing n8n docker-compose.
-# Never merge the two. Lives at /srv/bellavista/docker-compose.yml on
-# the Lightsail VPS. n8n stays wherever it was (typically ~/n8n or
-# /srv/n8n). See docs/deploy.md.
+# CRITICAL: this file is SEPARATE from the existing n8n docker-compose at
+# /opt/automation/docker-compose.yml. Never merge the two. Lives at
+# /srv/bellavista/docker-compose.yml on the Lightsail VPS.
 #
-# Networks:
-# - bellavista-net is the private bridge for app ↔ nginx.
-# - If you also want Nginx to reach n8n (e.g. for routing n8n.yourdomain
-#   through the same reverse proxy later), create an external shared
-#   network and attach both stacks to it. Not required for v1.
+# Architecture (Option A — decided during deploy):
+# - The existing `nginx` container at /opt/automation/ already owns :80/:443
+#   and reverse-proxies to n8n. Bellavista slots in behind that same edge.
+# - We attach our app to the EXTERNAL network `automation_automation`
+#   (created by the n8n stack). Edge nginx reaches us at `bellavista-app:3000`.
+# - No nginx service here; no host port bindings; our container is never
+#   directly exposed to the public internet.
+#
+# Phase A.2 wiring (edge nginx config) lives OUTSIDE this repo at
+# /opt/automation/nginx/conf.d/bellavista.conf. See docs/deploy.md.
 
 services:
   app:
@@ -19,7 +23,8 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
-    # Never expose the app directly on the host — only Nginx talks to it.
+    # Internal only — the edge nginx (on the same network) reaches us by
+    # container DNS name `bellavista-app:3000`. No host port mapping.
     expose:
       - "3000"
     environment:
@@ -36,31 +41,14 @@ services:
       NEXTAUTH_URL: ${NEXTAUTH_URL}
       ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH}
     networks:
-      - bellavista-net
+      - automation_automation
     # Tight memory cap so a runaway request can't starve n8n.
     mem_limit: 512m
     mem_reservation: 256m
 
-  nginx:
-    container_name: bellavista-nginx
-    image: nginx:1.27-alpine
-    restart: unless-stopped
-    depends_on:
-      - app
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./media:/srv/media:ro
-      # certbot certs mount; created in S1 when DNS is live.
-      - ./letsencrypt:/etc/letsencrypt:ro
-      - ./certbot-www:/var/www/certbot:ro
-    networks:
-      - bellavista-net
-    mem_limit: 128m
-
 networks:
-  bellavista-net:
-    driver: bridge
+  # Pre-existing network owned by the n8n stack (/opt/automation/).
+  # `external: true` tells compose "do not create — join this existing net".
+  # Name format: <compose-project>_<network-key> = automation_automation.
+  automation_automation:
+    external: true
