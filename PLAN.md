@@ -430,13 +430,45 @@ Future Claude Code session should:
 ### Current status
 
 ```
-Last completed checkpoint: B2_TOKENS (Phase 2 — Build) — 2026-04-21
-Next checkpoint: B3_SHELL (layout shell + nav + MotionWrapper)
-Blockers: none
-GitHub repo: https://github.com/agr-git/bellavista-landing
+Last completed: DEPLOY_PHASE_A (Option A — shared edge nginx) — 2026-04-24
+Site is LIVE on staging:
+  - Internal:  http://bellavista.test/       (via laptop /etc/hosts override)
+  - Server IP: 44.192.98.134 (ubuntu user, Lightsail_Autonomia.pem)
+  - n8n unchanged at https://44.192.98.134/
+
+Next checkpoint: V1_VALIDATE (see /docs/retrospectives/DEPLOY-option-a.md)
+  Blocked on: content + design v2 landing (owner: Alejo).
+  Parallel LLM work available: DEV_CLEANUP, DEV_ROBOTS, DOCS_DEPLOY_UPDATE, S1_CASE_STUDY.
+
+Blockers: none. B10 (admin auth) parked by request.
+GitHub repo: https://github.com/agr-git/bellavista-landing  (public for now)
+Notion project: https://www.notion.so/349ca4b1fd248143a900ec8df7f719b8
 ```
 
 **Update this block after every checkpoint before pushing.**
+
+### Phase 2 (Build) — completed checkpoints summary
+
+| # | Checkpoint | Commit | Notes |
+|---|---|---|---|
+| B1 | SCAFFOLD | — | Next.js 14 scaffold, env example |
+| B2 | TOKENS | — | Amanecer palette → `tokens.css` + Tailwind bridge |
+| B3 | SHELL | — | Layout shell, Nav, MotionWrapper |
+| B4 | HERO | 0c07e7a | Full-bleed cinematic Hero + chapter strip |
+| B5 | STATIC_A | 58b5eb2 | Story + Farm + FarmMap SVG |
+| B6 | SCROLLY | 0c77f8c + 4668887 | Chapter scrolly (lab + 3 integrations); iOS risk tracked |
+| B7 | STATIC_B | 6407e87 | Coffee + Stay + Footer + Modal + form UI |
+| B8 | JOURNAL | 16c3a17 | MDX reader + Zod validator + SSG slug pages |
+| B9 | FORMS | 267e362 | Resend + Notion email-first API + rate-limit |
+| B10 | ADMIN | — | **PARKED** — revisit post-v1 |
+| B11 | INFRA | d12dc61 + a964b1e + 65d75d4 | Dockerfile + compose + Option A shared-edge deploy |
+
+**DEPLOY_PHASE_A** (not numbered — effectively B11 execution):
+- Chose Option A over B (share edge) after pre-flight found n8n already owned :80/:443
+- A.1 landed: `bellavista-app` on `automation_automation` network, verified via `docker exec nginx wget http://bellavista-app:3000` returning real HTML
+- A.2 landed: edge `nginx.conf.d/bellavista.conf` + one-word `listen 80 default_server` on n8n.conf, atomic reload, n8n unaffected
+- HSTS learning: `.co` TLD is HSTS-preloaded → self-signed bypass impossible → pivoted to `bellavista.test` for pre-DNS validation
+- Rollback backups persist on server (`/opt/automation/nginx/conf.d/*.backup-*`)
 
 ---
 

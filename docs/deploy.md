@@ -1,56 +1,79 @@
-# Deploy — Lightsail (Docker)
+# Deploy — Lightsail (Docker, Option A: shared edge nginx)
 
 Simple, sequential. Read top to bottom. Stop at the first step that errors and report back.
 
-> **Assumes:** Lightsail instance already exists, runs n8n in Docker, and you can SSH in.
+> **Reality check (2026-04-24, DEPLOY_PHASE_A):** The Lightsail box already runs an
+> n8n stack at `/opt/automation/` with its own nginx bound to `:80/:443`. We deployed
+> Bellavista **behind that same edge** instead of standing up our own. This doc reflects
+> that reality — Option A, as decided in `docs/retrospectives/DEPLOY-option-a.md`.
 
 ---
 
-## 0. What this sets up
-
-One additional Docker stack at `/srv/bellavista/`, independent of n8n:
+## 0. Architecture (Option A)
 
 ```
-bellavista-app     Next.js runtime, internal :3000, 512 MB cap
-bellavista-nginx   :80 (and :443 after S1), proxies app + serves /media
+                 ┌─────────────────────────────────────────────────┐
+                 │  Lightsail VPS (44.192.98.134)                  │
+                 │                                                 │
+ Internet ─► :80 │  edge nginx  ─┬─ Host: bellavista.{test,com.co} │
+              443│  (n8n stack)  │   ─► bellavista-app:3000        │
+                 │               └─ any other Host / :443 any      │
+                 │                   ─► n8n:5678                   │
+                 │                                                 │
+                 │  Networks: automation_automation (shared)       │
+                 └─────────────────────────────────────────────────┘
 ```
 
-Two containers. One bridge network (`bellavista-net`). n8n is never touched.
+Two independent Docker Compose projects on the same box:
+
+| Stack | Path | Owner | Touch? |
+|---|---|---|---|
+| n8n + edge nginx | `/opt/automation/` | pre-existing | **Never edit the compose file.** nginx conf is touched surgically per §6. |
+| Bellavista app | `/srv/bellavista/` | us | ours to own |
+
+Our app container joins the `automation_automation` external network so edge nginx can reach it by container DNS (`bellavista-app:3000`). No host port bindings on our side; the edge is the only thing public.
 
 ---
 
 ## 1. Prereqs (your laptop)
 
 - [ ] A registered domain (e.g. `bellavista-coffee.com.co`) — DNS pointed later in S1, not now.
-- [ ] SSH access to the Lightsail instance, user with `sudo` + Docker group membership.
-- [ ] A Lightsail **static IP** already assigned to the instance. (Lightsail console → Networking → Attach static IP.)
+- [ ] SSH access to the Lightsail instance. Current key: `~/Downloads/AI/Certs/Lightsail_Autonomia.pem` (chmod 400).
+- [ ] A Lightsail **static IP** already assigned. (Current: `44.192.98.134`.)
 
 ---
 
 ## 2. Pre-flight (on the server, before anything else)
 
-SSH in, then run each check. If anything looks wrong, STOP and report:
+SSH in, then run each check. Stop and report if anything looks wrong:
 
 ```bash
-# Docker present and modern enough?
+# Docker present and modern?
 docker --version            # expect 20.10+
 docker compose version      # expect v2.x
 
-# n8n healthy right now? (so we know we haven't broken it later)
+# Is the ubuntu user in the docker group?
+groups                      # must include "docker"
+# If missing:
+#   sudo usermod -aG docker ubuntu
+#   exit and reconnect SSH for the group to activate.
+
+# n8n healthy right now?
 docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
 
 # Free RAM and disk?
-free -m                     # look at the "available" column
-df -h /                     # /srv will land on this filesystem
+free -m
+df -h /
 
-# Does anything already listen on :80 or :443?
+# Who owns :80 and :443?
 sudo ss -tlnp | grep -E ':80|:443'
 ```
 
-### Decision point: port 80/443
+### Port 80/443 decision point
 
-- **Nothing listens on :80/:443** → continue, Bellavista's nginx will bind them.
-- **n8n or another process already binds :80/:443** → **STOP and tell me**. We have two options (put n8n behind this nginx, or put Bellavista on a different port) and I'll adjust `nginx/conf.d/bellavista.conf` accordingly.
+- **Nothing listens** → you could run your own nginx. Not our situation.
+- **`nginx` (from /opt/automation/) already binds both** → this is Option A. Continue below. **Never stop the n8n nginx**; we slot in behind it.
+- **Something else binds them** → STOP and report.
 
 ---
 
@@ -63,7 +86,9 @@ cd /srv/bellavista
 git clone https://github.com/agr-git/bellavista-landing.git .
 ```
 
-Confirm you see `Dockerfile`, `docker-compose.yml`, and the `nginx/` folder.
+> The repo is public during build/launch so HTTPS clone works without creds. Flip back to private post-S1 (CONTENT_LEGAL or its own Notion task).
+
+Confirm you see `Dockerfile`, `docker-compose.yml`, and the `nginx/` folder (the latter kept for reference only — Option A uses the edge nginx at `/opt/automation/`, not this folder).
 
 ---
 
@@ -74,48 +99,42 @@ cp .env.example .env
 nano .env
 ```
 
-Fill in **at minimum** for first boot:
+Fill in for first boot (blanks allowed — the API will log to stdout in dev-fallback mode):
 
 ```
-RESEND_API_KEY=           # can be blank for first boot; dev fallback will log
+RESEND_API_KEY=           # blank OK for smoke-test
 RESEND_FROM=leads@bellavistacoffee.co
-NOTION_TOKEN=             # blank OK for first boot
+NOTION_TOKEN=             # blank OK
 NOTION_RESOURCES_DB_ID=
 ADMIN_EMAIL=gil.rivera.a@gmail.com
 NEXTAUTH_SECRET=          # openssl rand -base64 32
-NEXTAUTH_URL=http://<your-static-ip>   # temporary until S1
-ADMIN_PASSWORD_HASH=      # B10 / optional for now
+NEXTAUTH_URL=http://bellavista.test      # will become https://bellavista-coffee.com.co at S1
+ADMIN_PASSWORD_HASH=      # B10 parked; blank OK
 ```
 
-> The app will run with blanks; forms will log to container stdout instead of sending. That's deliberate — we verify the stack first, wire creds in V1.
+Real creds land at **S1_CREDS**, not before.
 
 ---
 
 ## 5. First build (on-server)
 
-Open a second SSH session with `htop` running — you will watch RAM in real time.
-
-In the original session:
+Open a second SSH session with `htop` running — watch RAM live.
 
 ```bash
 cd /srv/bellavista
 docker compose build 2>&1 | tee /tmp/bv-build.log
 ```
 
-**Watch RAM.** The build compiles Next.js + TypeScript in Docker.
+Typical: 60–90 seconds on a 2 vCPU / 2 GB instance, peaks well under 85% RAM. If it OOMs, abort and switch to B11B (build on laptop, push image).
 
-| Seen RAM used | Action |
-|---|---|
-| Peaks under ~85% | ✅ Continue. On-server build works. |
-| Exceeds ~85% or kills n8n | ❌ Cancel with Ctrl-C. Switch to **B11B** (we'll build on your laptop or GitHub Actions and push the image). Tell me. |
-
-Typical duration: 3–6 minutes on a 2 GB / 2-vCPU instance.
+> **Known gotcha:** if `public/` doesn't exist, the Dockerfile runner stage fails on `COPY /app/public`. Fixed by `public/.gitkeep` in commit `65d75d4`.
 
 ---
 
-## 6. Start the stack
+## 6. Bring up our container (Option A)
 
 ```bash
+cd /srv/bellavista
 docker compose up -d
 docker compose ps
 ```
@@ -123,79 +142,113 @@ docker compose ps
 Expected:
 
 ```
-NAME                STATUS                 PORTS
-bellavista-app      Up (healthy-ish)       3000/tcp
-bellavista-nginx    Up                     0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp
+NAME                IMAGE                        STATUS     PORTS
+bellavista-app      bellavista-app:latest        Up         3000/tcp
 ```
+
+Note: **no host port mapping**. Correct for Option A.
 
 ---
 
-## 7. Verify
+## 7. Wire edge nginx to route us (the paranoid ritual)
+
+**This is the shared-file edit. Every step matters.** The exact same ritual we will re-use at S1_TLS_CUTOVER.
+
+Work inside `/opt/automation/nginx/conf.d/`. Before anything:
 
 ```bash
-# From the server itself:
-curl -I http://localhost                   # expect 200 on "/"
-curl -s http://localhost/tokens | head     # the dev token sanity page should render
-
-# From your laptop:
-curl -I http://<static-ip>                 # expect 200
-# Or open http://<static-ip> in a browser — full landing page.
+cd /opt/automation/nginx/conf.d/
+docker exec -it nginx nginx -t           # baseline: current config must be valid
+ls -la                                   # see n8n.conf
 ```
 
-Confirm **n8n is still healthy** after bringing the Bellavista stack up:
+### 7.1 Mark n8n's server block as the catchall
+
+We need Host-based routing. Whatever Host doesn't match Bellavista should fall through to n8n. nginx does this with `default_server` on the `listen` directive.
 
 ```bash
-docker ps --format 'table {{.Names}}\t{{.Status}}'
+# Timestamped backup
+sudo cp n8n.conf n8n.conf.backup-$(date +%Y%m%d-%H%M%S)
+
+# Add `default_server` to the :80 listen (sed -i.sedbak = second-layer backup)
+sudo sed -i.sedbak 's/^\(\s*listen 80\);/\1 default_server;/' n8n.conf
+
+# Diff
+diff n8n.conf.sedbak n8n.conf    # expect one-line change: `listen 80 default_server;`
 ```
 
----
+### 7.2 Add our server block
 
-## 8. Media directory (optional for now)
+Create `bellavista.conf` at `/opt/automation/nginx/conf.d/bellavista.conf`:
 
-Real drone video + photography will land here post-ship:
+```nginx
+server {
+    listen 80;
+    server_name bellavista.test bellavista-coffee.com.co www.bellavista-coffee.com.co;
+
+    # Proxy to our app on the shared docker network
+    location / {
+        proxy_pass http://bellavista-app:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade           $http_upgrade;
+        proxy_set_header Connection        "upgrade";
+    }
+
+    # Next.js static assets: long cache
+    location /_next/static/ {
+        proxy_pass http://bellavista-app:3000;
+        proxy_cache_valid 200 30d;
+        add_header Cache-Control "public, max-age=2592000, immutable";
+    }
+}
+```
+
+### 7.3 Test, reload, verify, or auto-roll-back
 
 ```bash
-mkdir -p /srv/bellavista/media
-# Upload via rsync from your laptop when files are ready:
-#   rsync -avP ./media/ user@<ip>:/srv/bellavista/media/
+# Validate the NEW config inside the running nginx container
+docker exec -it nginx nginx -t
+# ↳ FAILS? Roll back immediately:
+#     sudo mv n8n.conf.backup-<timestamp> n8n.conf && sudo rm bellavista.conf
+#     docker exec -it nginx nginx -s reload
+# ↳ PASSES? Atomic reload (in-flight connections preserved):
+docker exec -it nginx nginx -s reload
+
+# Independent verification of BOTH tenants:
+curl -H "Host: bellavista.test"       http://127.0.0.1/ -I     # expect 200
+curl -H "Host: whatever.example"      http://127.0.0.1/ -I     # expect 301 to https (n8n catchall)
+curl -k https://127.0.0.1/ -I                                   # n8n still up
 ```
 
-Nginx already serves `/media/*` with a 30-day cache.
-
----
-
-## 9. Done — what to tell me
-
-Paste back the output of:
+Print-the-rollback-command habit:
 
 ```bash
-docker compose ps
-curl -sI http://localhost | head -n1
-docker ps --format 'table {{.Names}}\t{{.Status}}' | head -n 10
-free -m | head -n2
+echo "Rollback: sudo mv n8n.conf.backup-<ts> n8n.conf && sudo rm bellavista.conf && docker exec -it nginx nginx -s reload"
 ```
 
-If all four look healthy and n8n is still up, we proceed to **V1 (Validate)**.
+---
+
+## 8. Validate from your laptop (pre-DNS)
+
+`.co` is on the browser HSTS preload list — Chrome/Arc/Safari will upgrade `bellavista-coffee.com.co` to HTTPS and refuse the self-signed IP cert with no bypass. So for pre-DNS staging we use the RFC-reserved `.test` TLD.
+
+```bash
+# Add to your laptop's /etc/hosts:
+sudo tee -a /etc/hosts <<< "44.192.98.134  bellavista.test"
+
+# Then open:
+open http://bellavista.test/
+```
+
+The real `bellavista-coffee.com.co` hostname is already in the server_name list — it just needs DNS (S1_DNS) and a real cert (S1_TLS_CUTOVER) to start serving. No server-side changes needed then beyond §9 below.
 
 ---
 
-## Troubleshooting
-
-**`port is already allocated` on `:80`** → a pre-existing container/service holds the port. Run `sudo ss -tlnp | grep :80` to find it. See the Decision Point in §2.
-
-**Build OOMs / instance hangs** → trigger **B11B** path. Abort the build, `docker system prune -f`, and we'll rebuild from CI instead.
-
-**App container restarts in a loop** → `docker compose logs app --tail=100`. Usually a bad env var or a missing `.next/standalone` artifact. Rebuild: `docker compose build --no-cache app`.
-
-**`502 Bad Gateway` from nginx** → app container isn't ready. `docker compose logs app | tail -n 30` should show a `ready` line. If it crashed, same as above.
-
-**n8n goes unhealthy after we start** → immediate rollback: `docker compose down`. n8n should recover. Report back with `docker logs <n8n-container> --tail=100` and RAM snapshot.
-
----
-
-## Pulling updates later
-
-After I push new commits:
+## 9. Pulling updates later
 
 ```bash
 cd /srv/bellavista
@@ -204,9 +257,42 @@ docker compose build app
 docker compose up -d app
 ```
 
-Nginx config changes:
+Edge nginx config changes (same ritual as §7.3):
 
 ```bash
-docker compose exec nginx nginx -t   # test config
-docker compose restart nginx
+docker exec -it nginx nginx -t
+docker exec -it nginx nginx -s reload
 ```
+
+---
+
+## 10. Troubleshooting
+
+**`port is already allocated` on `:80/:443`** → you tried to start your own nginx. Option A doesn't. Remove any `nginx` service from `docker-compose.yml` and any host port bindings from `app`. Our container only `expose`s 3000 to the shared network.
+
+**Build OOMs** → trigger B11B (build on laptop or GHA, push image). `docker system prune -f` first.
+
+**App restarts in a loop** → `docker compose logs app --tail=100`. Usually a bad env var or missing `.next/standalone`. Rebuild `--no-cache`.
+
+**`502 Bad Gateway` from edge** → app container not ready yet, or not on `automation_automation` network. `docker network inspect automation_automation` should list both `nginx` and `bellavista-app`.
+
+**n8n goes unhealthy after we touched nginx** → immediate rollback:
+```bash
+cd /opt/automation/nginx/conf.d/
+sudo cp n8n.conf.backup-<latest-ts> n8n.conf
+sudo rm -f bellavista.conf
+docker exec -it nginx nginx -t && docker exec -it nginx nginx -s reload
+```
+
+**HSTS blocks browser test of `.co` domain** → expected. Use the `.test` alias (§8). Fully dissolves at S1_TLS_CUTOVER.
+
+---
+
+## Next checkpoints
+
+| Checkpoint | What it unlocks |
+|---|---|
+| **V1_VALIDATE** | Lighthouse, cross-browser, iOS Safari scrolly check (tracked in Notion) |
+| **S1_DNS** | Point `bellavista-coffee.com.co` A-record at `44.192.98.134` |
+| **S1_TLS_CUTOVER** | Let's Encrypt cert, add :443 server block, HTTP→HTTPS 301, drop `.test` alias — reuse the §7.3 ritual |
+| **S1_CREDS** | Real Resend + Notion creds into `.env`, `docker compose up -d` |
