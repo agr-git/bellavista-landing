@@ -84,22 +84,24 @@ export default function Hero() {
           {/* Source will 404 until media is uploaded — video element stays invisible and gradient below shows */}
           <source src="/media/hero.mp4" type="video/mp4" />
         </video>
-        {/* Fallback / decorative gradient (shows even when video fails/hasn't loaded) */}
+        {/* Fallback / decorative gradient (shows even when video fails/hasn't loaded).
+            Colors come from CSS vars so the gradient flips with the section's theme
+            (theme-dark / theme-kraft / theme-cream). See app/styles/themes.css. */}
         <div
           aria-hidden
           className="absolute inset-0 bg-bg"
           style={{
             backgroundImage:
-              "radial-gradient(ellipse at 30% 20%, rgba(232,155,74,0.14), transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(245,201,138,0.08), transparent 55%), linear-gradient(180deg, #243049 0%, #1b2437 60%)",
+              "radial-gradient(ellipse at 30% 20%, var(--hero-radial-1), transparent 60%), radial-gradient(ellipse at 70% 80%, var(--hero-radial-2), transparent 55%), linear-gradient(180deg, var(--surface) 0%, var(--bg) 60%)",
           }}
         />
-        {/* Legibility overlay */}
+        {/* Legibility overlay — also theme-aware. */}
         <div
           aria-hidden
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(27,36,55,0.33) 0%, rgba(27,36,55,0.13) 35%, rgba(27,36,55,0.93) 100%)",
+              "linear-gradient(180deg, var(--hero-overlay-top) 0%, var(--hero-overlay-mid) 35%, var(--hero-overlay-bot) 100%)",
           }}
         />
       </div>

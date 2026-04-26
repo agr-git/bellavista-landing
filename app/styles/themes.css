@@ -14,6 +14,16 @@
   --ink-on-cream-3: #8a6a3f;     /* meta on cream — uses kraft-deep for warmth */
   --line-on-cream: rgba(27, 36, 55, 0.14);
   --line-on-cream-strong: rgba(27, 36, 55, 0.28);
+
+  /* Hero legibility overlay (over video/gradient bg). Defaults = dark-theme tones.
+     Each theme overrides these so the kraft/cream hero doesn't get repainted dark blue. */
+  --hero-overlay-top: rgba(27, 36, 55, 0.33);
+  --hero-overlay-mid: rgba(27, 36, 55, 0.13);
+  --hero-overlay-bot: rgba(27, 36, 55, 0.93);
+
+  /* Hero radial gradient accents (decorative warm pools at top-left + bottom-right). */
+  --hero-radial-1: rgba(232, 155, 74, 0.14);
+  --hero-radial-2: rgba(245, 201, 138, 0.08);
 }
 
 /* Theme classes — apply to a <section> to flip its surface.
@@ -43,6 +53,13 @@
   --line-strong: rgba(42, 31, 15, 0.42);
   --accent: #1b2437;
   --accent-2: #fef5e2;
+  /* Hero overlay: lighter, warmer — let kraft show through instead of dark-blue scrim. */
+  --hero-overlay-top: rgba(58, 40, 18, 0.18);
+  --hero-overlay-mid: rgba(58, 40, 18, 0.08);
+  --hero-overlay-bot: rgba(58, 40, 18, 0.55);
+  /* Radial accents — keep ochre warmth since ochre reads on kraft too. */
+  --hero-radial-1: rgba(254, 245, 226, 0.10);
+  --hero-radial-2: rgba(232, 155, 74, 0.12);
   background-color: var(--bg);
   color: var(--ink);
 }
