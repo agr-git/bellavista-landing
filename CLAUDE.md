@@ -83,8 +83,9 @@ Middleware gates `/admin/*`. Admin surface is read-only in v1.
 ## Chapter scrolly (B6) — known risk
 
 `position: sticky` inside `min-height: 250vh` container. Do NOT use calculated heights.
-Test on iOS Safari before marking B6 done — sticky + flex has known bugs there.
-Lab page at `/app/_lab/scrolly/page.tsx` — isolate, test, then integrate.
+iOS Safari sticky + flex has known bugs — verify in V1_VALIDATE on the live URL.
+The `/app/(dev)/scrolly` and `/tokens` lab routes were removed in DEV_CLEANUP
+(2026-04-26) — re-introduce a temporary lab route only if a regression appears.
 
 ## Deploy
 

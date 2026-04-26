@@ -36,7 +36,7 @@ Update this file every time a new deliverable is produced. One row per artifact.
 | .env.example | `/.env.example` | ✅ | B1_SCAFFOLD — all env vars stubbed |
 | tokens.css | `/app/styles/tokens.css` | ✅ | B2_TOKENS — Amanecer palette + type scale + spacing |
 | tailwind.config.ts | `/tailwind.config.ts` | ✅ | B2_TOKENS — CSS var bridge (colors/type/spacing/radius/shadow) |
-| Token test page | `/app/(dev)/tokens/page.tsx` | ✅ | B2_TOKENS — dev-only; delete with app/(dev)/ in S1 |
+| Token test page | ~~`/app/(dev)/tokens/page.tsx`~~ | 🗑 | B2_TOKENS dev-only — removed in DEV_CLEANUP (2026-04-26) |
 | Layout shell | `/app/layout.tsx` | ✅ | B3_SHELL |
 | Nav | `/components/Nav.tsx` | ✅ | B3_SHELL |
 | MotionWrapper | `/components/MotionWrapper.tsx` | ✅ | B3_SHELL |
@@ -45,7 +45,7 @@ Update this file every time a new deliverable is produced. One row per artifact.
 | Farm section | `/components/sections/Farm.tsx` | ✅ | B5_STATIC_A |
 | FarmMap SVG | `/components/sections/FarmMap.tsx` | ✅ | B5_STATIC_A |
 | ChapterScrolly | `/components/sections/ChapterScrolly.tsx` | ✅ | B6_SCROLLY (commit 0c77f8c) |
-| Scrolly lab page | `/app/(dev)/scrolly/page.tsx` | ✅ | B6_SCROLLY — **delete in S1** (dev-only) |
+| Scrolly lab page | ~~`/app/(dev)/scrolly/page.tsx`~~ | 🗑 | B6_SCROLLY dev-only — removed in DEV_CLEANUP (2026-04-26) |
 | Chapters composer | `/components/sections/Chapters.tsx` | ✅ | B6_SCROLLY |
 | Coffee section | `/components/sections/Coffee.tsx` | ✅ | B7_STATIC_B (commit 6407e87) |
 | Stay section | `/components/sections/Stay.tsx` | ✅ | B7_STATIC_B |
@@ -73,6 +73,8 @@ Update this file every time a new deliverable is produced. One row per artifact.
 | public/ placeholder | `/public/.gitkeep` | ✅ | Deploy fix (commit 65d75d4) |
 | Nginx config (repo) | `/nginx/*.conf` | 🗂 | B11_INFRA — kept for reference only; **not used** (Option A uses edge nginx at `/opt/automation/`) |
 | **Edge nginx config (server)** | `/opt/automation/nginx/conf.d/bellavista.conf` | ✅ | DEPLOY_PHASE_A — **on server**, not in this repo |
+| robots.txt route | `/app/robots.ts` | ✅ | DEV_ROBOTS (2026-04-26) — Next 14 metadata API |
+| sitemap.xml route | `/app/sitemap.ts` | ✅ | DEV_ROBOTS (2026-04-26) — root + journal slugs |
 | GHA deploy workflow | `/.github/workflows/deploy.yml` | ⬜ | B11B (conditional) — parked, build-on-server worked |
 | B6 retrospective | `/docs/retrospectives/B6-scrolly.md` | ✅ | After B6 |
 | B9 retrospective | `/docs/retrospectives/B9-forms.md` | ✅ | After B9 |

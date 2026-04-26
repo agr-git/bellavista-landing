@@ -430,7 +430,12 @@ Future Claude Code session should:
 ### Current status
 
 ```
-Last completed: DEPLOY_PHASE_A (Option A — shared edge nginx) — 2026-04-24
+Last completed: DEV_CLEANUP + DEV_ROBOTS — 2026-04-26
+  - Removed app/(dev)/{scrolly,tokens} lab routes (dev-only, no longer needed).
+  - Added app/robots.ts + app/sitemap.ts (Next 14 metadata API).
+  - DOCS_DEPLOY_UPDATE confirmed already complete in commit e5dfc29.
+  - `npm run build` green: 12 static pages incl. /robots.txt + /sitemap.xml.
+
 Site is LIVE on staging:
   - Internal:  http://bellavista.test/       (via laptop /etc/hosts override)
   - Server IP: 44.192.98.134 (ubuntu user, Lightsail_Autonomia.pem)
@@ -438,7 +443,7 @@ Site is LIVE on staging:
 
 Next checkpoint: V1_VALIDATE (see /docs/retrospectives/DEPLOY-option-a.md)
   Blocked on: content + design v2 landing (owner: Alejo).
-  Parallel LLM work available: DEV_CLEANUP, DEV_ROBOTS, DOCS_DEPLOY_UPDATE, S1_CASE_STUDY.
+  Parallel LLM work remaining: S1_CASE_STUDY (after V1).
 
 Blockers: none. B10 (admin auth) parked by request.
 GitHub repo: https://github.com/agr-git/bellavista-landing  (public for now)
