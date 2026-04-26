@@ -40,7 +40,7 @@ export default function Coffee() {
         {/* split cards — 2px gap via bg-line */}
         <div className="grid md:grid-cols-2 gap-[2px] bg-line">
           {/* B2B */}
-          <article className="bg-bg p-6 md:p-8 flex flex-col gap-5">
+          <article className="bg-surface p-6 md:p-8 flex flex-col gap-5">
             <div className="flex items-start justify-between">
               <span className="font-mono text-meta uppercase text-accent border border-accent px-2 py-[3px]">
                 B2B
@@ -93,7 +93,7 @@ export default function Coffee() {
           </article>
 
           {/* Direct */}
-          <article className="bg-bg p-6 md:p-8 flex flex-col gap-5">
+          <article className="bg-surface p-6 md:p-8 flex flex-col gap-5">
             <div className="flex items-start justify-between">
               <span className="font-mono text-meta uppercase text-accent border border-accent px-2 py-[3px]">
                 Direct

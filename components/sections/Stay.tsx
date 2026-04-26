@@ -119,7 +119,7 @@ export default function Stay() {
 
           {/* Price card */}
           <div
-            className="md:col-span-2 md:row-span-1 border border-dashed p-4 flex flex-col justify-between bg-bg"
+            className="md:col-span-2 md:row-span-1 border border-dashed p-4 flex flex-col justify-between bg-surface"
             style={{ borderColor: "var(--line-strong)" }}
           >
             <div>

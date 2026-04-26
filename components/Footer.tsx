@@ -1,11 +1,18 @@
 /**
- * Footer — Contact slab.
+ * Footer — Contact slab as a transition piece.
  *
- * - Left: meta label CONTACT · italic h3 · address line
- * - Right: Subscribe CTA (accent) · Admin → button (outline)
+ * Per the v3-kraft design, the footer bridges the kraft palette into
+ * the dark theme via a diagonal gradient (kraft → kraft-deep → dark
+ * blue) with a warm radial bloom on the left side.
  *
- * Subscribe is a minimal inline form (unwired). Admin link points at
- * /admin which is gated by NextAuth in B10.
+ * Because the gradient crosses themes, several values are intentionally
+ * hardcoded rather than token-driven — the cream headline / ochre
+ * subscribe button stay legible across the full gradient. theme-kraft
+ * still applies so child --line / --line-strong inherit kraft values.
+ *
+ * - Left: meta label CONTACT · 48px italic serif h3 (with accent-2
+ *   inner span) · address line
+ * - Right: Subscribe CTA (hardcoded ochre) · Admin → outline (cream)
  */
 
 "use client";
@@ -28,20 +35,49 @@ export default function Footer() {
   return (
     <footer
       id="contact"
-      className="theme-kraft bg-surface border-t border-line px-6 md:px-10 py-12"
+      className="theme-kraft relative overflow-hidden border-t border-line px-6 md:px-10 py-16"
+      style={{
+        background:
+          "linear-gradient(135deg, #b8915c 0%, #8a6a3f 40%, #243049 100%)",
+        color: "#fef5e2",
+      }}
       aria-labelledby="contact-heading"
     >
-      <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row md:items-start md:justify-between gap-10">
+      {/* Warm radial bloom on the kraft side — softens the gradient ramp. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at 15% 50%, rgba(232,155,74,0.25), transparent 55%)",
+        }}
+      />
+
+      <div className="relative max-w-[1280px] mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-10">
         {/* Left */}
         <div className="space-y-3">
-          <p className="font-mono text-meta uppercase text-ink-3">Contact</p>
+          <p
+            className="font-mono text-meta uppercase"
+            style={{ color: "rgba(254,245,226,0.65)" }}
+          >
+            Contact
+          </p>
           <h3
             id="contact-heading"
-            className="font-serif italic text-h3 text-ink leading-tight max-w-[520px]"
+            className="font-serif italic leading-[1.05] max-w-[520px]"
+            style={{
+              color: "#fef5e2",
+              fontSize: "48px",
+              letterSpacing: "-0.01em",
+            }}
           >
-            Come visit. Or stay in touch.
+            Come visit. Or{" "}
+            <span style={{ color: "#f5c98a" }}>stay in touch.</span>
           </h3>
-          <p className="font-sans text-body text-ink-2">
+          <p
+            className="font-sans text-body"
+            style={{ color: "rgba(254,245,226,0.85)" }}
+          >
             hello@bellavistacoffee.co · @bellavista.coffee
           </p>
         </div>
@@ -49,7 +85,10 @@ export default function Footer() {
         {/* Right */}
         <div className="flex flex-col gap-4 md:items-end">
           {subscribed ? (
-            <p className="font-mono text-meta uppercase text-accent-2">
+            <p
+              className="font-mono text-meta uppercase"
+              style={{ color: "#f5c98a" }}
+            >
               Thanks — we&apos;ll be in touch.
             </p>
           ) : (
@@ -76,12 +115,20 @@ export default function Footer() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@roastery.com"
                   aria-label="Email to subscribe"
-                  className="bg-bg border border-line px-3 py-2 text-ink font-sans text-body focus:outline-none focus:border-accent-2 transition-colors min-w-[220px]"
+                  className="font-sans text-body px-3 py-2 focus:outline-none transition-colors min-w-[220px]"
+                  style={{
+                    background: "rgba(27, 36, 55, 0.35)",
+                    borderWidth: 1,
+                    borderStyle: "solid",
+                    borderColor: "rgba(254,245,226,0.4)",
+                    color: "#fef5e2",
+                  }}
                 />
                 <button
                   type="submit"
                   disabled={state.kind === "sending"}
-                  className="font-mono text-meta uppercase bg-accent text-bg px-4 py-2 hover:bg-accent-2 disabled:opacity-50 transition-colors"
+                  className="font-mono text-meta uppercase px-4 py-2 transition-colors disabled:opacity-50"
+                  style={{ background: "#e89b4a", color: "#1b2437" }}
                 >
                   {state.kind === "sending" ? "Sending…" : "Subscribe"}
                 </button>
@@ -89,7 +136,8 @@ export default function Footer() {
               {state.kind === "error" && (
                 <p
                   role="alert"
-                  className="font-mono text-meta uppercase text-accent-2"
+                  className="font-mono text-meta uppercase"
+                  style={{ color: "#f5c98a" }}
                 >
                   {state.message}
                 </p>
@@ -99,18 +147,34 @@ export default function Footer() {
 
           <Link
             href="/admin"
-            className="font-mono text-meta uppercase border border-line text-ink-2 px-4 py-2 hover:border-accent-2 hover:text-ink transition-colors self-start md:self-end"
+            className="font-mono text-meta uppercase px-4 py-2 transition-colors self-start md:self-end"
+            style={{
+              background: "transparent",
+              color: "#fef5e2",
+              borderWidth: 1,
+              borderStyle: "solid",
+              borderColor: "rgba(254,245,226,0.4)",
+            }}
           >
             Admin →
           </Link>
         </div>
       </div>
 
-      <div className="max-w-[1280px] mx-auto mt-10 pt-6 border-t border-line flex flex-wrap items-center justify-between gap-4">
-        <p className="font-mono text-meta uppercase text-ink-3">
+      <div
+        className="relative max-w-[1280px] mx-auto mt-10 pt-6 flex flex-wrap items-center justify-between gap-4"
+        style={{ borderTop: "1px solid rgba(254,245,226,0.18)" }}
+      >
+        <p
+          className="font-mono text-meta uppercase"
+          style={{ color: "rgba(254,245,226,0.55)" }}
+        >
           © {new Date().getFullYear()} Bellavista Coffee · Manizales, Colombia
         </p>
-        <p className="font-mono text-meta uppercase text-ink-3">
+        <p
+          className="font-mono text-meta uppercase"
+          style={{ color: "rgba(254,245,226,0.55)" }}
+        >
           Documented in drone footage, field notes, and every batch we ship.
         </p>
       </div>
