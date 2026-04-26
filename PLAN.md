@@ -430,11 +430,27 @@ Future Claude Code session should:
 ### Current status
 
 ```
-Last completed: DEV_CLEANUP + DEV_ROBOTS — 2026-04-26
-  - Removed app/(dev)/{scrolly,tokens} lab routes (dev-only, no longer needed).
-  - Added app/robots.ts + app/sitemap.ts (Next 14 metadata API).
-  - DOCS_DEPLOY_UPDATE confirmed already complete in commit e5dfc29.
-  - `npm run build` green: 12 static pages incl. /robots.txt + /sitemap.xml.
+Last completed: DESIGN_ITER_2 + CONTENT_AUTHORING_SCAFFOLD — 2026-04-26
+  - DESIGN_ITER_1 (commit 01191b5): hero hardcoded gradient hexes →
+    CSS vars; added per-theme --hero-overlay-* and --hero-radial-* in
+    themes.css. theme-kraft#hero now renders kraft (was being repainted
+    dark blue by an absolutely-positioned bg layer that bypassed the
+    section background-color fix in 9e8ee47).
+  - DESIGN_ITER_2 (commit 69d3b6c): aligned Coffee/Stay/Footer with
+    v3-kraft design handoff. Coffee cards bg-bg → bg-surface (cards
+    lift off cream w/ 2px line gutter). Stay price card bg-bg →
+    bg-surface. Footer rebuilt as a transition piece — diagonal
+    kraft → kraft-deep → dark-blue gradient + warm radial bloom on
+    left; cream headline w/ accent-2 inner span; ochre subscribe
+    button hardcoded (theme-kraft flips --accent dark blue, would be
+    invisible at the gradient's dark-blue end).
+  - CONTENT_AUTHORING_SCAFFOLD: docs/content-authoring/ with 10
+    sections × {schema, system-prompt, draft, production, preview}
+    for outsourcing copywriting to non-Claude LLMs. Drafts/production/
+    previews gitignored. Plot folders renamed to villa-paula /
+    bambu-stream / terra-preta (live components still on old names —
+    wiring agent renames during first production-copy land).
+  - `npm run build` green: 12 static pages, /=48.3 kB.
 
 Site is LIVE on staging:
   - Internal:  http://bellavista.test/       (via laptop /etc/hosts override)
@@ -442,8 +458,12 @@ Site is LIVE on staging:
   - n8n unchanged at https://44.192.98.134/
 
 Next checkpoint: V1_VALIDATE (see /docs/retrospectives/DEPLOY-option-a.md)
-  Blocked on: content + design v2 landing (owner: Alejo).
-  Parallel LLM work remaining: S1_CASE_STUDY (after V1).
+  Queued before V1: DESIGN_ITER_3 (pacing pass — investigate the
+    long 3×250vh plot-scrolly runway + Farm section vertical
+    footprint). Plan in docs/decisions/DESIGN-v3-pacing.md (TBD).
+  Parallel LLM work remaining: per-section content drafting
+    (outsourceable via docs/content-authoring/); S1_CASE_STUDY
+    (after V1).
 
 Blockers: none. B10 (admin auth) parked by request.
 GitHub repo: https://github.com/agr-git/bellavista-landing  (public for now)

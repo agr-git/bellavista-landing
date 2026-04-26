@@ -2,7 +2,7 @@
 ## Bellavista Coffee — Landing Page MVP
 
 **Framework:** AutonomIA+ v3.4
-**Last updated:** 2026-04-24 (DEPLOY_PHASE_A)
+**Last updated:** 2026-04-26 (DESIGN_ITER_2 + CONTENT_AUTHORING_SCAFFOLD)
 
 Update this file every time a new deliverable is produced. One row per artifact. Mark location precisely so any agent can fetch cold.
 
@@ -75,6 +75,10 @@ Update this file every time a new deliverable is produced. One row per artifact.
 | **Edge nginx config (server)** | `/opt/automation/nginx/conf.d/bellavista.conf` | ✅ | DEPLOY_PHASE_A — **on server**, not in this repo |
 | robots.txt route | `/app/robots.ts` | ✅ | DEV_ROBOTS (2026-04-26) — Next 14 metadata API |
 | sitemap.xml route | `/app/sitemap.ts` | ✅ | DEV_ROBOTS (2026-04-26) — root + journal slugs |
+| themes.css | `/app/styles/themes.css` | ✅ | DESIGN_ITER (2026-04-26, commits d5f3d02 + 9e8ee47 + 01191b5) — kraft palette + per-section theme classes; per-theme hero overlay/radial vars added in 01191b5 |
+| Hero (theme-aware bg) | `/components/sections/Hero.tsx` | ✅ | DESIGN_ITER_1 (commit 01191b5) — gradient hexes → CSS vars so theme-kraft#hero renders correctly |
+| Coffee/Stay/Footer (v3-kraft) | `/components/sections/Coffee.tsx`, `/components/sections/Stay.tsx`, `/components/Footer.tsx` | ✅ | DESIGN_ITER_2 (commit 69d3b6c) — surface-vs-bg cards + Footer rebuilt as kraft-→-dark transition piece per design |
+| **Content authoring scaffold** | `/docs/content-authoring/` | ✅ | CONTENT_AUTHORING_SCAFFOLD (2026-04-26) — 10 sections × {schema, system-prompt, draft, production, preview} for outsourcing copywriting to non-Claude LLMs. Drafts/production/previews are gitignored (repo public). Includes `_authoring-guide.md`, `_template.html`, `_gemini-quickstart.md`. |
 | GHA deploy workflow | `/.github/workflows/deploy.yml` | ⬜ | B11B (conditional) — parked, build-on-server worked |
 | B6 retrospective | `/docs/retrospectives/B6-scrolly.md` | ✅ | After B6 |
 | B9 retrospective | `/docs/retrospectives/B9-forms.md` | ✅ | After B9 |
@@ -87,6 +91,7 @@ Update this file every time a new deliverable is produced. One row per artifact.
 | Artifact | Path | Status | Notes |
 |---|---|---|---|
 | V1 retrospective | `/docs/retrospectives/V1-validate.md` | ⬜ | After V1 |
+| Design v3 plan | `/docs/decisions/DESIGN-v3-pacing.md` | ⬜ | DESIGN_ITER_3 (queued task) — investigate trimming the 3×250vh chapter scrolly runway + Farm vertical footprint |
 
 ---
 

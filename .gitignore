@@ -17,6 +17,14 @@ build/
 # Private content (Obsidian-only)
 content/private/
 
+# Content authoring — drafts / production / previews stay local.
+# Scaffold files (schema.md, system-prompt.md, README.md, _template.html,
+# _authoring-guide.md, _gemini-quickstart.md) remain tracked so collaborators
+# and other LLMs can pick up the structure on a fresh clone.
+docs/content-authoring/**/draft.md
+docs/content-authoring/**/production.md
+docs/content-authoring/**/preview.html
+
 # OS
 .DS_Store
 Thumbs.db
