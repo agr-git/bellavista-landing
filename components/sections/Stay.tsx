@@ -63,7 +63,7 @@ export default function Stay() {
   return (
     <section
       id="stay"
-      className="border-t border-line py-24 px-6 md:px-10"
+      className="theme-dark border-t border-line py-24 px-6 md:px-10"
       aria-labelledby="stay-heading"
     >
       <div className="max-w-[1280px] mx-auto">

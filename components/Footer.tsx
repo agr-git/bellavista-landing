@@ -28,7 +28,7 @@ export default function Footer() {
   return (
     <footer
       id="contact"
-      className="bg-surface border-t border-line px-6 md:px-10 py-12"
+      className="theme-kraft bg-surface border-t border-line px-6 md:px-10 py-12"
       aria-labelledby="contact-heading"
     >
       <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row md:items-start md:justify-between gap-10">

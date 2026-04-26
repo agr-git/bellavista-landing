@@ -107,7 +107,7 @@ export default function ChapterScrolly({
     <section
       id={id}
       ref={sectionRef}
-      className="relative border-t border-line"
+      className="theme-dark relative border-t border-line"
       style={{ minHeight: "250vh" }}
       aria-labelledby={`${id}-heading`}
     >

@@ -32,7 +32,7 @@ export default function Journal() {
   return (
     <section
       id="journal"
-      className="border-t border-line py-24 px-6 md:px-10"
+      className="theme-cream border-t border-line py-24 px-6 md:px-10"
       aria-labelledby="journal-heading"
     >
       <div className="max-w-[1280px] mx-auto">

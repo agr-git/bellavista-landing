@@ -1,0 +1,91 @@
+/* Bellavista — Extended palette
+   Adds kraft (the physical bag color) + section-level surface tokens
+   so we can flip backgrounds per section without rewriting components. */
+
+:root {
+  /* Existing tokens stay — just add new ones */
+  --kraft: #b8915c;          /* true kraft brown — physical bag */
+  --kraft-light: #d4b287;    /* kraft highlight */
+  --kraft-deep: #8a6a3f;     /* shadow / type on cream */
+
+  /* Cream-mode inks (for sections that flip light) */
+  --ink-on-cream: #1b2437;       /* deep blue stays as ink */
+  --ink-on-cream-2: #4a5670;     /* secondary on cream */
+  --ink-on-cream-3: #8a6a3f;     /* meta on cream — uses kraft-deep for warmth */
+  --line-on-cream: rgba(27, 36, 55, 0.14);
+  --line-on-cream-strong: rgba(27, 36, 55, 0.28);
+}
+
+/* Theme classes — apply to a <section> to flip its surface */
+
+.theme-cream {
+  --bg: #fef5e2;
+  --surface: #f5e9cf;
+  --ink: var(--ink-on-cream);
+  --ink-2: var(--ink-on-cream-2);
+  --ink-3: var(--ink-on-cream-3);
+  --line: var(--line-on-cream);
+  --line-strong: var(--line-on-cream-strong);
+  /* accent stays the same — ochre reads on cream too */
+}
+
+.theme-kraft {
+  --bg: #b8915c;
+  --surface: #a8814f;
+  --ink: #2a1f0f;          /* near-black with warm undertone — strong contrast on kraft */
+  --ink-2: #4a3520;        /* warm dark brown — secondary */
+  --ink-3: #6b4f2e;        /* mid kraft — meta */
+  --line: rgba(42, 31, 15, 0.22);
+  --line-strong: rgba(42, 31, 15, 0.42);
+  --accent: #1b2437;
+  --accent-2: #fef5e2;
+}
+
+/* Hero on kraft — promote the display headline to brand ochre so it
+   doesn't read as a near-black blue blob against the kraft bg. */
+.theme-kraft#hero h1 {
+  color: #e89b4a !important;
+}
+.theme-kraft#hero h1 em > span {
+  color: #fef5e2 !important;
+}
+/* Subhead — warm cream-tinted instead of dark brown */
+.theme-kraft#hero h1 + p {
+  color: #fef5e2 !important;
+  opacity: 0.85;
+}
+/* Play-button circle — cream stroke + cream triangle */
+.theme-kraft#hero button[type="button"] {
+  border-color: #fef5e2 !important;
+}
+.theme-kraft#hero button[type="button"] > span {
+  border-left-color: #fef5e2 !important;
+}
+/* CTA labels next to play button */
+.theme-kraft#hero button[type="button"] + div p:first-child {
+  color: #e89b4a !important;
+}
+
+/* Italic emphasis in section headings — unify to brand ochre across
+   all themes so the visual rhythm holds (Story, Farm, Coffee, Stay, Journal). */
+.theme-cream h2 em,
+.theme-cream h3 em,
+.theme-kraft h2 em,
+.theme-kraft h3 em,
+.theme-dark h2 em,
+.theme-dark h3 em {
+  color: #e89b4a !important;
+}
+
+.theme-dark {
+  /* Explicit reset — useful when the next section in DOM order needs to flip back */
+  --bg: #1b2437;
+  --surface: #243049;
+  --ink: #fef5e2;
+  --ink-2: #c5cad6;
+  --ink-3: #8893a6;
+  --line: rgba(254, 245, 226, 0.14);
+  --line-strong: rgba(254, 245, 226, 0.28);
+  --accent: #e89b4a;
+  --accent-2: #f5c98a;
+}

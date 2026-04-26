@@ -65,7 +65,7 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen w-full overflow-hidden">
+    <section id="hero" className="theme-kraft relative min-h-screen w-full overflow-hidden">
       {/* Nav sentinel */}
       <div id="nav-sentinel" className="absolute top-0 h-[60vh] w-full pointer-events-none" />
 

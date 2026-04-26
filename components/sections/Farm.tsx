@@ -35,7 +35,7 @@ export default function Farm() {
   return (
     <section
       id="farm"
-      className="border-t border-line py-24 px-6 md:px-10"
+      className="theme-dark border-t border-line py-24 px-6 md:px-10"
       aria-labelledby="farm-heading"
     >
       <div className="max-w-[1280px] mx-auto">

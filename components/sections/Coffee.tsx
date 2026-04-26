@@ -26,7 +26,7 @@ export default function Coffee() {
   return (
     <section
       id="coffee"
-      className="border-t border-line py-24 px-6 md:px-10"
+      className="theme-cream border-t border-line py-24 px-6 md:px-10"
       aria-labelledby="coffee-heading"
     >
       <div className="max-w-[1280px] mx-auto">

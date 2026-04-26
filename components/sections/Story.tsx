@@ -17,7 +17,7 @@ export default function Story() {
   return (
     <section
       id="story"
-      className="border-t border-line py-24 px-6 md:px-10"
+      className="theme-cream border-t border-line py-24 px-6 md:px-10"
       aria-labelledby="story-heading"
     >
       <div className="max-w-[1280px] mx-auto grid gap-8 md:gap-[30px] md:grid-cols-[80px_1fr_300px]">
