@@ -16,7 +16,9 @@
   --line-on-cream-strong: rgba(27, 36, 55, 0.28);
 }
 
-/* Theme classes — apply to a <section> to flip its surface */
+/* Theme classes — apply to a <section> to flip its surface.
+   background-color + color are set explicitly so sections render
+   their own background rather than inheriting the dark body. */
 
 .theme-cream {
   --bg: #fef5e2;
@@ -27,6 +29,8 @@
   --line: var(--line-on-cream);
   --line-strong: var(--line-on-cream-strong);
   /* accent stays the same — ochre reads on cream too */
+  background-color: var(--bg);
+  color: var(--ink);
 }
 
 .theme-kraft {
@@ -39,6 +43,8 @@
   --line-strong: rgba(42, 31, 15, 0.42);
   --accent: #1b2437;
   --accent-2: #fef5e2;
+  background-color: var(--bg);
+  color: var(--ink);
 }
 
 /* Hero on kraft — promote the display headline to brand ochre so it
@@ -88,4 +94,6 @@
   --line-strong: rgba(254, 245, 226, 0.28);
   --accent: #e89b4a;
   --accent-2: #f5c98a;
+  background-color: var(--bg);
+  color: var(--ink);
 }
