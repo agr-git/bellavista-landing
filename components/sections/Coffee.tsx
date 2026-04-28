@@ -53,7 +53,7 @@ export default function Coffee() {
             <div>
               <h3 className="font-serif text-h3 text-ink">Green coffee</h3>
               <p className="font-sans text-body text-ink-2 mt-1">
-                for roasters · full lot specs + samples
+                For roasters · full lot specs, samples on request.
               </p>
             </div>
 
@@ -68,7 +68,7 @@ export default function Coffee() {
             />
 
             <ul className="flex flex-wrap gap-2">
-              {["caturra", "pink bourbon", "geisha"].map((chip) => (
+              {["cenicafé 1", "pink bourbon", "castillo", "colombia"].map((chip) => (
                 <li
                   key={chip}
                   className="font-mono text-meta uppercase text-ink-2 border border-line px-2 py-[3px]"
@@ -106,7 +106,7 @@ export default function Coffee() {
             <div>
               <h3 className="font-serif text-h3 text-ink">Roasted coffee</h3>
               <p className="font-sans text-body text-ink-2 mt-1">
-                for drinkers · small drops, ships from farm
+                For drinkers · small drops, ships from the farm.
               </p>
             </div>
 
@@ -121,7 +121,21 @@ export default function Coffee() {
             />
 
             <ul className="flex flex-wrap gap-2">
-              {["caturra", "pink bourbon", "geisha"].map((chip) => (
+              {["castillo", "colombia"].map((chip) => (
+                <li
+                  key={chip}
+                  className="font-mono text-meta uppercase text-ink-2 border border-line px-2 py-[3px]"
+                >
+                  {chip}
+                </li>
+              ))}
+            </ul>
+
+            <p className="font-mono text-meta uppercase text-ink-3">
+              Coming soon
+            </p>
+            <ul className="flex flex-wrap gap-2" style={{ opacity: 0.55 }}>
+              {["cenicafé 1", "pink bourbon"].map((chip) => (
                 <li
                   key={chip}
                   className="font-mono text-meta uppercase text-ink-2 border border-line px-2 py-[3px]"
@@ -140,7 +154,7 @@ export default function Coffee() {
                 onClick={() => setOpen("direct")}
                 className="font-mono text-meta uppercase bg-accent text-bg px-3 py-[7px] hover:bg-accent-2 transition-colors whitespace-nowrap"
               >
-                Join the waitlist ↗
+                Next season waitlist ↗
               </button>
             </div>
           </article>

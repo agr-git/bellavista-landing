@@ -50,23 +50,13 @@ export default function Story() {
               >
                 I
               </span>
-              spent twelve years writing software before I started writing
-              pick plans. The first Caturra row went in the ground in 2021,
-              on a ridge above Manizales that I had only visited as a kid.
-              The farm was small, the slope was mean, and the learning
-              curve was the steepest thing on the property.
+              spent eight years managing all type of projects in industries I never thought I was going to work with: Auto, tech, NGO, consulting… All of which gave a set of skill I wouldn&apos;t be able to connect in a single project, up until Bellavista Coffee arrived. My first row of Cenicafé 1 went in the ground in 2024, on a ridge above Manizales I had only visited as a kid. The farm was not too small not too big, the slope was mean, and the learning curve was the steepest thing on the property.
             </p>
             <p>
-              What kept me here wasn&apos;t romance — it was the feedback
-              loop. Cherry ripens, you pick it, you process it, you cup
-              it. The results are six months later and deeply honest.
-              Nothing about coffee tolerates handwaving.
+              What kept me here wasn&apos;t romance — it was the feedback loop. Cherry ripens, you pick it, you process it, you cup it. The result lands eight months later and is deeply honest. Nothing about coffee tolerates handwaving.
             </p>
             <p>
-              The site you&apos;re reading is the field log. Drone footage
-              from the plots, notes from the beneficio, and every batch we
-              ship — published in public and in private, depending on
-              what&apos;s mine to share.
+              This site is the field log. Drone footage from each plot, notes from the beneficio, and every batch we ship — published in public and in private, depending on what&apos;s mine to share.
             </p>
           </div>
         </div>
@@ -80,11 +70,11 @@ export default function Story() {
                 backgroundImage:
                   "linear-gradient(135deg, rgba(232,155,74,0.18) 0%, rgba(36,48,73,1) 60%)",
               }}
-              aria-label="Portrait placeholder — producer among first Caturra rows, 2021"
+              aria-label="Portrait placeholder — producer among first Cenicafé 1 rows, 2024"
               role="img"
             />
             <figcaption className="font-serif italic text-small text-ink-3">
-              Fig 1. Among the first Caturra rows, 2021.
+              Fig 1. Among the first Cenicafé 1 rows, 2024.
             </figcaption>
           </figure>
 
@@ -93,7 +83,7 @@ export default function Story() {
               Previously
             </p>
             <p className="font-serif italic text-h4 leading-tight text-ink">
-              Software engineer, 12 years.
+              Project Manager · 8 years · USA → France → Medellín → Manizales.
             </p>
           </div>
         </aside>

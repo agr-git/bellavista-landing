@@ -20,9 +20,9 @@ import { useEffect, useRef, useState } from "react";
 
 const CHAPTERS = [
   { n: "01", label: "CASA", href: "#story" },
-  { n: "02", label: "LA VEGA", href: "#la-vega" },
-  { n: "03", label: "EL BOSQUE", href: "#el-bosque" },
-  { n: "04", label: "LA CUMBRE", href: "#la-cumbre" },
+  { n: "02", label: "VILLA PAULA", href: "#villa-paula" },
+  { n: "03", label: "BAMBU STREAM", href: "#bambu-stream" },
+  { n: "04", label: "TERRA PRETA", href: "#terra-preta" },
   { n: "05", label: "BENEFICIO", href: "#beneficio" },
 ];
 
@@ -118,16 +118,15 @@ export default function Hero() {
               Manizales · Colombia · 1,300 MASL
             </p>
             <h1 className="font-serif text-h1 leading-[0.92] text-ink text-balance">
-              From lines of code
+              From Excel rows
               <br />
               <em className="not-italic">
-                <span className="italic text-accent-2">to lines of </span>
+                <span className="italic text-accent-2">to rows of </span>
                 coffee trees.
               </em>
             </h1>
             <p className="font-sans text-body text-ink-2/90 max-w-[440px] mx-auto leading-relaxed">
-              A small production project in the hills of Manizales — documented in
-              drone footage, field notes, and every batch of coffee we ship.
+              A mid-size production project on a ridge above Manizales — documented in drone footage, field notes, and every batch we ship.
             </p>
 
             {/* Primary CTA */}

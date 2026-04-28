@@ -1,12 +1,10 @@
 /**
  * Chapters — the three plot scrollies, rendered in order:
- *   02 · LA VEGA   → #la-vega
- *   03 · EL BOSQUE → #el-bosque
- *   04 · LA CUMBRE → #la-cumbre
+ *   02 · VILLA PAULA  → #villa-paula
+ *   03 · BAMBU STREAM → #bambu-stream
+ *   04 · TERRA PRETA  → #terra-preta
  *
- * Kept as a single composed component so app/page.tsx stays tidy.
- * Plot copy is stubbed from the handoff; tuned for rhythm, not final.
- * Videos will drop in post-ship at /media/<plot>.mp4.
+ * Plot copy lands from /docs/content-authoring/chapter-{slug}/production.md.
  */
 
 import ChapterScrolly from "./ChapterScrolly";
@@ -15,92 +13,92 @@ export default function Chapters() {
   return (
     <>
       <ChapterScrolly
-        id="la-vega"
+        id="villa-paula"
         chapterNumber="02"
-        plot="LA VEGA"
+        plot="VILLA PAULA"
         headline={
           <>
-            Caturra on the flat,
+            Castillo on the flat,
             <br />
-            <em className="italic text-accent-2">where we started.</em>
+            <em className="italic text-accent-2">pruned and re-spaced.</em>
           </>
         }
         body={[
-          "La Vega is the lowest and flattest of the three plots — the block that taught us pruning, fertilization, and how to lose a row to borers.",
-          "Two hectares of Caturra, planted 2021. Sun exposure is generous, which is both a gift and a problem on hot years.",
-          "Washed process; the cup leans chocolate and brown sugar with a clean finish. It's our B2B workhorse.",
-          "Yield here pays for the experiments elsewhere on the farm.",
+          "Villa Paula is the lowest and flattest of all of the plots. The name was given by my parents after my sister was born — family. This is where we've learned roya, weeding, and how to lose a row or two to poor water drainage maintenance before we knew what we were watching.",
+          "3.8 ha of Castillo. In 2026 we pruned the half-block hard and re-set the distancing — closer plants, wider rows. The other half rolls into the next cycle. A cleaner architecture for a more efficient operation.",
+          "Washed process. The cup leans chocolate, brown sugar, clean finish. Castillo will not headline a flavor competition, but it will not let you down — and on this plot, with this work, that's the right contract.",
+          "If something goes wrong here, it shows up in the cup eight months later. We log every variable so the next year is a slightly less stupid version of this one.",
         ]}
         stats={[
-          { label: "Alt", value: "1,300 m" },
-          { label: "Area", value: "2.0 ha" },
-          { label: "Year", value: "2021" },
+          { label: "Alt", value: "1,200 m" },
+          { label: "Area", value: "3.8 ha" },
+          { label: "Year", value: "2026" },
         ]}
         pins={[
-          { n: 1, xPct: 30, yPct: 40, label: "main Caturra block" },
-          { n: 2, xPct: 68, yPct: 62, label: "compost station" },
+          { n: 1, xPct: 30, yPct: 40, label: "main castillo block" },
+          { n: 2, xPct: 68, yPct: 62, label: "new distance station" },
         ]}
-        videoSrc="/media/la-vega.mp4"
+        videoSrc="/media/villa-paula.mp4"
         pageLabel="02 / 05"
       />
 
       <ChapterScrolly
-        id="el-bosque"
+        id="bambu-stream"
         chapterNumber="03"
-        plot="EL BOSQUE"
+        plot="BAMBU STREAM"
         headline={
           <>
-            Pink Bourbon,
+            Pink Bourbon between
             <br />
-            <em className="italic text-accent-2">under guamo shade.</em>
+            <em className="italic text-accent-2">bamboo and water.</em>
           </>
         }
         body={[
-          "The middle plot sits on a north-facing slope where morning fog holds until nine and the guamos keep the canopy honest.",
-          "We planted Pink Bourbon here in 2021. Small lot, uneven slope, the kind of row that forces a pick plan instead of a timetable.",
-          "The cup shows it — jasmine on the nose, a thin line of bergamot, cane sugar underneath.",
-          "Processed washed in the beneficio downstream. This block is the backbone of the export selection.",
+          "The plot sits on the east-facing slope where the morning sunrise first shows. A bamboo stand runs the upper and lower edge; a quebrada cuts the lower one. The plot is named for both.",
+          "Pink Bourbon went in here in 2026. Small lot, uneven slope — the kind of row that forces a pick plan instead of a timetable.",
+          "The cup will show it once the trees mature: jasmine on the nose, a thin line of bergamot, cane sugar underneath. We'll find out after the first harvest.",
+          "This is the block we're betting on for the next export selection. Every year we'll cup it before we let ourselves cup the others — assuming, of course, that everything between now and the first cherry goes to plan.",
         ]}
         stats={[
-          { label: "Alt", value: "1,420 m" },
-          { label: "Area", value: "0.9 ha" },
-          { label: "Year", value: "2021" },
+          { label: "Alt", value: "1,290 m" },
+          { label: "Area", value: "1 ha" },
+          { label: "Year", value: "2026" },
         ]}
         pins={[
-          { n: 1, xPct: 26, yPct: 34, label: "seedling row" },
-          { n: 2, xPct: 62, yPct: 58, label: "guamo shade" },
+          { n: 1, xPct: 26, yPct: 34, label: "pink bourbon block" },
+          { n: 2, xPct: 62, yPct: 58, label: "bamboo + quebrada edge" },
         ]}
-        videoSrc="/media/el-bosque.mp4"
+        videoSrc="/media/bambu-stream.mp4"
         pageLabel="03 / 05"
       />
 
       <ChapterScrolly
-        id="la-cumbre"
+        id="terra-preta"
         chapterNumber="04"
-        plot="LA CUMBRE"
+        plot="TERRA PRETA"
         headline={
           <>
-            Gesha at the top,
+            Cenicafé 1 at the top,
             <br />
-            <em className="italic text-accent-2">with the wind.</em>
+            <em className="italic text-accent-2">trying to build soil.</em>
           </>
         }
         body={[
-          "The highest plot — steep, cold at night, and slow. Coffee loves slow.",
-          "A small Gesha block went in the ground in 2022. It's still finding its voice in the cup, but the structure is already telling.",
-          "We experiment here: anaerobic, carbonic, honey. Lab more than field.",
-          "Most of what we learn on this ridge ends up shaping how we treat the two lower plots.",
+          "The best soil. Dark, soft, nutritious — and weed-diverse. Slightly steep. Plantain is a great neighbor. Coffee loves the relationship.",
+          "A Cenicafé 1 block went in the ground in 2025. In another plot Cenicafé was a disaster. In this one, a champion — bred for resilience and balanced flavors. The interesting question on this plot is whether the soil can do for the cup what the variety, on its own, won't.",
+          "We name this plot for what we're trying to do, not what we've done. Biochar trials. Weed variety. Microorganisms. The first year of amendments is in the soil; the second will be mixed. We're trying to build and maintain soil, not just grow on it.",
+          "Most of what we learn on this ridge ends up shaping how we treat the two lower plots. Lab more than field. Lots to learn.",
         ]}
         stats={[
-          { label: "Alt", value: "1,560 m" },
-          { label: "Area", value: "1.3 ha" },
-          { label: "Year", value: "2022" },
+          { label: "Alt", value: "1,300 m" },
+          { label: "Area", value: "0.3 ha" },
+          { label: "Year", value: "2025" },
         ]}
         pins={[
-          { n: 1, xPct: 34, yPct: 44, label: "Gesha block" },
-          { n: 2, xPct: 70, yPct: 30, label: "exposed edge" },
+          { n: 1, xPct: 34, yPct: 44, label: "cenicafé 1 block" },
+          { n: 2, xPct: 70, yPct: 30, label: "biochar + microorganisms" },
         ]}
-        videoSrc="/media/la-cumbre.mp4"
+        videoSrc="/media/terra-preta.mp4"
         pageLabel="04 / 05"
       />
     </>

@@ -35,17 +35,17 @@ const CELLS: Cell[] = [
     bg: "linear-gradient(135deg, rgba(232,155,74,0.25), rgba(36,48,73,1) 70%)",
   },
   {
-    label: "Guest bedroom",
+    label: "Guest suite",
     classes: "md:col-span-2 md:row-span-1",
     bg: "linear-gradient(135deg, rgba(245,201,138,0.2), rgba(36,48,73,1) 70%)",
   },
   {
-    label: "Kitchen garden",
+    label: "Kitchen",
     classes: "md:col-span-2 md:row-span-1",
     bg: "linear-gradient(135deg, rgba(232,155,74,0.15), rgba(27,36,55,1) 70%)",
   },
   {
-    label: "Sunrise ridge",
+    label: "Ridge at first light",
     classes: "md:col-span-2 md:row-span-1",
     bg: "linear-gradient(135deg, rgba(245,201,138,0.28), rgba(36,48,73,1) 70%)",
   },
@@ -125,10 +125,13 @@ export default function Stay() {
             <div>
               <p className="font-mono text-meta uppercase text-ink-3">From</p>
               <p className="font-serif italic text-[34px] leading-tight text-accent-2 mt-1">
-                $ / night
+                $150 USD/night
               </p>
               <p className="font-sans text-[11px] leading-snug text-ink-2 mt-2">
-                All meals + farm tour included.
+                Fully equipped kitchen, Starlink Wi-Fi, big working desk
+              </p>
+              <p className="font-mono text-[10px] uppercase text-ink-3 mt-2 leading-snug tracking-[0.1em]">
+                Extra · Farm tour, roasting experience, bird watching
               </p>
             </div>
             <button

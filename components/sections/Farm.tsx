@@ -15,20 +15,22 @@ import FarmMap from "./FarmMap";
 
 const STATS: { label: string; value: string; span?: boolean }[] = [
   { label: "Altitude", value: "1,300 m" },
-  { label: "Area", value: "4.2 ha" },
-  { label: "Plots", value: "3" },
+  { label: "Area", value: "15 ha" },
+  { label: "Plots", value: "7" },
   { label: "Varietals", value: "3" },
-  { label: "Process", value: "Washed · Anaerobic · Carbonic", span: true },
-  { label: "Planted", value: "2021" },
+  { label: "Process", value: "Washed · Honey · Natural", span: true },
+  { label: "Renewal", value: "2025" },
 ];
 
-const MILESTONES: { year: string; title: string; accent?: boolean }[] = [
-  { year: "2018", title: "First visit" },
-  { year: "2020", title: "Quit tech" },
-  { year: "2021", title: "Seedlings", accent: true },
-  { year: "2023", title: "Beneficio" },
-  { year: "2024", title: "First export · 88+ SCA", accent: true },
-  { year: "2025", title: "Stay opens" },
+type MilestoneVariant = "neutral" | "accent" | "objective";
+
+const MILESTONES: { year: string; title: string; variant: MilestoneVariant }[] = [
+  { year: "2024", title: "First harvest · drying facility built", variant: "accent" },
+  { year: "2024", title: "2nd Prize · specialty expo", variant: "neutral" },
+  { year: "2025", title: "Germany export · Castillo Honey · 85.75 SCA", variant: "accent" },
+  { year: "2026", title: "Pink Bourbon seedlings", variant: "neutral" },
+  { year: "2028", title: "First 88+ SCA export", variant: "objective" },
+  { year: "2029", title: "Economic break-even", variant: "objective" },
 ];
 
 export default function Farm() {
@@ -62,22 +64,27 @@ export default function Farm() {
         <div className="grid gap-8 md:grid-cols-[1.3fr_1fr]">
           <FarmMap />
 
-          <div className="grid grid-cols-2 gap-3">
-            {STATS.map((s) => (
-              <div
-                key={s.label}
-                className={`border border-line p-3 space-y-2 ${
-                  s.span ? "col-span-2" : ""
-                }`}
-              >
-                <p className="font-mono text-meta uppercase text-ink-3">
-                  {s.label}
-                </p>
-                <p className="font-serif italic text-[22px] leading-tight text-accent-2">
-                  {s.value}
-                </p>
-              </div>
-            ))}
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-3">
+              {STATS.map((s) => (
+                <div
+                  key={s.label}
+                  className={`border border-line p-3 space-y-2 ${
+                    s.span ? "col-span-2" : ""
+                  }`}
+                >
+                  <p className="font-mono text-meta uppercase text-ink-3">
+                    {s.label}
+                  </p>
+                  <p className="font-serif italic text-[22px] leading-tight text-accent-2">
+                    {s.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <p className="font-mono text-meta uppercase text-ink-3">
+              4 plots not pictured · ask for the others
+            </p>
           </div>
         </div>
 
@@ -87,25 +94,45 @@ export default function Farm() {
             Milestones
           </p>
           <ol className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-            {MILESTONES.map((m) => (
-              <li
-                key={m.year}
-                className={`pt-2 border-t-[1.5px] ${
-                  m.accent ? "border-accent" : "border-line"
-                }`}
-              >
-                <p
-                  className={`font-serif italic text-[22px] leading-tight ${
-                    m.accent ? "text-accent" : "text-ink"
-                  }`}
+            {MILESTONES.map((m, i) => {
+              const isObjective = m.variant === "objective";
+              const isAccent = m.variant === "accent";
+              const borderClass = isObjective
+                ? "border-line"
+                : isAccent
+                ? "border-accent"
+                : "border-line";
+              const borderStyle = isObjective ? "dashed" : "solid";
+              const yearColor = isObjective
+                ? "text-ink-3"
+                : isAccent
+                ? "text-accent"
+                : "text-ink";
+              const titleColor = isObjective ? "text-ink-3" : "text-ink-2";
+              return (
+                <li
+                  key={`${m.year}-${i}`}
+                  className={`pt-2 border-t-[1.5px] ${borderClass}`}
+                  style={{ borderTopStyle: borderStyle }}
                 >
-                  {m.year}
-                </p>
-                <p className="mt-1 font-sans text-[11px] leading-snug text-ink-2">
-                  {m.title}
-                </p>
-              </li>
-            ))}
+                  {isObjective && (
+                    <span className="inline-block font-mono text-[10px] uppercase text-ink-3 border border-line px-[6px] py-[1px] mb-1 tracking-[0.1em]">
+                      Objective
+                    </span>
+                  )}
+                  <p
+                    className={`font-serif italic text-[22px] leading-tight ${yearColor}`}
+                  >
+                    {m.year}
+                  </p>
+                  <p
+                    className={`mt-1 font-sans text-[11px] leading-snug ${titleColor}`}
+                  >
+                    {m.title}
+                  </p>
+                </li>
+              );
+            })}
           </ol>
         </div>
       </div>

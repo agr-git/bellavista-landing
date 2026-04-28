@@ -78,7 +78,7 @@ export default function Footer() {
             className="font-sans text-body"
             style={{ color: "rgba(254,245,226,0.85)" }}
           >
-            hello@bellavistacoffee.co · @bellavista.coffee
+            hello@bellavistacoffee.co · gil.rivera.a@gmail.com · @bellavista.coffee
           </p>
         </div>
 
@@ -175,7 +175,7 @@ export default function Footer() {
           className="font-mono text-meta uppercase"
           style={{ color: "rgba(254,245,226,0.55)" }}
         >
-          Documented in drone footage, field notes, and every batch we ship.
+          Field log of a small farm above Manizales — published in drone footage, notes, and shipped lots.
         </p>
       </div>
     </footer>

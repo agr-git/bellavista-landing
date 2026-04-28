@@ -15,9 +15,9 @@
 "use client";
 
 const PLOTS = [
-  { n: 1, label: "LA VEGA", x: 120, y: 172, href: "#la-vega" },
-  { n: 2, label: "EL BOSQUE", x: 300, y: 128, href: "#el-bosque" },
-  { n: 3, label: "LA CUMBRE", x: 470, y: 74, href: "#la-cumbre" },
+  { n: 1, label: "VILLA PAULA", x: 120, y: 172, href: "#villa-paula" },
+  { n: 2, label: "BAMBU STREAM", x: 300, y: 128, href: "#bambu-stream" },
+  { n: 3, label: "TERRA PRETA", x: 470, y: 74, href: "#terra-preta" },
 ];
 
 export default function FarmMap() {

@@ -46,8 +46,7 @@ export default function Journal() {
               From the <em className="italic text-accent-2">field.</em>
             </h2>
             <p className="mt-4 font-sans text-body text-ink-2 leading-relaxed">
-              Public posts showcase projects. Private entries track
-              experiments — producer only.
+              Public posts cover the projects we ship. Private entries track the experiments — visible to the producer only.
             </p>
           </div>
 
