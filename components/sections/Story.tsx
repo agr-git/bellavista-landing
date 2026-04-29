@@ -76,7 +76,14 @@ export default function Story() {
               />
             </div>
             <figcaption className="font-serif italic text-small text-ink-3">
-              Fig 1. Among the first Cenicafé 1 rows, 2024.
+              <a
+                href="https://www.linkedin.com/in/alejandrogilrivera/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-accent-2 transition-colors"
+              >
+                Alejo Gil
+              </a>
             </figcaption>
           </figure>
 
