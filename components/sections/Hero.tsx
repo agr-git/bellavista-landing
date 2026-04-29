@@ -71,6 +71,19 @@ export default function Hero() {
 
       {/* Background — video or gradient fallback */}
       <div className="absolute inset-0 z-0">
+        {/* 1. Fallback / decorative gradient — bottom layer.
+            When the video loads it paints on top of this; when the
+            video 404s (or before it buffers) the gradient shows.
+            Theme-aware colors via CSS vars (themes.css). */}
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-bg"
+          style={{
+            backgroundImage:
+              "radial-gradient(ellipse at 30% 20%, var(--hero-radial-1), transparent 60%), radial-gradient(ellipse at 70% 80%, var(--hero-radial-2), transparent 55%), linear-gradient(180deg, var(--surface) 0%, var(--bg) 60%)",
+          }}
+        />
+        {/* 2. Video — sits on top of the gradient when it loads. */}
         <video
           ref={videoRef}
           autoPlay
@@ -81,21 +94,9 @@ export default function Hero() {
           className="absolute inset-0 w-full h-full object-cover"
           aria-hidden
         >
-          {/* Source will 404 until media is uploaded — video element stays invisible and gradient below shows */}
           <source src="/media/hero.mp4" type="video/mp4" />
         </video>
-        {/* Fallback / decorative gradient (shows even when video fails/hasn't loaded).
-            Colors come from CSS vars so the gradient flips with the section's theme
-            (theme-dark / theme-kraft / theme-cream). See app/styles/themes.css. */}
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-bg"
-          style={{
-            backgroundImage:
-              "radial-gradient(ellipse at 30% 20%, var(--hero-radial-1), transparent 60%), radial-gradient(ellipse at 70% 80%, var(--hero-radial-2), transparent 55%), linear-gradient(180deg, var(--surface) 0%, var(--bg) 60%)",
-          }}
-        />
-        {/* Legibility overlay — also theme-aware. */}
+        {/* 3. Legibility overlay — top of everything. */}
         <div
           aria-hidden
           className="absolute inset-0"
