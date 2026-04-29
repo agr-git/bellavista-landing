@@ -75,7 +75,7 @@ export default function Chapters() {
         pageLabel="03 / 05"
       />
 
-      <SectionBreak variant="blue-gradient" />
+      <SectionBreak variant="cream" />
 
       <ChapterScrolly
         id="terra-preta"

@@ -7,7 +7,7 @@
  *   - "blue":  dark-theme bg (#1b2437)  → matches scrolly chapter palette
  *   - "cream": cream-theme bg (#fef5e2) → matches Story / Coffee / Journal
  *
- * Height intentionally short (24px) so the break reads as a punctuation
+ * Height intentionally short (12px) so the break reads as a punctuation
  * mark rather than a section of its own.
  */
 
@@ -27,7 +27,7 @@ export default function SectionBreak({ variant }: { variant: Variant }) {
     <div
       aria-hidden
       className="w-full"
-      style={{ height: 24, ...STYLES[variant] }}
+      style={{ height: 12, ...STYLES[variant] }}
     />
   );
 }
