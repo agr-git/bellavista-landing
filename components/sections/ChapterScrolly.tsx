@@ -3,11 +3,14 @@
 /**
  * ChapterScrolly — the core cinematic chapter block.
  *
- * Layout strategy (do NOT change without re-testing iOS Safari):
- * - Outer section: `min-height: 100vh`. Sticky child fills the whole
- *   container, so there is no scroll-past runway — the progress /
- *   scrubber bars hold at 0 and the section behaves like a static
- *   side-by-side card. Producer chose this trade for tighter rhythm.
+ * Layout strategy:
+ * - Section is content-driven: no min-height in viewport units. Vertical
+ *   air comes from `padding-block: clamp(64px, 10vh, 160px)` so the
+ *   rhythm scales gracefully across phone / tablet / laptop / 4K.
+ * - Sticky pin removed (it was a no-op once the parent stopped having
+ *   scroll-past runway). Editorial column renders in normal flow; video
+ *   column has an explicit aspect ratio so it scales without the height
+ *   guessing game across devices.
  * - Inner grid: 2 cols `42% | 58%`.
  * - LEFT col: `position: sticky; top: 0; height: 100vh`.
  *   Sticky + flex has historically misbehaved on iOS Safari; we keep
@@ -110,13 +113,13 @@ export default function ChapterScrolly({
       id={id}
       ref={sectionRef}
       className="theme-dark relative border-t border-line"
-      style={{ minHeight: "100vh" }}
+      style={{ paddingBlock: "clamp(64px, 10vh, 160px)" }}
       aria-labelledby={`${id}-heading`}
     >
-      <div className="md:grid md:grid-cols-[42%_58%]">
-        {/* LEFT — sticky pinned editorial column */}
-        <div className="md:sticky md:top-0 md:h-screen md:border-r md:border-line">
-          <div className="h-full flex flex-col px-6 md:px-[34px] py-12 md:py-[44px]">
+      <div className="md:grid md:grid-cols-[42%_58%] md:items-stretch">
+        {/* LEFT — editorial column (normal flow) */}
+        <div className="md:border-r md:border-line">
+          <div className="flex flex-col h-full px-6 md:px-[34px]">
             <p className="font-mono text-meta uppercase text-accent tracking-[0.15em]">
               Chapter {chapterNumber} · {plot}
             </p>
@@ -167,9 +170,10 @@ export default function ChapterScrolly({
         </div>
 
         {/* RIGHT — video column, normal flow */}
-        <div className="relative">
-          {/* Sticky video wrapper so it tracks with the sticky text */}
-          <div className="md:sticky md:top-0 md:h-screen h-[70vh] bg-surface overflow-hidden">
+        <div className="relative mt-8 md:mt-0">
+          {/* Aspect-ratio wrapper so the video scales predictably across
+              devices instead of guessing a viewport-height. */}
+          <div className="relative bg-surface overflow-hidden aspect-[4/3] md:aspect-auto md:h-full md:min-h-[520px]">
             {videoSrc ? (
               <video
                 autoPlay
