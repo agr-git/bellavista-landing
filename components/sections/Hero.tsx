@@ -19,11 +19,11 @@
 import { useEffect, useRef, useState } from "react";
 
 const CHAPTERS = [
-  { n: "01", label: "CASA", href: "#story" },
+  { n: "01", label: "THE PRODUCER", href: "#story" },
   { n: "02", label: "VILLA PAULA", href: "#villa-paula" },
   { n: "03", label: "BAMBU STREAM", href: "#bambu-stream" },
   { n: "04", label: "TERRA PRETA", href: "#terra-preta" },
-  { n: "05", label: "BENEFICIO", href: "#beneficio" },
+  { n: "05", label: "BENEFICIO", href: "/beneficio" },
 ];
 
 export default function Hero() {

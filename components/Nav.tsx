@@ -37,19 +37,29 @@ export default function Nav() {
     return () => obs.disconnect();
   }, []);
 
+  // Consistent palette regardless of underlying section theme: dark navy
+  // bar with cream text once we're past the hero, fully transparent over
+  // the kraft hero so its cinematic isn't broken.
   return (
     <header
       ref={sentinelRef}
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        opaque ? "bg-bg/95 backdrop-blur border-b border-line" : "bg-transparent"
-      }`}
+      className="fixed inset-x-0 top-0 z-50 transition-colors duration-300"
+      style={{
+        backgroundColor: opaque ? "rgba(27, 36, 55, 0.95)" : "transparent",
+        backdropFilter: opaque ? "blur(8px)" : undefined,
+        borderBottom: opaque
+          ? "1px solid rgba(254, 245, 226, 0.12)"
+          : "1px solid transparent",
+        color: "#fef5e2",
+      }}
     >
       <nav className="flex items-center justify-between px-8 py-4 max-w-[1400px] mx-auto">
         <a
           href="#top"
-          className="font-serif text-h4 text-ink hover:text-accent-2 transition-colors"
+          className="font-serif text-h4 hover:opacity-80 transition-opacity"
+          style={{ color: "#fef5e2" }}
         >
-          Bellavista<span className="text-accent">.</span>
+          Bellavista Coffee
         </a>
 
         <ul className="hidden md:flex items-center gap-8">
@@ -57,7 +67,8 @@ export default function Nav() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="font-sans text-small text-ink-2 hover:text-ink transition-colors"
+                className="font-sans text-small hover:opacity-100 transition-opacity"
+                style={{ color: "rgba(254, 245, 226, 0.75)" }}
               >
                 {link.label}
               </a>
@@ -69,10 +80,14 @@ export default function Nav() {
           <button
             disabled
             aria-label="Language toggle (Spanish coming soon)"
-            className="font-mono text-meta uppercase text-ink-3 border border-line rounded px-3 py-1 cursor-not-allowed"
+            className="font-mono text-meta uppercase rounded px-3 py-1 cursor-not-allowed"
+            style={{
+              color: "rgba(254, 245, 226, 0.65)",
+              border: "1px solid rgba(254, 245, 226, 0.25)",
+            }}
             title="Spanish coming soon"
           >
-            EN <span className="text-ink-3/50">| ES (soon)</span>
+            EN <span style={{ opacity: 0.55 }}>| ES (soon)</span>
           </button>
         </div>
       </nav>
