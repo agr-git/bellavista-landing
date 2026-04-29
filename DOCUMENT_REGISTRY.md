@@ -2,7 +2,7 @@
 ## Bellavista Coffee — Landing Page MVP
 
 **Framework:** AutonomIA+ v3.4
-**Last updated:** 2026-04-26 (DESIGN_ITER_2 + CONTENT_AUTHORING_SCAFFOLD)
+**Last updated:** 2026-04-28 (CONTENT_WIRING_v1 + DESIGN_ITER_3 + BENEFICIO_PAGE)
 
 Update this file every time a new deliverable is produced. One row per artifact. Mark location precisely so any agent can fetch cold.
 
@@ -79,10 +79,21 @@ Update this file every time a new deliverable is produced. One row per artifact.
 | Hero (theme-aware bg) | `/components/sections/Hero.tsx` | ✅ | DESIGN_ITER_1 (commit 01191b5) — gradient hexes → CSS vars so theme-kraft#hero renders correctly |
 | Coffee/Stay/Footer (v3-kraft) | `/components/sections/Coffee.tsx`, `/components/sections/Stay.tsx`, `/components/Footer.tsx` | ✅ | DESIGN_ITER_2 (commit 69d3b6c) — surface-vs-bg cards + Footer rebuilt as kraft-→-dark transition piece per design |
 | **Content authoring scaffold** | `/docs/content-authoring/` | ✅ | CONTENT_AUTHORING_SCAFFOLD (2026-04-26) — 10 sections × {schema, system-prompt, draft, production, preview} for outsourcing copywriting to non-Claude LLMs. Drafts/production/previews are gitignored (repo public). Includes `_authoring-guide.md`, `_template.html`, `_gemini-quickstart.md`. |
+| **Content wired into components** | (see content sections above) | ✅ | CONTENT_WIRING_v1 (2026-04-28, commit 8abb32a + follow-ups) — all 10 production.md drafts wired into Hero, Story, Farm, three plot scrollies, Coffee, Stay, Footer, Journal. Atomic plot rename: la-vega→villa-paula, el-bosque→bambu-stream, la-cumbre→terra-preta. Farm gained stats_caption + milestone tri-state variant (accent/neutral/objective). Coffee chips reshaped (4 B2B, Direct now/soon split). Stay added Extra · slot. |
+| Story portrait | `/public/media/portrait-producer.jpg` | ✅ | CONTENT_MEDIA (2026-04-28, commit 7394f76) — wired into Story.tsx via next/image (commit 5050caa); figcaption rebuilt as Alejo Gil LinkedIn link with brand-blue (#0A66C2) glyph |
+| Hero drone video | `/public/media/hero.mp4` | ✅ | CONTENT_MEDIA (2026-04-28, commit ef9ac71) — 720p H.264 / CRF 26 / fast-start, 48 MB. Encoded from 929 MB 4K HEVC original (preserved at ~/Downloads/AI/bv-landing-originals/ outside repo) |
+| Plot drone videos | `/public/media/{villa-paula,bambu-stream,terra-preta}.mp4` | ⬜ | CONTENT_MEDIA — pending. Fall back to gradient placeholder until uploaded. ≤30 MB each per `_filename-map.md` |
+| Media filename map | `/public/media/_filename-map.md` | ✅ | CONTENT_MEDIA reference for the producer's media drops |
+| **SectionBreak component** | `/components/SectionBreak.tsx` | ✅ | DESIGN_ITER_3 (2026-04-28, commit 3317bd4) — 12px stripe between sections, three variants (cream / blue / blue-gradient). Currently used: cream after Farm + between scrollies |
+| ChapterScrolly responsive overhaul | `/components/sections/ChapterScrolly.tsx` | ✅ | DESIGN_ITER_3 (2026-04-28, commit d75ee34) — replaced `min-height: 250vh` + sticky with content-driven `padding-block: clamp(64px, 10vh, 160px)` + items-stretch grid + aspect-ratio video column |
+| Hero responsive CTA + chapter strip | `/components/sections/Hero.tsx` | ✅ | CONTENT_WIRING_v1 (commits bed7795, 5c56f32) — chapter strip text-meta→text-small + ink semibold; "01 CASA"→"01 THE PRODUCER"; "05 BENEFICIO"→/beneficio; "Start the tour" full-row click target |
+| Nav theme-independent fill | `/components/Nav.tsx` | ✅ | NAV_LEGIBILITY (2026-04-28, commit 74b9a79) — wordmark→"Bellavista Coffee"; past-hero state locked to dark-navy rgba(27,36,55,0.95) + cream text so the bar stays legible across all section themes |
+| **/beneficio page** | `/app/beneficio/page.tsx` | ✅ | BENEFICIO_PAGE (2026-04-28, commits 74b9a79, 5c56f32) — soft paywall for chapter-05 + private-journal redirects. theme-cream surface, Story's chapter-marker pattern, two right-column cards (What you get / Trade access), <Footer />. noindex/nofollow. SUBSTACK_URL = `bellavistacoffee.substack.com` placeholder pending real handle |
 | GHA deploy workflow | `/.github/workflows/deploy.yml` | ⬜ | B11B (conditional) — parked, build-on-server worked |
 | B6 retrospective | `/docs/retrospectives/B6-scrolly.md` | ✅ | After B6 |
 | B9 retrospective | `/docs/retrospectives/B9-forms.md` | ✅ | After B9 |
 | **Deploy retrospective** | `/docs/retrospectives/DEPLOY-option-a.md` | ✅ | DEPLOY_PHASE_A — Option A decision, HSTS learning, rollback records |
+| **Content wiring retrospective** | `/docs/retrospectives/CONTENT-WIRING-v1.md` | ✅ | CONTENT_WIRING_v1 (2026-04-28) — covers content land + DESIGN_ITER_3 + BENEFICIO_PAGE in one consolidated retro |
 
 ---
 
@@ -91,7 +102,7 @@ Update this file every time a new deliverable is produced. One row per artifact.
 | Artifact | Path | Status | Notes |
 |---|---|---|---|
 | V1 retrospective | `/docs/retrospectives/V1-validate.md` | ⬜ | After V1 |
-| Design v3 plan | `/docs/decisions/DESIGN-v3-pacing.md` | ⬜ | DESIGN_ITER_3 (queued task) — investigate trimming the 3×250vh chapter scrolly runway + Farm vertical footprint |
+| Design v3 plan | `/docs/decisions/DESIGN-v3-pacing.md` | 🗑 | Superseded — DESIGN_ITER_3 was executed inline during CONTENT_WIRING_v1 (2026-04-28). See `/docs/retrospectives/CONTENT-WIRING-v1.md` for the responsive content-driven overhaul that replaced the 3×250vh runway concern |
 
 ---
 

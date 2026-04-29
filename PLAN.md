@@ -430,40 +430,95 @@ Future Claude Code session should:
 ### Current status
 
 ```
-Last completed: DESIGN_ITER_2 + CONTENT_AUTHORING_SCAFFOLD — 2026-04-26
-  - DESIGN_ITER_1 (commit 01191b5): hero hardcoded gradient hexes →
-    CSS vars; added per-theme --hero-overlay-* and --hero-radial-* in
-    themes.css. theme-kraft#hero now renders kraft (was being repainted
-    dark blue by an absolutely-positioned bg layer that bypassed the
-    section background-color fix in 9e8ee47).
-  - DESIGN_ITER_2 (commit 69d3b6c): aligned Coffee/Stay/Footer with
-    v3-kraft design handoff. Coffee cards bg-bg → bg-surface (cards
-    lift off cream w/ 2px line gutter). Stay price card bg-bg →
-    bg-surface. Footer rebuilt as a transition piece — diagonal
-    kraft → kraft-deep → dark-blue gradient + warm radial bloom on
-    left; cream headline w/ accent-2 inner span; ochre subscribe
-    button hardcoded (theme-kraft flips --accent dark blue, would be
-    invisible at the gradient's dark-blue end).
-  - CONTENT_AUTHORING_SCAFFOLD: docs/content-authoring/ with 10
-    sections × {schema, system-prompt, draft, production, preview}
-    for outsourcing copywriting to non-Claude LLMs. Drafts/production/
-    previews gitignored. Plot folders renamed to villa-paula /
-    bambu-stream / terra-preta (live components still on old names —
-    wiring agent renames during first production-copy land).
-  - `npm run build` green: 12 static pages, /=48.3 kB.
+Last completed: CONTENT_WIRING_v1 + DESIGN_ITER_3 + BENEFICIO_PAGE — 2026-04-28
+  Single session, 15 commits, retro: docs/retrospectives/CONTENT-WIRING-v1.md
+
+  CONTENT_WIRING_v1 (commit 8abb32a + follow-ups):
+    - Atomic plot rename: la-vega → villa-paula, el-bosque →
+      bambu-stream, la-cumbre → terra-preta (across Hero.CHAPTERS,
+      Chapters.tsx, FarmMap.PLOTS, /media/<plot>.mp4 references).
+    - All 10 production.md drafts wired into live components
+      (Hero, Story, Farm, three plot scrollies, Coffee, Stay,
+      Footer, Journal-meta).
+    - Farm gained two component features the v4 draft required:
+      stats_caption row + milestone tri-state variant
+      (accent / neutral / objective with dashed top border + small
+      Objective badge for future-tense items).
+    - Coffee chip rows restructured: B2B 4 chips with flex-wrap;
+      Direct split chips_now + chips_soon at 55% opacity.
+    - Stay price card gained Extra · line below inclusions.
+    - Story portrait wired (commit 5050caa) — real
+      /media/portrait-producer.jpg via next/image, replaced the
+      kraft-gradient placeholder. Figcaption rebuilt as centered
+      LinkedIn link in brand-blue (#0A66C2) with inline LinkedIn
+      glyph (commit d677e78). Previously card restructured into
+      three-line geographic arc.
+    - Hero chapter strip (commits bed7795, 5c56f32): labels bumped
+      from text-meta (9px ink-3) to text-small (12px ink + semibold);
+      "01 CASA" → "01 THE PRODUCER"; "05 BENEFICIO" → real
+      /beneficio route; whole "Start the tour" row is now one
+      <button> (was just the play disc).
+
+  DESIGN_ITER_3 — section pacing + responsive layout
+  (commits 3317bd4, 7394f76, 1a6da75, 61909a8, d75ee34):
+    - New <SectionBreak variant="cream|blue|blue-gradient" />,
+      12px tall, between sections. Final placement: cream after
+      Farm, cream Villa Paula → Bambu Stream, cream Bambu Stream
+      → Terra Preta. Other variants retained for future use.
+    - ChapterScrolly re-engineered for true responsiveness:
+      removed min-height: 250vh + position: sticky, replaced with
+      padding-block: clamp(64px, 10vh, 160px) and items-stretch
+      grid hugging the right column at aspect-[4/3] (mobile) /
+      md:h-full md:min-h-[520px] (desktop). Identical proportional
+      rhythm phone → tablet → laptop → 4K. Trade-off: progress
+      bar + scrubber no longer animate (decorative now).
+    - The B6 sticky-in-flex iOS Safari risk is moot for plot
+      scrollies — only resurfaces if sticky is re-introduced.
+
+  Nav legibility (commit 74b9a79):
+    - Wordmark "Bellavista." → "Bellavista Coffee".
+    - Past hero sentinel, the bar locks to fixed dark-navy
+      rgba(27,36,55,0.95) + cream text instead of inheriting
+      each section's theme — fixed the cream-on-cream invisibility
+      on Story / Coffee / Journal. Stays transparent over kraft
+      hero.
+
+  /beneficio route (commits 74b9a79, 5c56f32):
+    - New paywall page at app/beneficio/page.tsx, noindex/nofollow.
+    - Reuses site design system: theme-cream, Story's chapter-marker
+      pattern, accent-2 italic h2 ("The full *record*."), pull-quote
+      treatment, two right-column cards (What you get / Trade access),
+      <Footer /> for contact continuity.
+    - Designed to serve both BENEFICIO chapter slot AND any future
+      private-journal paywall hits.
+    - SUBSTACK_URL = bellavistacoffee.substack.com placeholder
+      (replace once real handle exists).
+
+  Hero media (commit ef9ac71):
+    - /media/hero.mp4 wired. Original 4K HEVC 929 MB drop re-encoded
+      to 720p H.264 / CRF 26 / fast-start = 48 MB. Original preserved
+      at ~/Downloads/AI/bv-landing-originals/ outside the repo.
+      Plot videos (villa-paula / bambu-stream / terra-preta) still
+      pending — fall back to gradient until they land.
+
+  npm run build green: 13 static pages (now incl. /beneficio).
 
 Site is LIVE on staging:
   - Internal:  http://bellavista.test/       (via laptop /etc/hosts override)
   - Server IP: 44.192.98.134 (ubuntu user, Lightsail_Autonomia.pem)
   - n8n unchanged at https://44.192.98.134/
 
-Next checkpoint: V1_VALIDATE (see /docs/retrospectives/DEPLOY-option-a.md)
-  Queued before V1: DESIGN_ITER_3 (pacing pass — investigate the
-    long 3×250vh plot-scrolly runway + Farm section vertical
-    footprint). Plan in docs/decisions/DESIGN-v3-pacing.md (TBD).
-  Parallel LLM work remaining: per-section content drafting
-    (outsourceable via docs/content-authoring/); S1_CASE_STUDY
-    (after V1).
+Next checkpoint: V1_VALIDATE (see /docs/retrospectives/DEPLOY-option-a.md
+  + /docs/retrospectives/CONTENT-WIRING-v1.md "next checkpoint readiness")
+  Optional intermediate: DESIGN_ITER_4 (apply clamp-padding pattern
+    to non-scrolly sections — Story, Farm, Coffee, Stay, Journal
+    currently use fixed py-24).
+  Open content-revision items (not blockers, deferred to next-pass
+    content edit): Farm Varietals=3 vs Coffee 4-chip B2B (Colombia
+    cascade); Stay caption "Guest suite" voice-rule deviation.
+  Parallel LLM work remaining: real journal entries (CONTENT_JOURNAL);
+    plot drone videos (CONTENT_MEDIA — partially executed: hero +
+    portrait done, plots pending); S1_CASE_STUDY after V1.
 
 Blockers: none. B10 (admin auth) parked by request.
 GitHub repo: https://github.com/agr-git/bellavista-landing  (public for now)

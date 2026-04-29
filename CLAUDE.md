@@ -45,9 +45,11 @@ Tailwind reads CSS vars via `tailwind.config.ts`. Changing a var propagates ever
 /lib/journal.ts              ← reads MDX, filters visibility
 /lib/journal-schema.ts       ← Zod frontmatter validation
 /app/api/leads/route.ts      ← forms: Resend first, Notion second
+/app/beneficio/page.tsx      ← /beneficio paywall (chapter-05 + private journal)
 /lib/email.ts                ← Resend wrapper
 /lib/notion.ts               ← Notion Resources DB writer
 /components/MotionWrapper.tsx ← single "use client" animation boundary
+/components/SectionBreak.tsx  ← 12px stripe between sections (cream/blue/gradient)
 /scripts/validate-content.ts ← prebuild MDX validator
 ```
 
@@ -80,12 +82,32 @@ NextAuth Credentials provider. JWT strategy, no DB.
 Env vars: `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` (bcrypt), `NEXTAUTH_SECRET`.
 Middleware gates `/admin/*`. Admin surface is read-only in v1.
 
-## Chapter scrolly (B6) — known risk
+## Chapter scrolly — content-driven (post CONTENT_WIRING_v1, 2026-04-28)
 
-`position: sticky` inside `min-height: 250vh` container. Do NOT use calculated heights.
-iOS Safari sticky + flex has known bugs — verify in V1_VALIDATE on the live URL.
-The `/app/(dev)/scrolly` and `/tokens` lab routes were removed in DEV_CLEANUP
-(2026-04-26) — re-introduce a temporary lab route only if a regression appears.
+`ChapterScrolly` is no longer viewport-height-based. Section padding uses
+`padding-block: clamp(64px, 10vh, 160px)` and the right column uses
+`aspect-[4/3]` (mobile) / `md:h-full md:min-h-[520px]` (desktop) hugged
+to the editorial column via `items-stretch`. No `position: sticky`, no
+`min-height: Nvh`. The original B6 sticky-in-flex iOS Safari risk no
+longer applies to this component — only resurfaces if sticky is
+re-introduced anywhere.
+
+Lab routes `/app/(dev)/scrolly` and `/tokens` were removed in
+DEV_CLEANUP (2026-04-26).
+
+## Section pacing
+
+`<SectionBreak variant="cream|blue|blue-gradient" />` is the 12px stripe
+component. Currently used: `cream` after Farm, `cream` between the three
+plot scrollies. Other variants kept for future use.
+
+## Hero media
+
+`/media/hero.mp4` must be ≤50 MB (GitHub warn threshold). Re-encode
+recipe in `/docs/retrospectives/CONTENT-WIRING-v1.md` if a fresh
+upload comes in larger. Plot videos (`/media/<plot>.mp4` for
+villa-paula / bambu-stream / terra-preta) fall back to gradient if
+absent — same size cap applies when they land.
 
 ## Deploy
 
