@@ -10,8 +10,9 @@
  *          Previously card (1px line border) with "Software engineer,
  *          12 years." in italic serif.
  *
- * Image is a placeholder gradient until real portrait ships.
  */
+
+import Image from "next/image";
 
 export default function Story() {
   return (
@@ -64,15 +65,16 @@ export default function Story() {
         {/* Col 3: portrait + previously card */}
         <aside className="space-y-4">
           <figure className="space-y-2">
-            <div
-              className="w-full aspect-[4/5] bg-surface border border-line"
-              style={{
-                backgroundImage:
-                  "linear-gradient(135deg, rgba(232,155,74,0.18) 0%, rgba(36,48,73,1) 60%)",
-              }}
-              aria-label="Portrait placeholder — producer among first Cenicafé 1 rows, 2024"
-              role="img"
-            />
+            <div className="relative w-full aspect-[4/5] bg-surface border border-line overflow-hidden">
+              <Image
+                src="/media/portrait-producer.jpg"
+                alt="The producer among the first Cenicafé 1 rows, 2024."
+                fill
+                sizes="(min-width: 768px) 300px, 100vw"
+                className="object-cover"
+                priority
+              />
+            </div>
             <figcaption className="font-serif italic text-small text-ink-3">
               Fig 1. Among the first Cenicafé 1 rows, 2024.
             </figcaption>
