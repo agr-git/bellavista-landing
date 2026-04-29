@@ -11,11 +11,15 @@
  * mark rather than a section of its own.
  */
 
-type Variant = "blue" | "cream";
+type Variant = "blue" | "cream" | "blue-gradient";
 
-const PALETTE: Record<Variant, string> = {
-  blue: "#1b2437",
-  cream: "#fef5e2",
+const STYLES: Record<Variant, React.CSSProperties> = {
+  blue: { backgroundColor: "#1b2437" },
+  cream: { backgroundColor: "#fef5e2" },
+  "blue-gradient": {
+    backgroundImage:
+      "linear-gradient(90deg, #1b2437 0%, #34466b 50%, #1b2437 100%)",
+  },
 };
 
 export default function SectionBreak({ variant }: { variant: Variant }) {
@@ -23,7 +27,7 @@ export default function SectionBreak({ variant }: { variant: Variant }) {
     <div
       aria-hidden
       className="w-full"
-      style={{ height: 24, backgroundColor: PALETTE[variant] }}
+      style={{ height: 24, ...STYLES[variant] }}
     />
   );
 }

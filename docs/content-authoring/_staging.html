@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bellavista — Staging · all sections</title>
+
+<link rel="stylesheet" href="../../app/styles/tokens.css">
+<link rel="stylesheet" href="../../app/styles/themes.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  :root { --font-instrument-serif: "Instrument Serif"; --font-geist-sans: "Geist"; --font-jetbrains-mono: "JetBrains Mono"; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); margin: 0; }
+  .font-serif{font-family:var(--font-serif);}.font-sans{font-family:var(--font-sans);}.font-mono{font-family:var(--font-mono);}
+  .text-h1{font-size:var(--fs-h1);line-height:var(--lh-h1);letter-spacing:var(--ls-h1);}
+  .text-h2{font-size:var(--fs-h2);line-height:var(--lh-h2);letter-spacing:var(--ls-h2);}
+  .text-h3{font-size:var(--fs-h3);line-height:var(--lh-h3);letter-spacing:var(--ls-h3);}
+  .text-h4{font-size:var(--fs-h4);line-height:var(--lh-h4);letter-spacing:var(--ls-h4);}
+  .text-body{font-size:var(--fs-body);line-height:var(--lh-body);}
+  .text-small{font-size:var(--fs-small);line-height:var(--lh-small);}
+  .text-label{font-size:var(--fs-label);line-height:var(--lh-label);letter-spacing:var(--ls-label);}
+  .text-meta{font-size:var(--fs-meta);line-height:var(--lh-meta);letter-spacing:var(--ls-meta);}
+  .text-bg{color:var(--bg);}.text-ink{color:var(--ink);}.text-ink-2{color:var(--ink-2);}.text-ink-3{color:var(--ink-3);}
+  .text-accent{color:var(--accent);}.text-accent-2{color:var(--accent-2);}
+  .bg-bg{background-color:var(--bg);}.bg-surface{background-color:var(--surface);}.bg-paper{background-color:var(--paper);}
+  .bg-accent{background-color:var(--accent);}.bg-accent-2{background-color:var(--accent-2);}.bg-line{background-color:var(--line);}
+  .border-line{border-color:var(--line);}.border-line-strong{border-color:var(--line-strong);}
+  .border-accent{border-color:var(--accent);}.border-accent-2{border-color:var(--accent-2);}
+
+  /* Staging banner */
+  .staging-banner {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: var(--accent); color: var(--bg);
+    font-family: var(--font-mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.15em;
+    padding: 8px 14px; text-align: center;
+  }
+  main { padding-top: 32px; }
+
+  /* Floating section nav */
+  .stage-nav {
+    position: fixed; top: 50px; right: 14px; z-index: 999;
+    background: rgba(27,36,55,0.92); color: #fef5e2;
+    padding: 10px 12px; border: 1px solid rgba(254,245,226,0.2);
+    font-family: var(--font-mono); font-size: 9px;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    max-width: 180px;
+  }
+  .stage-nav a { display: block; color: #c5cad6; padding: 3px 0; text-decoration: none; }
+  .stage-nav a:hover { color: #e89b4a; }
+  .stage-nav .stage-nav-title { color: #f5c98a; font-weight: 500; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid rgba(254,245,226,0.15); }
+
+  /* Hero-specific */
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(800px 400px at 15% 20%, var(--hero-radial-1), transparent 60%),
+      radial-gradient(700px 500px at 85% 80%, var(--hero-radial-2), transparent 60%),
+      linear-gradient(180deg, var(--hero-overlay-top) 0%, var(--hero-overlay-mid) 35%, var(--hero-overlay-bot) 100%);
+    z-index: 0;
+  }
+
+  /* Story-specific */
+  .drop-cap::first-letter {
+    float: left; font-family: var(--font-serif); font-style: italic;
+    font-size: 72px; line-height: 0.85; color: var(--accent); margin: 4px 8px 0 0;
+  }
+  .portrait-placeholder {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--kraft-light) 100%);
+    aspect-ratio: 4 / 5;
+  }
+
+  /* Farm-specific */
+  .farmmap-placeholder {
+    background: linear-gradient(135deg, var(--surface) 0%, #2c3a5a 100%);
+    aspect-ratio: 16 / 10;
+  }
+  .stat-cell { border: 1px solid var(--line); padding: 16px; background: var(--bg); }
+  .milestone { border-top: 1px solid var(--line); padding-top: 12px; }
+  .milestone-accent { border-top: 2px solid var(--accent); }
+  .milestone-objective { border-top: 1px dashed var(--line-strong); padding-top: 12px; opacity: 0.7; }
+  .milestone-objective .year { font-style: italic; }
+  .objective-tag {
+    display: inline-block; font-family: var(--font-mono); font-size: 8px;
+    text-transform: uppercase; letter-spacing: 0.18em; color: var(--ink-3);
+    border: 1px solid var(--line); padding: 1px 5px; margin-top: 6px;
+  }
+
+  /* Plot scrollies */
+  .plot-bg-villa { background: linear-gradient(135deg, #2c3a5a 0%, #c5904f 100%); }
+  .plot-bg-bambu { background: linear-gradient(135deg, #2c3a5a 0%, #5a7a4a 60%, #9bb38a 100%); }
+  .plot-bg-terra { background: linear-gradient(135deg, #1a2438 0%, #3a2e1a 60%, #2a1f0f 100%); }
+  .pin {
+    position: absolute; width: 28px; height: 28px; border-radius: 999px;
+    background: var(--accent); color: var(--bg);
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    transform: translate(-50%, -50%); box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+  .pin-label {
+    position: absolute; transform: translate(8px, 8px);
+    font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink); background: rgba(27,36,55,0.7); padding: 4px 8px; white-space: nowrap;
+  }
+  .stat-tile { border: 1px solid var(--line); padding: 14px; }
+
+  /* Coffee */
+  .lane-image-b2b { background: linear-gradient(135deg, #2c3a5a 0%, #4f6b3e 100%); aspect-ratio: 1 / 1; }
+  .lane-image-direct { background: linear-gradient(135deg, #c5904f 0%, #6b4f2e 100%); aspect-ratio: 1 / 1; }
+  .pill {
+    display: inline-block; padding: 3px 8px; border: 1px solid var(--accent); border-radius: 999px;
+    font-family: var(--font-mono); font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em;
+    color: var(--accent);
+  }
+  .chip {
+    display: inline-block; padding: 4px 10px;
+    background: var(--surface); border: 1px solid var(--line);
+    font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--ink-2); margin-right: 6px; margin-bottom: 4px;
+  }
+
+  /* Stay */
+  .toggle { display: inline-flex; border: 1px solid var(--line); padding: 2px; }
+  .toggle button {
+    font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.15em; padding: 6px 14px; background: transparent;
+    color: var(--ink-2); border: none; cursor: pointer;
+  }
+  .toggle button.active { background: var(--accent); color: var(--bg); }
+  .cell { position: relative; overflow: hidden; }
+  .cell .caption {
+    position: absolute; bottom: 12px; left: 12px;
+    font-family: var(--font-mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink); background: rgba(27,36,55,0.6); padding: 4px 8px;
+  }
+  .cell-1 { background: linear-gradient(135deg, #d4b287 0%, #e89b4a 100%); }
+  .cell-2 { background: linear-gradient(135deg, #2c3a5a 0%, #4a3520 100%); }
+  .cell-3 { background: linear-gradient(135deg, #4f6b3e 0%, #b8915c 100%); }
+  .cell-4 { background: linear-gradient(135deg, #1b2437 0%, #c5904f 80%, #f5c98a 100%); }
+  .cell-5 { background: linear-gradient(135deg, #243049 0%, #6b4f2e 100%); }
+  .price-card {
+    border: 1px dashed var(--line-strong); padding: 24px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+
+  /* Journal */
+  .j-chip {
+    display: inline-flex; align-items: center; padding: 6px 14px;
+    border: 1px solid var(--line); margin-right: 8px;
+    font-family: var(--font-mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-2);
+  }
+  .j-chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .entry-card { border: 1px solid var(--line); padding: 20px; background: var(--surface); }
+  .entry-img { aspect-ratio: 16 / 9; background: linear-gradient(135deg, var(--surface) 0%, #c5904f 100%); }
+
+  /* Footer */
+  .input {
+    background: transparent; border: 1px solid var(--line-strong); padding: 10px 14px;
+    font-family: var(--font-mono); font-size: 11px; color: var(--ink); width: 100%;
+  }
+  .input::placeholder { color: var(--ink-3); }
+  .button {
+    font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em;
+    background: var(--accent); color: var(--bg); padding: 11px 18px; border: none; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="staging-banner">
+  Staging · Bellavista landing · all 10 sections · drafts (hero v2 · story v3 · farm v4 · villa-paula v4 · bambu-stream v4 · terra-preta v3 · coffee v3 · stay v3 · journal-meta v1 · footer v2)
+</div>
+
+<nav class="stage-nav">
+  <p class="stage-nav-title">Sections</p>
+  <a href="#hero">01 Hero</a>
+  <a href="#story">02 Story</a>
+  <a href="#farm">03 Farm</a>
+  <a href="#villa-paula">04 Villa Paula</a>
+  <a href="#bambu-stream">05 Bambu Stream</a>
+  <a href="#terra-preta">06 Terra Preta</a>
+  <a href="#coffee">07 Coffee</a>
+  <a href="#stay">08 Stay</a>
+  <a href="#journal">09 Journal</a>
+  <a href="#contact">10 Footer</a>
+</nav>
+
+<main>
+
+<!-- ============================================================ HERO ============================================================ -->
+<section id="hero" class="theme-kraft relative min-h-screen w-full overflow-hidden">
+  <div class="hero-bg"></div>
+  <div class="relative z-10 flex flex-col min-h-screen px-6 md:px-10 py-10">
+    <div class="flex items-center justify-between">
+      <p class="font-mono text-meta uppercase text-ink-2">Manizales · Colombia · 1,300 MASL</p>
+      <p class="font-mono text-meta uppercase text-ink-2">Bellavista Coffee</p>
+    </div>
+    <div class="flex-1 flex flex-col items-center justify-center text-center">
+      <h1 class="font-serif text-h1 leading-none">
+        From Excel rows<br>
+        <em class="italic"><span class="text-accent-2">to rows of</span></em> coffee trees.
+      </h1>
+      <p class="font-sans text-body text-ink-2 mt-8 max-w-[620px]">
+        A mid-size production project on a ridge above Manizales — documented in drone footage, field notes, and every batch we ship.
+      </p>
+      <div class="mt-12 flex items-center gap-4">
+        <button type="button" class="w-[72px] h-[72px] rounded-full border border-ink flex items-center justify-center">
+          <span style="display:inline-block;width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:14px solid var(--ink);margin-left:4px;"></span>
+        </button>
+        <div class="text-left">
+          <p class="font-serif italic text-h4 text-accent">Start the tour</p>
+          <p class="font-mono text-meta uppercase text-ink-3 mt-1">5 chapters · 08:42</p>
+        </div>
+      </div>
+    </div>
+    <div class="mt-10">
+      <p class="font-mono text-meta uppercase text-ink-3 mb-3">↓ Scroll to explore</p>
+      <div class="grid grid-cols-5 gap-px bg-line">
+        <a href="#story" class="block bg-bg px-4 py-4"><p class="font-mono text-meta text-ink-3">01</p><p class="font-mono text-label uppercase text-ink mt-1">CASA</p></a>
+        <a href="#villa-paula" class="block bg-bg px-4 py-4"><p class="font-mono text-meta text-ink-3">02</p><p class="font-mono text-label uppercase text-ink mt-1">VILLA PAULA</p></a>
+        <a href="#bambu-stream" class="block bg-bg px-4 py-4"><p class="font-mono text-meta text-ink-3">03</p><p class="font-mono text-label uppercase text-ink mt-1">BAMBU STREAM</p></a>
+        <a href="#terra-preta" class="block bg-bg px-4 py-4"><p class="font-mono text-meta text-ink-3">04</p><p class="font-mono text-label uppercase text-ink mt-1">TERRA PRETA</p></a>
+        <a href="#coffee" class="block bg-bg px-4 py-4"><p class="font-mono text-meta text-ink-3">05</p><p class="font-mono text-label uppercase text-ink mt-1">BENEFICIO</p></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ STORY ============================================================ -->
+<section id="story" class="theme-cream border-t border-line py-24 px-6 md:px-10">
+  <div class="max-w-[1280px] mx-auto grid grid-cols-12 gap-8">
+    <div class="col-span-12 md:col-span-2">
+      <p class="font-mono text-meta uppercase text-ink-3">Chapter</p>
+      <p class="font-serif text-[120px] leading-none text-accent mt-2">01</p>
+    </div>
+    <div class="col-span-12 md:col-span-7">
+      <h2 class="font-serif text-h2 leading-none text-ink">
+        The <em class="italic text-accent-2">producer</em>.
+      </h2>
+      <div class="mt-10 space-y-6 text-body text-ink-2 max-w-[620px]">
+        <p class="drop-cap">I spent eight years managing all type of projects in industries I never thought I was going to work with: Auto, tech, NGO, consulting… All of which gave a set of skill I wouldn't be able to connect in a single project, up until Bellavista Coffee arrived. My first row of Cenicafé 1 went in the ground in 2024, on a ridge above Manizales I had only visited as a kid. The farm was not too small not too big, the slope was mean, and the learning curve was the steepest thing on the property.</p>
+        <p>What kept me here wasn't romance — it was the feedback loop. Cherry ripens, you pick it, you process it, you cup it. The result lands eight months later and is deeply honest. Nothing about coffee tolerates handwaving.</p>
+        <p>This site is the field log. Drone footage from each plot, notes from the beneficio, and every batch we ship — published in public and in private, depending on what's mine to share.</p>
+      </div>
+    </div>
+    <div class="col-span-12 md:col-span-3">
+      <div class="portrait-placeholder w-full"></div>
+      <p class="font-serif italic text-small text-ink-3 mt-3">Fig 1. Among the first Cenicafé 1 rows, 2024.</p>
+      <div class="mt-8 border-t border-line pt-4">
+        <p class="font-mono text-meta uppercase text-ink-3">Previously</p>
+        <p class="font-serif italic text-h4 text-ink mt-2">Project Manager · 8 years · USA → France → Medellín → Manizales.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FARM ============================================================ -->
+<section id="farm" class="theme-dark border-t border-line py-24 px-6 md:px-10">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="grid grid-cols-12 gap-8 items-end">
+      <div class="col-span-12 md:col-span-2">
+        <p class="font-mono text-meta uppercase text-ink-3">Chapter</p>
+        <p class="font-serif text-[120px] leading-none text-accent mt-2">02</p>
+      </div>
+      <div class="col-span-12 md:col-span-10">
+        <h2 class="font-serif text-h2 leading-none text-ink">
+          The farm, <em class="italic text-accent-2">and how it got here.</em>
+        </h2>
+      </div>
+    </div>
+    <div class="mt-16 grid grid-cols-12 gap-6">
+      <div class="col-span-12 md:col-span-7 farmmap-placeholder relative">
+        <p class="absolute top-3 left-3 font-mono text-meta uppercase text-ink-3">FarmMap (placeholder)</p>
+      </div>
+      <div class="col-span-12 md:col-span-5 grid grid-cols-2 gap-2">
+        <div class="stat-cell"><p class="font-mono text-meta uppercase text-ink-3">Altitude</p><p class="font-serif italic text-h4 text-ink mt-1">1,300 m</p></div>
+        <div class="stat-cell"><p class="font-mono text-meta uppercase text-ink-3">Area</p><p class="font-serif italic text-h4 text-ink mt-1">15 ha</p></div>
+        <div class="stat-cell"><p class="font-mono text-meta uppercase text-ink-3">Plots</p><p class="font-serif italic text-h4 text-ink mt-1">7</p></div>
+        <div class="stat-cell"><p class="font-mono text-meta uppercase text-ink-3">Varietals</p><p class="font-serif italic text-h4 text-ink mt-1">3</p></div>
+        <div class="stat-cell col-span-2"><p class="font-mono text-meta uppercase text-ink-3">Process</p><p class="font-serif italic text-h4 text-ink mt-1">Washed · Honey · Natural</p></div>
+        <div class="stat-cell col-span-2"><p class="font-mono text-meta uppercase text-ink-3">Renewal</p><p class="font-serif italic text-h4 text-ink mt-1">2025</p></div>
+      </div>
+    </div>
+    <p class="font-mono text-meta uppercase text-ink-3 mt-3">4 plots not pictured · ask for the others</p>
+    <div class="mt-20">
+      <p class="font-mono text-meta uppercase text-ink-3 mb-6">Milestones</p>
+      <div class="grid grid-cols-6 gap-6">
+        <div class="milestone milestone-accent">
+          <p class="font-serif italic text-h4 text-accent year">2024</p>
+          <p class="font-sans text-small text-ink mt-2">First harvest · drying facility built</p>
+        </div>
+        <div class="milestone">
+          <p class="font-serif italic text-h4 text-ink-2 year">2024</p>
+          <p class="font-sans text-small text-ink mt-2">2nd Prize · specialty expo</p>
+        </div>
+        <div class="milestone milestone-accent">
+          <p class="font-serif italic text-h4 text-accent year">2025</p>
+          <p class="font-sans text-small text-ink mt-2">Germany export · Castillo Honey · 85.75 SCA</p>
+        </div>
+        <div class="milestone">
+          <p class="font-serif italic text-h4 text-ink-2 year">2026</p>
+          <p class="font-sans text-small text-ink mt-2">Pink Bourbon seedlings</p>
+        </div>
+        <div class="milestone-objective">
+          <p class="font-serif italic text-h4 text-ink-3 year">2028</p>
+          <p class="font-sans text-small text-ink-2 mt-2">First 88+ SCA export</p>
+          <span class="objective-tag">Objective</span>
+        </div>
+        <div class="milestone-objective">
+          <p class="font-serif italic text-h4 text-ink-3 year">2029</p>
+          <p class="font-sans text-small text-ink-2 mt-2">Economic break-even</p>
+          <span class="objective-tag">Objective</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ VILLA PAULA ============================================================ -->
+<section id="villa-paula" class="theme-dark border-t border-line">
+  <div class="max-w-[1280px] mx-auto px-6 md:px-10 py-24">
+    <div class="grid grid-cols-12 gap-10">
+      <div class="col-span-12 md:col-span-5">
+        <div class="flex items-baseline justify-between border-b border-line pb-3">
+          <div>
+            <p class="font-mono text-meta uppercase text-ink-3">Chapter 02</p>
+            <p class="font-mono text-label uppercase text-ink mt-1">VILLA PAULA</p>
+          </div>
+          <p class="font-mono text-meta uppercase text-ink-3">02 / 05</p>
+        </div>
+        <h2 class="font-serif text-h2 leading-none text-ink mt-10">
+          Castillo on the flat, <em class="italic text-accent-2">pruned and re-spaced.</em>
+        </h2>
+        <div class="mt-8 space-y-4 text-body text-ink-2 max-w-[480px]">
+          <p>Villa Paula is the lowest and flattest of all of the plots. The name was given by my parents after my sister was born — family. This is where we've learned roya, weeding, and how to lose a row or two to poor water drainage maintenance before we knew what we were watching.</p>
+          <p>3.8 ha of Castillo. In 2026 we pruned the half-block hard and re-set the distancing — closer plants, wider rows. The other half rolls into the next cycle. A cleaner architecture for a more efficient operation.</p>
+          <p>Washed process. The cup leans chocolate, brown sugar, clean finish. Castillo will not headline a flavor competition, but it will not let you down — and on this plot, with this work, that's the right contract.</p>
+          <p>If something goes wrong here, it shows up in the cup eight months later. We log every variable so the next year is a slightly less stupid version of this one.</p>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mt-10">
+          <div class="stat-tile"><p class="font-mono text-meta uppercase text-ink-3">Alt</p><p class="font-serif italic text-h4 text-ink mt-1">1,200 m</p></div>
+          <div class="stat-tile"><p class="font-mono text-meta uppercase text-ink-3">Area</p><p class="font-serif italic text-h4 text-ink mt-1">3.8 ha</p></div>
+          <div class="stat-tile"><p class="font-mono text-meta uppercase text-ink-3">Year</p><p class="font-serif italic text-h4 text-ink mt-1">2026</p></div>
+        </div>
+        <div class="mt-10 border-t border-line pt-3 flex justify-between">
+          <p class="font-mono text-meta uppercase text-ink-3">↑ Casa</p>
+          <p class="font-mono text-meta uppercase text-ink-3">Bambu Stream ↓</p>
+        </div>
+      </div>
+      <div class="col-span-12 md:col-span-7">
+        <div class="plot-bg-villa relative" style="aspect-ratio: 4 / 5;">
+          <div class="pin" style="left:30%; top:40%;">1</div>
+          <div class="pin-label" style="left:30%; top:40%;">main castillo block</div>
+          <div class="pin" style="left:68%; top:62%;">2</div>
+          <div class="pin-label" style="left:68%; top:62%;">new distance station</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ BAMBU STREAM ============================================================ -->
+<section id="bambu-stream" class="theme-dark border-t border-line">
+  <div class="max-w-[1280px] mx-auto px-6 md:px-10 py-24">
+    <div class="grid grid-cols-12 gap-10">
+      <div class="col-span-12 md:col-span-5">
+        <div class="flex items-baseline justify-between border-b border-line pb-3">
+          <div>
+            <p class="font-mono text-meta uppercase text-ink-3">Chapter 03</p>
+            <p class="font-mono text-label uppercase text-ink mt-1">BAMBU STREAM</p>
+          </div>
+          <p class="font-mono text-meta uppercase text-ink-3">03 / 05</p>
+        </div>
+        <h2 class="font-serif text-h2 leading-none text-ink mt-10">
+          Pink Bourbon between <em class="italic text-accent-2">bamboo and water.</em>
+        </h2>
+        <div class="mt-8 space-y-4 text-body text-ink-2 max-w-[480px]">
+          <p>The plot sits on the east-facing slope where the morning sunrise first shows. A bamboo stand runs the upper and lower edge; a quebrada cuts the lower one. The plot is named for both.</p>
+          <p>Pink Bourbon went in here in 2026. Small lot, uneven slope — the kind of row that forces a pick plan instead of a timetable.</p>
+          <p>The cup will show it once the trees mature: jasmine on the nose, a thin line of bergamot, cane sugar underneath. We'll find out after the first harvest.</p>
+          <p>This is the block we're betting on for the next export selection. Every year we'll cup it before we let ourselves cup the others — assuming, of course, that everything between now and the first cherry goes to plan.</p>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mt-10">
+          <div class="stat-tile"><p class="font-mono text-meta uppercase text-ink-3">Alt</p><p class="font-serif italic text-h4 text-ink mt-1">1,290 m</p></div>
+          <div class="stat-tile"><p class="font-mono text-meta uppercase text-ink-3">Area</p><p class="font-serif italic text-h4 text-ink mt-1">1 ha</p></div>
+          <div class="stat-tile"><p class="font-mono text-meta uppercase text-ink-3">Year</p><p class="font-serif italic text-h4 text-ink mt-1">2026</p></div>
+        </div>
+        <div class="mt-10 border-t border-line pt-3 flex justify-between">
+          <p class="font-mono text-meta uppercase text-ink-3">↑ Villa Paula</p>
+          <p class="font-mono text-meta uppercase text-ink-3">Terra Preta ↓</p>
+        </div>
+      </div>
+      <div class="col-span-12 md:col-span-7">
+        <div class="plot-bg-bambu relative" style="aspect-ratio: 4 / 5;">
+          <div class="pin" style="left:26%; top:34%;">1</div>
+          <div class="pin-label" style="left:26%; top:34%;">pink bourbon block</div>
+          <div class="pin" style="left:62%; top:58%;">2</div>
+          <div class="pin-label" style="left:62%; top:58%;">bamboo + quebrada edge</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ TERRA PRETA ============================================================ -->
+<section id="terra-preta" class="theme-dark border-t border-line">
+  <div class="max-w-[1280px] mx-auto px-6 md:px-10 py-24">
+    <div class="grid grid-cols-12 gap-10">
+      <div class="col-span-12 md:col-span-5">
+        <div class="flex items-baseline justify-between border-b border-line pb-3">
+          <div>
+            <p class="font-mono text-meta uppercase text-ink-3">Chapter 04</p>
+            <p class="font-mono text-label uppercase text-ink mt-1">TERRA PRETA</p>
+          </div>
+          <p class="font-mono text-meta uppercase text-ink-3">04 / 05</p>
+        </div>
+        <h2 class="font-serif text-h2 leading-none text-ink mt-10">
+          Cenicafé 1 at the top, <em class="italic text-accent-2">trying to build soil.</em>
+        </h2>
+        <div class="mt-8 space-y-4 text-body text-ink-2 max-w-[480px]">
+          <p>The best soil. Dark, soft, nutritious — and weed-diverse. Slightly steep. Plantain is a great neighbor. Coffee loves the relationship.</p>
+          <p>A Cenicafé 1 block went in the ground in 2025. In another plot Cenicafé was a disaster. In this one, a champion — bred for resilience and balanced flavors. The interesting question on this plot is whether the soil can do for the cup what the variety, on its own, won't.</p>
+          <p>We name this plot for what we're trying to do, not what we've done. Biochar trials. Weed variety. Microorganisms. The first year of amendments is in the soil; the second will be mixed. We're trying to build and maintain soil, not just grow on it.</p>
+          <p>Most of what we learn on this ridge ends up shaping how we treat the two lower plots. Lab more than field. Lots to learn.</p>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mt-10">
+          <div class="stat-tile"><p class="font-mono text-meta uppercase text-ink-3">Alt</p><p class="font-serif italic text-h4 text-ink mt-1">1,300 m</p></div>
+          <div class="stat-tile"><p class="font-mono text-meta uppercase text-ink-3">Area</p><p class="font-serif italic text-h4 text-ink mt-1">0.3 ha</p></div>
+          <div class="stat-tile"><p class="font-mono text-meta uppercase text-ink-3">Year</p><p class="font-serif italic text-h4 text-ink mt-1">2025</p></div>
+        </div>
+        <div class="mt-10 border-t border-line pt-3 flex justify-between">
+          <p class="font-mono text-meta uppercase text-ink-3">↑ Bambu Stream</p>
+          <p class="font-mono text-meta uppercase text-ink-3">Beneficio ↓</p>
+        </div>
+      </div>
+      <div class="col-span-12 md:col-span-7">
+        <div class="plot-bg-terra relative" style="aspect-ratio: 4 / 5;">
+          <div class="pin" style="left:34%; top:44%;">1</div>
+          <div class="pin-label" style="left:34%; top:44%;">cenicafé 1 block</div>
+          <div class="pin" style="left:70%; top:30%;">2</div>
+          <div class="pin-label" style="left:70%; top:30%;">biochar + microorganisms</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ COFFEE ============================================================ -->
+<section id="coffee" class="theme-cream border-t border-line py-24 px-6 md:px-10">
+  <div class="max-w-[1280px] mx-auto">
+    <h2 class="font-serif text-h2 leading-none text-ink">
+      What we <em class="italic text-accent-2">grow.</em>
+    </h2>
+    <div class="grid grid-cols-12 gap-[2px] bg-line mt-16">
+      <div class="col-span-12 md:col-span-6 bg-bg p-8">
+        <div class="flex items-center justify-between">
+          <span class="pill">B2B</span>
+          <p class="font-mono text-meta uppercase text-ink-3">01 / 02</p>
+        </div>
+        <h3 class="font-serif text-h3 text-ink mt-6">Green coffee</h3>
+        <p class="font-sans text-body text-ink-2 mt-2">For roasters · full lot specs, samples on request.</p>
+        <div class="lane-image-b2b mt-6"></div>
+        <div class="mt-6 flex flex-wrap gap-1">
+          <span class="chip">cenicafé 1</span>
+          <span class="chip">pink bourbon</span>
+          <span class="chip">castillo</span>
+          <span class="chip">colombia</span>
+        </div>
+        <p class="font-mono text-meta uppercase text-ink-3 mt-6 border-t border-line pt-4">Lead-gen inquiry form · no cart yet</p>
+        <button class="font-mono text-label uppercase text-ink mt-4 border border-ink px-4 py-2">Request samples ↗</button>
+      </div>
+      <div class="col-span-12 md:col-span-6 bg-bg p-8">
+        <div class="flex items-center justify-between">
+          <span class="pill">Direct</span>
+          <p class="font-mono text-meta uppercase text-ink-3">02 / 02</p>
+        </div>
+        <h3 class="font-serif text-h3 text-ink mt-6">Roasted coffee</h3>
+        <p class="font-sans text-body text-ink-2 mt-2">For drinkers · small drops, ships from the farm.</p>
+        <div class="lane-image-direct mt-6"></div>
+        <div class="mt-6 flex flex-wrap gap-1">
+          <span class="chip">castillo</span>
+          <span class="chip">colombia</span>
+        </div>
+        <p class="font-mono text-meta uppercase text-ink-3 mt-4">Coming soon</p>
+        <div class="mt-1 flex flex-wrap gap-1" style="opacity: 0.55;">
+          <span class="chip">cenicafé 1</span>
+          <span class="chip">pink bourbon</span>
+        </div>
+        <p class="font-mono text-meta uppercase text-ink-3 mt-6 border-t border-line pt-4">Join the drop list · small batches</p>
+        <button class="font-mono text-label uppercase text-ink mt-4 border border-ink px-4 py-2">Next season waitlist ↗</button>
+      </div>
+    </div>
+    <div class="mt-20 bg-surface p-12 md:p-20 text-center">
+      <p class="font-serif text-h2 leading-tight text-ink">
+        "We treat every lot like a deploy. <em class="italic text-accent-2">Versioned, logged, and reviewable."</em>
+      </p>
+      <p class="font-mono text-meta uppercase text-ink-3 mt-6">— The producer</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ STAY ============================================================ -->
+<section id="stay" class="theme-dark border-t border-line py-24 px-6 md:px-10">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="flex items-end justify-between flex-wrap gap-6">
+      <h2 class="font-serif text-h2 leading-none text-ink">
+        Sleep at <em class="italic text-accent-2">Bellavista.</em>
+      </h2>
+      <div class="toggle">
+        <button class="active">Week</button>
+        <button>Weekend</button>
+      </div>
+    </div>
+    <div class="grid grid-cols-6 grid-rows-3 gap-2 mt-12" style="grid-auto-rows: minmax(150px, auto);">
+      <div class="cell cell-1 col-span-4 row-span-2"><p class="caption">Porch, sunrise</p></div>
+      <div class="cell cell-2 col-span-2 row-span-1"><p class="caption">Guest suite</p></div>
+      <div class="cell cell-3 col-span-2 row-span-1"><p class="caption">Kitchen</p></div>
+      <div class="cell cell-4 col-span-2 row-span-1"><p class="caption">Ridge at first light</p></div>
+      <div class="cell cell-5 col-span-2 row-span-1"><p class="caption">House tour · 1:32</p></div>
+      <div class="price-card col-span-2 row-span-1">
+        <div>
+          <p class="font-mono text-meta uppercase text-ink-3">From</p>
+          <p class="font-serif italic text-h3 text-accent-2 mt-1">$150 USD/night</p>
+          <p class="font-sans text-small text-ink-2 mt-3">Fully equipped kitchen, Starlink Wi-Fi, big working desk.</p>
+          <p class="font-mono text-meta uppercase text-ink-3 mt-3">Extra · Farm tour · roasting experience · bird watching</p>
+        </div>
+        <button class="font-mono text-label uppercase text-ink mt-4 border border-ink px-3 py-2 self-start">Check dates ↗</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ JOURNAL ============================================================ -->
+<section id="journal" class="theme-cream border-t border-line py-24 px-6 md:px-10">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="grid grid-cols-12 gap-8">
+      <div class="col-span-12 md:col-span-7">
+        <h2 class="font-serif text-h2 leading-none text-ink">
+          From the <em class="italic text-accent-2">field.</em>
+        </h2>
+        <p class="font-sans text-body text-ink-2 mt-6 max-w-[560px]">
+          Public posts cover the projects we ship. Private entries track the experiments — visible to the producer only.
+        </p>
+      </div>
+      <div class="col-span-12 md:col-span-5 flex items-end md:justify-end">
+        <div>
+          <span class="j-chip active">All</span>
+          <span class="j-chip">Projects</span>
+          <span class="j-chip">Experiments</span>
+        </div>
+      </div>
+    </div>
+    <div class="mt-12 grid grid-cols-12 gap-8">
+      <div class="col-span-12 md:col-span-7">
+        <p class="font-mono text-meta uppercase text-ink-3 mb-3">Featured · projects</p>
+        <div class="entry-card">
+          <div class="entry-img"></div>
+          <p class="font-mono text-meta uppercase text-ink-3 mt-4">2026-04-12 · projects</p>
+          <h3 class="font-serif text-h3 text-ink mt-2">Beneficio v2 — fermentation logging</h3>
+          <p class="font-sans text-body text-ink-2 mt-2">Excerpt — what shipped, what didn't, what's next.</p>
+        </div>
+      </div>
+      <div class="col-span-12 md:col-span-5 space-y-6">
+        <div class="entry-card">
+          <p class="font-mono text-meta uppercase text-ink-3">2026-03-30 · experiments</p>
+          <h3 class="font-serif text-h4 text-ink mt-2">Carbonic batch · 96 h</h3>
+          <p class="font-sans text-small text-ink-2 mt-2">Entry excerpt placeholder.</p>
+        </div>
+        <div class="entry-card">
+          <p class="font-mono text-meta uppercase text-ink-3">2026-03-12 · projects</p>
+          <h3 class="font-serif text-h4 text-ink mt-2">Drone footage · plot 03</h3>
+          <p class="font-sans text-small text-ink-2 mt-2">Entry excerpt placeholder.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER ============================================================ -->
+<footer id="contact" class="theme-kraft relative overflow-hidden border-t border-line px-6 md:px-10 py-16">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="grid grid-cols-12 gap-10">
+      <div class="col-span-12 md:col-span-7">
+        <p class="font-mono text-meta uppercase text-ink-3">Contact</p>
+        <h3 class="font-serif italic text-h3 text-ink mt-3">Come visit. Or stay in touch.</h3>
+        <p class="font-mono text-label uppercase text-ink-2 mt-6">hello@bellavistacoffee.co · gil.rivera.a@gmail.com · @bellavista.coffee</p>
+      </div>
+      <div class="col-span-12 md:col-span-5">
+        <p class="font-mono text-meta uppercase text-ink-3">Subscribe</p>
+        <div class="flex gap-2 mt-3">
+          <input class="input" placeholder="you@roastery.com" />
+          <button class="button">Subscribe</button>
+        </div>
+        <p class="font-mono text-meta uppercase text-ink-3 mt-3">(success state) Thanks — we'll be in touch.</p>
+        <div class="mt-10">
+          <a class="font-mono text-label uppercase text-ink-2">Admin →</a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-line mt-16 pt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <p class="font-mono text-meta uppercase text-ink-3">© 2026 Bellavista Coffee · Manizales, Colombia</p>
+      <p class="font-mono text-meta uppercase text-ink-3">Field log of a small farm above Manizales — published in drone footage, notes, and shipped lots.</p>
+    </div>
+  </div>
+</footer>
+
+</main>
+</body>
+</html>

@@ -13,15 +13,13 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <SectionBreak variant="blue" />
       <MotionWrapper>
         <Story />
       </MotionWrapper>
-      <SectionBreak variant="cream" />
       <MotionWrapper>
         <Farm />
       </MotionWrapper>
-      <SectionBreak variant="blue" />
+      <SectionBreak variant="cream" />
       {/* ChapterScrolly sections — Villa Paula, Bambu Stream, Terra Preta.
           NOT wrapped in MotionWrapper: the sticky pinning relies on
           unobstructed ancestor scroll context; the motion transform
@@ -29,15 +27,12 @@ export default function Home() {
           Stripes between scrollies live inside Chapters.tsx so they sit
           flush with each section's border. */}
       <Chapters />
-      <SectionBreak variant="cream" />
       <MotionWrapper>
         <Coffee />
       </MotionWrapper>
-      <SectionBreak variant="blue" />
       <MotionWrapper>
         <Stay />
       </MotionWrapper>
-      <SectionBreak variant="cream" />
       <MotionWrapper>
         <Journal />
       </MotionWrapper>
