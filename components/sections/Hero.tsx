@@ -152,7 +152,7 @@ export default function Hero() {
         {/* Chapter strip */}
         <div className="border-t border-line backdrop-blur-sm bg-bg/20">
           <div className="max-w-[1400px] mx-auto px-8 py-4 flex items-center gap-6 overflow-x-auto">
-            <span className="font-mono text-meta uppercase text-ink-3 whitespace-nowrap">
+            <span className="font-mono text-small font-semibold uppercase text-ink whitespace-nowrap">
               ↓ Scroll to explore
             </span>
             <ul className="flex items-center gap-6 ml-auto">
@@ -162,10 +162,8 @@ export default function Hero() {
                   <li key={c.n}>
                     <a
                       href={c.href}
-                      className={`font-mono text-meta uppercase whitespace-nowrap transition-colors inline-block pb-1 border-b-[1.5px] ${
-                        isActive
-                          ? "text-ink border-accent-2"
-                          : "text-ink-3 border-transparent hover:text-ink-2"
+                      className={`font-mono text-small font-semibold uppercase whitespace-nowrap transition-colors inline-block pb-1 border-b-[1.5px] text-ink hover:text-accent-2 ${
+                        isActive ? "border-accent-2" : "border-transparent"
                       }`}
                     >
                       {c.n} {c.label}
