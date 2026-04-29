@@ -4,9 +4,10 @@
  * ChapterScrolly — the core cinematic chapter block.
  *
  * Layout strategy (do NOT change without re-testing iOS Safari):
- * - Outer section: `min-height: 150vh` — gives ~50vh of pinned scroll
- *   runway after the sticky child fills 100vh. Tuned down from 250vh
- *   because the post-content empty space read as "too much air".
+ * - Outer section: `min-height: 100vh`. Sticky child fills the whole
+ *   container, so there is no scroll-past runway — the progress /
+ *   scrubber bars hold at 0 and the section behaves like a static
+ *   side-by-side card. Producer chose this trade for tighter rhythm.
  * - Inner grid: 2 cols `42% | 58%`.
  * - LEFT col: `position: sticky; top: 0; height: 100vh`.
  *   Sticky + flex has historically misbehaved on iOS Safari; we keep
@@ -109,7 +110,7 @@ export default function ChapterScrolly({
       id={id}
       ref={sectionRef}
       className="theme-dark relative border-t border-line"
-      style={{ minHeight: "150vh" }}
+      style={{ minHeight: "100vh" }}
       aria-labelledby={`${id}-heading`}
     >
       <div className="md:grid md:grid-cols-[42%_58%]">
