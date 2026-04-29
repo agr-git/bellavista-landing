@@ -129,22 +129,26 @@ export default function Hero() {
               A mid-size production project on a ridge above Manizales — documented in drone footage, field notes, and every batch we ship.
             </p>
 
-            {/* Primary CTA */}
-            <div className="pt-4 flex items-center justify-center gap-4">
+            {/* Primary CTA — whole row is the click target */}
+            <div className="pt-4 flex justify-center">
               <button
                 type="button"
                 onClick={handlePlay}
-                aria-label="Start the tour"
-                className="group relative w-[72px] h-[72px] rounded-full border-[1.5px] border-ink flex items-center justify-center hover:border-accent-2 transition-colors"
+                aria-label="Start the tour — scroll to The producer"
+                className="group flex items-center gap-4 cursor-pointer"
               >
-                <span className="block w-0 h-0 ml-1 border-y-[10px] border-y-transparent border-l-[14px] border-l-ink group-hover:border-l-accent-2 transition-colors" />
+                <span className="relative w-[72px] h-[72px] rounded-full border-[1.5px] border-ink flex items-center justify-center group-hover:border-accent-2 transition-colors">
+                  <span className="block w-0 h-0 ml-1 border-y-[10px] border-y-transparent border-l-[14px] border-l-ink group-hover:border-l-accent-2 transition-colors" />
+                </span>
+                <span className="text-left">
+                  <span className="block font-serif italic text-h4 text-ink group-hover:text-accent-2 transition-colors">
+                    Start the tour
+                  </span>
+                  <span className="block font-mono text-meta uppercase text-ink-3 mt-1">
+                    5 chapters · 08:42
+                  </span>
+                </span>
               </button>
-              <div className="text-left">
-                <p className="font-serif italic text-h4 text-ink">Start the tour</p>
-                <p className="font-mono text-meta uppercase text-ink-3 mt-1">
-                  5 chapters · 08:42
-                </p>
-              </div>
             </div>
           </div>
         </div>
