@@ -8,6 +8,7 @@
  */
 
 import ChapterScrolly from "./ChapterScrolly";
+import SectionBreak from "../SectionBreak";
 
 export default function Chapters() {
   return (
@@ -42,6 +43,8 @@ export default function Chapters() {
         pageLabel="02 / 05"
       />
 
+      <SectionBreak variant="cream" />
+
       <ChapterScrolly
         id="bambu-stream"
         chapterNumber="03"
@@ -71,6 +74,8 @@ export default function Chapters() {
         videoSrc="/media/bambu-stream.mp4"
         pageLabel="03 / 05"
       />
+
+      <SectionBreak variant="blue" />
 
       <ChapterScrolly
         id="terra-preta"

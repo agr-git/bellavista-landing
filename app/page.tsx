@@ -7,28 +7,37 @@ import Stay from "@/components/sections/Stay";
 import Journal from "@/components/sections/Journal";
 import Footer from "@/components/Footer";
 import MotionWrapper from "@/components/MotionWrapper";
+import SectionBreak from "@/components/SectionBreak";
 
 export default function Home() {
   return (
     <main>
       <Hero />
+      <SectionBreak variant="blue" />
       <MotionWrapper>
         <Story />
       </MotionWrapper>
+      <SectionBreak variant="cream" />
       <MotionWrapper>
         <Farm />
       </MotionWrapper>
-      {/* ChapterScrolly sections — La Vega, El Bosque, La Cumbre.
+      <SectionBreak variant="blue" />
+      {/* ChapterScrolly sections — Villa Paula, Bambu Stream, Terra Preta.
           NOT wrapped in MotionWrapper: the sticky pinning relies on
           unobstructed ancestor scroll context; the motion transform
-          would break position: sticky. */}
+          would break position: sticky.
+          Stripes between scrollies live inside Chapters.tsx so they sit
+          flush with each section's border. */}
       <Chapters />
+      <SectionBreak variant="cream" />
       <MotionWrapper>
         <Coffee />
       </MotionWrapper>
+      <SectionBreak variant="blue" />
       <MotionWrapper>
         <Stay />
       </MotionWrapper>
+      <SectionBreak variant="cream" />
       <MotionWrapper>
         <Journal />
       </MotionWrapper>
