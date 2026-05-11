@@ -430,7 +430,16 @@ Future Claude Code session should:
 ### Current status
 
 ```
-Last completed: BRAND_V2 (Onyx + Paper palette) — 2026-05-10
+Last completed: STAY_PHOTOS — 2026-05-10
+  21 farmhouse photos converted HEIC → JPEG (sips, 1600px, q80, 9.3 MB total).
+  Saved at /public/media/stay/stay-01..21.jpg. Five wired into the Stay
+  bento (porch / suite / kitchen / ridge / farmhouse) via next/image
+  with onyx-tinted gradient fallback + bottom scrim for label legibility.
+  Repurposed the "House tour · 1:32" placeholder cell into a still
+  ("From the farmhouse") since no tour video exists yet. HEIC sources
+  gitignored at /public/media/Bellavista Stay Photos/.
+
+Previous: BRAND_V2 (Onyx + Paper palette) — 2026-05-10
   Applied designer-supplied "Brand V2 Patch": tokens.css switched from
   Amanecer blue (#1B2437) to Onyx (#0C0C0A); Paper (#F6EFD9) promoted
   to an active second surface with its own ink scale. themes.css gained

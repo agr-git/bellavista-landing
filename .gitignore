@@ -44,3 +44,6 @@ next-env.d.ts
 
 # Local patch artifacts (one-shot brand/design inputs, not source)
 *.patch
+
+# Raw photography drops (HEIC originals stay local; optimized JPEGs ship)
+public/media/Bellavista Stay Photos/
