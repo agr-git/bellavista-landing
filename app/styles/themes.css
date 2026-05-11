@@ -1,25 +1,24 @@
-/* Bellavista — Extended palette
-   Adds kraft (the physical bag color) + section-level surface tokens
-   so we can flip backgrounds per section without rewriting components. */
+/* Bellavista — Themes (v2 · Onyx + Paper)
+   Section-level surface tokens so we can flip backgrounds per section
+   without rewriting components. The v1 kraft theme is preserved for
+   the contact footer; v2 promotes Paper to a primary surface theme.
+
+   Hero overlay tokens (--hero-overlay-*, --hero-radial-*) are consumed
+   by components/sections/Hero.tsx and must remain available across
+   every theme. */
 
 :root {
-  /* Existing tokens stay — just add new ones */
-  --kraft: #b8915c;          /* true kraft brown — physical bag */
-  --kraft-light: #d4b287;    /* kraft highlight */
-  --kraft-deep: #8a6a3f;     /* shadow / type on cream */
+  /* Kraft tokens kept from v1 for legacy use (contact footer bloom) */
+  --kraft: #b8915c;
+  --kraft-light: #d4b287;
+  --kraft-deep: #8a6a3f;
 
-  /* Cream-mode inks (for sections that flip light) */
-  --ink-on-cream: #1b2437;       /* deep blue stays as ink */
-  --ink-on-cream-2: #4a5670;     /* secondary on cream */
-  --ink-on-cream-3: #8a6a3f;     /* meta on cream — uses kraft-deep for warmth */
-  --line-on-cream: rgba(27, 36, 55, 0.14);
-  --line-on-cream-strong: rgba(27, 36, 55, 0.28);
-
-  /* Hero legibility overlay (over video/gradient bg). Defaults = dark-theme tones.
-     Each theme overrides these so the kraft/cream hero doesn't get repainted dark blue. */
-  --hero-overlay-top: rgba(27, 36, 55, 0.33);
-  --hero-overlay-mid: rgba(27, 36, 55, 0.13);
-  --hero-overlay-bot: rgba(27, 36, 55, 0.93);
+  /* Hero legibility overlay (over video/gradient bg). Defaults = onyx tones.
+     Each theme overrides these so the paper/kraft hero doesn't get
+     repainted onyx-black. */
+  --hero-overlay-top: rgba(12, 12, 10, 0.33);
+  --hero-overlay-mid: rgba(12, 12, 10, 0.13);
+  --hero-overlay-bot: rgba(12, 12, 10, 0.93);
 
   /* Hero radial gradient accents (decorative warm pools at top-left + bottom-right). */
   --hero-radial-1: rgba(232, 155, 74, 0.14);
@@ -28,21 +27,41 @@
 
 /* Theme classes — apply to a <section> to flip its surface.
    background-color + color are set explicitly so sections render
-   their own background rather than inheriting the dark body. */
+   their own background rather than inheriting the body. */
 
-.theme-cream {
-  --bg: #fef5e2;
-  --surface: #f5e9cf;
-  --ink: var(--ink-on-cream);
-  --ink-2: var(--ink-on-cream-2);
-  --ink-3: var(--ink-on-cream-3);
-  --line: var(--line-on-cream);
-  --line-strong: var(--line-on-cream-strong);
-  /* accent stays the same — ochre reads on cream too */
+/* Primary dark theme — Onyx (default for hero, story, farm, stay, journal) */
+.theme-onyx,
+.theme-dark {
+  --bg: #0c0c0a;
+  --surface: #1a1a17;
+  --ink: #fef5e2;
+  --ink-2: #c9c4b3;
+  --ink-3: #7a766b;
+  --line: rgba(254, 245, 226, 0.14);
+  --line-strong: rgba(254, 245, 226, 0.30);
+  --accent: #e89b4a;
+  --accent-2: #f5c98a;
   background-color: var(--bg);
   color: var(--ink);
 }
 
+/* Paper theme — cream as a primary surface (lot specs, journal index, price tiles) */
+.theme-paper,
+.theme-cream {
+  --bg: #f6efd9;
+  --surface: #ebe0c0;
+  --ink: #1f1a12;
+  --ink-2: #4a3d28;
+  --ink-3: #8b7a5d;
+  --line: rgba(31, 26, 18, 0.16);
+  --line-strong: rgba(31, 26, 18, 0.30);
+  --accent: #b8742a;       /* deepened ochre for paper legibility */
+  --accent-2: #e89b4a;
+  background-color: var(--bg);
+  color: var(--ink);
+}
+
+/* Kraft theme — legacy v1 (kept for the contact footer warm bloom) */
 .theme-kraft {
   --bg: #b8915c;
   --surface: #a8814f;
@@ -51,9 +70,9 @@
   --ink-3: #6b4f2e;        /* mid kraft — meta */
   --line: rgba(42, 31, 15, 0.22);
   --line-strong: rgba(42, 31, 15, 0.42);
-  --accent: #1b2437;
+  --accent: #0c0c0a;       /* onyx replaces v1 blue */
   --accent-2: #fef5e2;
-  /* Hero overlay: lighter, warmer — let kraft show through instead of dark-blue scrim. */
+  /* Hero overlay: lighter, warmer — let kraft show through instead of onyx scrim. */
   --hero-overlay-top: rgba(58, 40, 18, 0.18);
   --hero-overlay-mid: rgba(58, 40, 18, 0.08);
   --hero-overlay-bot: rgba(58, 40, 18, 0.55);
@@ -65,7 +84,7 @@
 }
 
 /* Hero on kraft — promote the display headline to brand ochre so it
-   doesn't read as a near-black blue blob against the kraft bg. */
+   doesn't read as a near-black onyx blob against the kraft bg. */
 .theme-kraft#hero h1 {
   color: #e89b4a !important;
 }
@@ -89,28 +108,10 @@
   color: #e89b4a !important;
 }
 
-/* Italic emphasis in section headings — unify to brand ochre across
-   all themes so the visual rhythm holds (Story, Farm, Coffee, Stay, Journal). */
-.theme-cream h2 em,
-.theme-cream h3 em,
-.theme-kraft h2 em,
-.theme-kraft h3 em,
-.theme-dark h2 em,
-.theme-dark h3 em {
-  color: #e89b4a !important;
-}
-
-.theme-dark {
-  /* Explicit reset — useful when the next section in DOM order needs to flip back */
-  --bg: #1b2437;
-  --surface: #243049;
-  --ink: #fef5e2;
-  --ink-2: #c5cad6;
-  --ink-3: #8893a6;
-  --line: rgba(254, 245, 226, 0.14);
-  --line-strong: rgba(254, 245, 226, 0.28);
-  --accent: #e89b4a;
-  --accent-2: #f5c98a;
-  background-color: var(--bg);
-  color: var(--ink);
-}
+/* Italic emphasis in section headings — accent per theme so the visual
+   rhythm holds (Story, Farm, Coffee, Stay, Journal). */
+.theme-paper h2 em, .theme-paper h3 em,
+.theme-cream h2 em, .theme-cream h3 em { color: #b8742a !important; }
+.theme-onyx h2 em, .theme-onyx h3 em,
+.theme-dark h2 em, .theme-dark h3 em { color: #f5c98a !important; }
+.theme-kraft h2 em, .theme-kraft h3 em { color: #e89b4a !important; }

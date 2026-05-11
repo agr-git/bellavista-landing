@@ -5,22 +5,31 @@
    Rule: visual changes happen HERE. Components never hardcode hex or px.
    Tailwind reads these via var() in tailwind.config.ts.
 
-   Palette: Amanecer (deep blue + dawn ochre).
+   Palette: Onyx + Paper (v2) — replaces v1 Amanecer.
+   Deep onyx canvas with cream paper promoted to an active second surface.
+   Ochre accent system carries over unchanged from v1.
    ========================================================================= */
 
 :root {
-  /* ----- Color ----- */
-  --bg: #1b2437;
-  --surface: #243049;
-  --paper: #fef5e2;
-  --ink: #fef5e2;
-  --ink-2: #c5cad6;
-  --ink-3: #8893a6;
+  /* ----- Color (v2 · Onyx + Paper) ----- */
+  --bg: #0c0c0a;             /* Onyx — primary canvas */
+  --surface: #1a1a17;        /* Warm graphite — cards, panels on dark */
+  --paper: #f6efd9;          /* Cream — active second surface (bands, tiles) */
+  --paper-surface: #ebe0c0;  /* Cream surface — cards on paper */
+  --ink: #fef5e2;            /* Headlines + body on dark */
+  --ink-2: #c9c4b3;          /* Secondary text on dark */
+  --ink-3: #7a766b;          /* Captions, meta on dark */
+  --ink-on-paper: #1f1a12;   /* Headlines + body on paper */
+  --ink-on-paper-2: #4a3d28; /* Secondary text on paper */
+  --ink-on-paper-3: #8b7a5d; /* Captions, meta on paper */
   --line: rgba(254, 245, 226, 0.14);
-  --line-strong: rgba(254, 245, 226, 0.28);
-  --accent: #e89b4a;
-  --accent-2: #f5c98a;
-  --shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  --line-strong: rgba(254, 245, 226, 0.30);
+  --line-on-paper: rgba(31, 26, 18, 0.16);
+  --line-on-paper-strong: rgba(31, 26, 18, 0.30);
+  --accent: #e89b4a;         /* Ochre — unchanged */
+  --accent-2: #f5c98a;       /* Soft glow — unchanged */
+  --accent-on-paper: #b8742a;/* Deepened ochre for legibility on cream */
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 
   /* ----- Type families (assigned to next/font CSS vars in layout.tsx) ----- */
   --font-serif: var(--font-instrument-serif), "Instrument Serif", serif;
@@ -28,48 +37,18 @@
   --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, monospace;
 
   /* ----- Type scale (desktop baseline) ----- */
-  --fs-h1: 84px;
-  --lh-h1: 0.92;
-  --ls-h1: -0.025em;
-
-  --fs-h2: 54px;
-  --lh-h2: 1;
-  --ls-h2: -0.02em;
-
-  --fs-h3: 36px;
-  --lh-h3: 1.15;
-  --ls-h3: -0.01em;
-
-  --fs-h4: 24px;
-  --lh-h4: 1.2;
-  --ls-h4: -0.01em;
-
-  --fs-body: 14px;
-  --lh-body: 1.55;
-
-  --fs-small: 12px;
-  --lh-small: 1.45;
-
-  --fs-label: 10px;
-  --lh-label: 1.2;
-  --ls-label: 0.2em;
-
-  --fs-meta: 9px;
-  --lh-meta: 1.2;
-  --ls-meta: 0.15em;
+  --fs-h1: 84px;  --lh-h1: 0.92; --ls-h1: -0.025em;
+  --fs-h2: 54px;  --lh-h2: 1;    --ls-h2: -0.02em;
+  --fs-h3: 36px;  --lh-h3: 1.15; --ls-h3: -0.01em;
+  --fs-h4: 24px;  --lh-h4: 1.2;  --ls-h4: -0.01em;
+  --fs-body: 14px; --lh-body: 1.55;
+  --fs-small: 12px; --lh-small: 1.45;
+  --fs-label: 10px; --lh-label: 1.2; --ls-label: 0.2em;
+  --fs-meta: 9px;  --lh-meta: 1.2; --ls-meta: 0.15em;
 
   /* ----- Spacing (4pt base) ----- */
-  --s-1: 4px;
-  --s-2: 8px;
-  --s-3: 12px;
-  --s-4: 16px;
-  --s-5: 20px;
-  --s-6: 24px;
-  --s-8: 32px;
-  --s-10: 40px;
-  --s-14: 56px;
-  --s-20: 80px;
-  --s-30: 120px;
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 20px; --s-6: 24px;
+  --s-8: 32px; --s-10: 40px; --s-14: 56px; --s-20: 80px; --s-30: 120px;
 
   /* ----- Radius ----- */
   --radius: 2px;

@@ -3,22 +3,39 @@
  * the eye a clean visual cut without leaning on the giant 250vh
  * scrolly-chapter spill.
  *
- * Two variants are exposed so we can A/B compare in-place:
- *   - "blue":  dark-theme bg (#1b2437)  → matches scrolly chapter palette
- *   - "cream": cream-theme bg (#fef5e2) → matches Story / Coffee / Journal
+ * Variants (v2 · Onyx + Paper):
+ *   - "onyx":          dark-theme bg (#0c0c0a)  → matches scrolly chapter palette
+ *   - "paper":         cream-theme bg (#f6efd9) → matches Story / Coffee / Journal
+ *   - "onyx-gradient": warm-graphite gradient on onyx
+ *
+ * Legacy v1 aliases ("blue", "cream", "blue-gradient") are preserved
+ * so callers keep working through the migration.
  *
  * Height intentionally short (12px) so the break reads as a punctuation
  * mark rather than a section of its own.
  */
 
-type Variant = "blue" | "cream" | "blue-gradient";
+type Variant =
+  | "onyx"
+  | "paper"
+  | "onyx-gradient"
+  | "blue"          // legacy v1 alias → onyx
+  | "cream"         // legacy v1 alias → paper
+  | "blue-gradient"; // legacy v1 alias → onyx-gradient
 
 const STYLES: Record<Variant, React.CSSProperties> = {
-  blue: { backgroundColor: "#1b2437" },
-  cream: { backgroundColor: "#fef5e2" },
+  onyx: { backgroundColor: "#0c0c0a" },
+  paper: { backgroundColor: "#f6efd9" },
+  "onyx-gradient": {
+    backgroundImage:
+      "linear-gradient(90deg, #0c0c0a 0%, #1a1a17 50%, #0c0c0a 100%)",
+  },
+  // Legacy aliases — same colors, kept so existing JSX doesn't break
+  blue: { backgroundColor: "#0c0c0a" },
+  cream: { backgroundColor: "#f6efd9" },
   "blue-gradient": {
     backgroundImage:
-      "linear-gradient(90deg, #1b2437 0%, #34466b 50%, #1b2437 100%)",
+      "linear-gradient(90deg, #0c0c0a 0%, #1a1a17 50%, #0c0c0a 100%)",
   },
 };
 

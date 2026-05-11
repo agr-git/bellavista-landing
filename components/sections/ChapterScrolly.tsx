@@ -193,7 +193,7 @@ export default function ChapterScrolly({
               className="absolute inset-0"
               style={{
                 backgroundImage:
-                  "radial-gradient(ellipse at 40% 35%, rgba(232,155,74,0.18), transparent 55%), linear-gradient(180deg, #243049 0%, #1b2437 100%)",
+                  "radial-gradient(ellipse at 40% 35%, rgba(232,155,74,0.18), transparent 55%), linear-gradient(180deg, #1a1a17 0%, #0c0c0a 100%)",
               }}
             />
 

@@ -72,14 +72,14 @@ function renderHtml({ type, fields }: LeadPayload) {
     .filter(([k]) => k !== "website")
     .map(
       ([k, v]) =>
-        `<tr><td style="padding:4px 12px 4px 0;font-family:monospace;color:#8893a6;text-transform:uppercase;font-size:11px">${escape(
+        `<tr><td style="padding:4px 12px 4px 0;font-family:monospace;color:#7a766b;text-transform:uppercase;font-size:11px">${escape(
           k
-        )}</td><td style="padding:4px 0;font-family:system-ui,sans-serif;color:#1b2437">${escape(
+        )}</td><td style="padding:4px 0;font-family:system-ui,sans-serif;color:#0c0c0a">${escape(
           String(v ?? "—")
         )}</td></tr>`
     )
     .join("");
-  return `<div style="font-family:system-ui,sans-serif;color:#1b2437;max-width:560px">
+  return `<div style="font-family:system-ui,sans-serif;color:#0c0c0a;max-width:560px">
     <h2 style="font-family:Georgia,serif;font-weight:400;font-size:24px;margin:0 0 16px">New ${escape(
       type
     )} lead</h2>

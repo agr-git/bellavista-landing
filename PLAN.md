@@ -430,7 +430,17 @@ Future Claude Code session should:
 ### Current status
 
 ```
-Last completed: CONTENT_WIRING_v1 + DESIGN_ITER_3 + BENEFICIO_PAGE — 2026-04-28
+Last completed: BRAND_V2 (Onyx + Paper palette) — 2026-05-10
+  Applied designer-supplied "Brand V2 Patch": tokens.css switched from
+  Amanecer blue (#1B2437) to Onyx (#0C0C0A); Paper (#F6EFD9) promoted
+  to an active second surface with its own ink scale. themes.css gained
+  canonical .theme-onyx / .theme-paper classes (v1 .theme-dark /
+  .theme-cream kept as aliases). Updated hardcoded v1 hexes in
+  Footer, ChapterScrolly, SectionBreak, lib/email. New docs:
+  /docs/BRAND_GUIDELINES_v2.md + /bellavista-brand-guidelines-v2.pdf.
+  Ochre accent unchanged across both surfaces. Build verified green.
+
+Previous: CONTENT_WIRING_v1 + DESIGN_ITER_3 + BENEFICIO_PAGE — 2026-04-28
   Single session, 15 commits, retro: docs/retrospectives/CONTENT-WIRING-v1.md
 
   CONTENT_WIRING_v1 (commit 8abb32a + follow-ups):

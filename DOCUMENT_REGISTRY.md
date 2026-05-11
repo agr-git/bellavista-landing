@@ -34,7 +34,7 @@ Update this file every time a new deliverable is produced. One row per artifact.
 |---|---|---|---|
 | Next.js scaffold | `/` | ✅ | B1_SCAFFOLD — package.json, app/, tailwind, eslint, tsconfig |
 | .env.example | `/.env.example` | ✅ | B1_SCAFFOLD — all env vars stubbed |
-| tokens.css | `/app/styles/tokens.css` | ✅ | B2_TOKENS — Amanecer palette + type scale + spacing |
+| tokens.css | `/app/styles/tokens.css` | ✅ | B2_TOKENS — palette + type scale + spacing. **BRAND_V2 (2026-05-10)** replaced Amanecer blue with Onyx + Paper; added paper-surface, ink-on-paper-*, accent-on-paper, line-on-paper-* tokens |
 | tailwind.config.ts | `/tailwind.config.ts` | ✅ | B2_TOKENS — CSS var bridge (colors/type/spacing/radius/shadow) |
 | Token test page | ~~`/app/(dev)/tokens/page.tsx`~~ | 🗑 | B2_TOKENS dev-only — removed in DEV_CLEANUP (2026-04-26) |
 | Layout shell | `/app/layout.tsx` | ✅ | B3_SHELL |
@@ -75,7 +75,7 @@ Update this file every time a new deliverable is produced. One row per artifact.
 | **Edge nginx config (server)** | `/opt/automation/nginx/conf.d/bellavista.conf` | ✅ | DEPLOY_PHASE_A — **on server**, not in this repo |
 | robots.txt route | `/app/robots.ts` | ✅ | DEV_ROBOTS (2026-04-26) — Next 14 metadata API |
 | sitemap.xml route | `/app/sitemap.ts` | ✅ | DEV_ROBOTS (2026-04-26) — root + journal slugs |
-| themes.css | `/app/styles/themes.css` | ✅ | DESIGN_ITER (2026-04-26, commits d5f3d02 + 9e8ee47 + 01191b5) — kraft palette + per-section theme classes; per-theme hero overlay/radial vars added in 01191b5 |
+| themes.css | `/app/styles/themes.css` | ✅ | DESIGN_ITER (2026-04-26) — kraft palette + per-section theme classes; per-theme hero overlay/radial vars. **BRAND_V2 (2026-05-10)** added `.theme-onyx` + `.theme-paper` (canonical v2 names) with `.theme-dark`/`.theme-cream` kept as aliases; kraft theme preserved for contact footer |
 | Hero (theme-aware bg) | `/components/sections/Hero.tsx` | ✅ | DESIGN_ITER_1 (commit 01191b5) — gradient hexes → CSS vars so theme-kraft#hero renders correctly |
 | Coffee/Stay/Footer (v3-kraft) | `/components/sections/Coffee.tsx`, `/components/sections/Stay.tsx`, `/components/Footer.tsx` | ✅ | DESIGN_ITER_2 (commit 69d3b6c) — surface-vs-bg cards + Footer rebuilt as kraft-→-dark transition piece per design |
 | **Content authoring scaffold** | `/docs/content-authoring/` | ✅ | CONTENT_AUTHORING_SCAFFOLD (2026-04-26) — 10 sections × {schema, system-prompt, draft, production, preview} for outsourcing copywriting to non-Claude LLMs. Drafts/production/previews are gitignored (repo public). Includes `_authoring-guide.md`, `_template.html`, `_gemini-quickstart.md`. |
@@ -84,7 +84,7 @@ Update this file every time a new deliverable is produced. One row per artifact.
 | Hero drone video | `/public/media/hero.mp4` | ✅ | CONTENT_MEDIA (2026-04-28, commit ef9ac71) — 720p H.264 / CRF 26 / fast-start, 48 MB. Encoded from 929 MB 4K HEVC original (preserved at ~/Downloads/AI/bv-landing-originals/ outside repo) |
 | Plot drone videos | `/public/media/{villa-paula,bambu-stream,terra-preta}.mp4` | ⬜ | CONTENT_MEDIA — pending. Fall back to gradient placeholder until uploaded. ≤30 MB each per `_filename-map.md` |
 | Media filename map | `/public/media/_filename-map.md` | ✅ | CONTENT_MEDIA reference for the producer's media drops |
-| **SectionBreak component** | `/components/SectionBreak.tsx` | ✅ | DESIGN_ITER_3 (2026-04-28, commit 3317bd4) — 12px stripe between sections, three variants (cream / blue / blue-gradient). Currently used: cream after Farm + between scrollies |
+| **SectionBreak component** | `/components/SectionBreak.tsx` | ✅ | DESIGN_ITER_3 (2026-04-28, commit 3317bd4) — 12px stripe between sections. **BRAND_V2 (2026-05-10)** added canonical variants `onyx` / `paper` / `onyx-gradient`; legacy `blue`/`cream`/`blue-gradient` retained as aliases. Currently used: cream after Farm + between scrollies |
 | ChapterScrolly responsive overhaul | `/components/sections/ChapterScrolly.tsx` | ✅ | DESIGN_ITER_3 (2026-04-28, commit d75ee34) — replaced `min-height: 250vh` + sticky with content-driven `padding-block: clamp(64px, 10vh, 160px)` + items-stretch grid + aspect-ratio video column |
 | Hero responsive CTA + chapter strip | `/components/sections/Hero.tsx` | ✅ | CONTENT_WIRING_v1 (commits bed7795, 5c56f32) — chapter strip text-meta→text-small + ink semibold; "01 CASA"→"01 THE PRODUCER"; "05 BENEFICIO"→/beneficio; "Start the tour" full-row click target |
 | Nav theme-independent fill | `/components/Nav.tsx` | ✅ | NAV_LEGIBILITY (2026-04-28, commit 74b9a79) — wordmark→"Bellavista Coffee"; past-hero state locked to dark-navy rgba(27,36,55,0.95) + cream text so the bar stays legible across all section themes |
@@ -94,6 +94,8 @@ Update this file every time a new deliverable is produced. One row per artifact.
 | B9 retrospective | `/docs/retrospectives/B9-forms.md` | ✅ | After B9 |
 | **Deploy retrospective** | `/docs/retrospectives/DEPLOY-option-a.md` | ✅ | DEPLOY_PHASE_A — Option A decision, HSTS learning, rollback records |
 | **Content wiring retrospective** | `/docs/retrospectives/CONTENT-WIRING-v1.md` | ✅ | CONTENT_WIRING_v1 (2026-04-28) — covers content land + DESIGN_ITER_3 + BENEFICIO_PAGE in one consolidated retro |
+| **Brand Guidelines v2 (md)** | `/docs/BRAND_GUIDELINES_v2.md` | ✅ | BRAND_V2 (2026-05-10) — Onyx + Paper palette spec. Supersedes v1 Amanecer; ochre accent unchanged |
+| **Brand Guidelines v2 (pdf)** | `/bellavista-brand-guidelines-v2.pdf` | ✅ | BRAND_V2 (2026-05-10) — 6-page printable brand sheet: cover, color-on-dark, color-on-paper, type, voice/form, v1→v2 changelog |
 
 ---
 

@@ -38,7 +38,7 @@ export default function Footer() {
       className="theme-kraft relative overflow-hidden border-t border-line px-6 md:px-10 py-16"
       style={{
         background:
-          "linear-gradient(135deg, #b8915c 0%, #8a6a3f 40%, #243049 100%)",
+          "linear-gradient(135deg, #b8915c 0%, #8a6a3f 40%, #1a1a17 100%)",
         color: "#fef5e2",
       }}
       aria-labelledby="contact-heading"
@@ -128,7 +128,7 @@ export default function Footer() {
                   type="submit"
                   disabled={state.kind === "sending"}
                   className="font-mono text-meta uppercase px-4 py-2 transition-colors disabled:opacity-50"
-                  style={{ background: "#e89b4a", color: "#1b2437" }}
+                  style={{ background: "#e89b4a", color: "#0c0c0a" }}
                 >
                   {state.kind === "sending" ? "Sending…" : "Subscribe"}
                 </button>
