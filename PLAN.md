@@ -430,7 +430,21 @@ Future Claude Code session should:
 ### Current status
 
 ```
-Last completed: STAY_PHOTOS — 2026-05-10
+Last completed: DEPLOY_TLS_v1 — 2026-05-11
+  Public site live at https://bellavista-coffee.com.co/ with a Let's
+  Encrypt cert (issuer "Let's Encrypt CN=E7", expires 2026-08-09).
+  Issued via certbot --webroot through /opt/automation/nginx/conf.d/
+  acme-webroot/; cert staged into the existing /opt/automation/nginx/
+  ssl/ mount (no /opt/automation/docker-compose.yml edit). nginx config
+  is now Phase C: HTTP→HTTPS 301 + :443 server block + HSTS 6mo (no
+  preload yet) + modern TLS only. Auto-renewal via certbot.timer
+  (systemd) + deploy hook at /etc/letsencrypt/renewal-hooks/deploy/
+  bellavista-nginx.sh that re-copies certs and reloads nginx after
+  each renewal. Dry-run renewal verified green. n8n container
+  uptime preserved (5 weeks unchanged). Retro at
+  docs/retrospectives/DEPLOY-tls-v1.md.
+
+Previous: STAY_PHOTOS — 2026-05-10
   21 farmhouse photos converted HEIC → JPEG (sips, 1600px, q80, 9.3 MB total).
   Saved at /public/media/stay/stay-01..21.jpg. Five wired into the Stay
   bento (porch / suite / kitchen / ridge / farmhouse) via next/image

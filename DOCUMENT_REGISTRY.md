@@ -95,6 +95,7 @@ Update this file every time a new deliverable is produced. One row per artifact.
 | B6 retrospective | `/docs/retrospectives/B6-scrolly.md` | ✅ | After B6 |
 | B9 retrospective | `/docs/retrospectives/B9-forms.md` | ✅ | After B9 |
 | **Deploy retrospective** | `/docs/retrospectives/DEPLOY-option-a.md` | ✅ | DEPLOY_PHASE_A — Option A decision, HSTS learning, rollback records |
+| **TLS deploy retrospective** | `/docs/retrospectives/DEPLOY-tls-v1.md` | ✅ | DEPLOY_TLS_v1 (2026-05-10) — Let's Encrypt cert issuance via webroot, dockerized-nginx integration without touching /opt/automation/docker-compose.yml, HTTP→HTTPS 301, HSTS 6mo, auto-renewal via systemd timer + deploy hook |
 | **Content wiring retrospective** | `/docs/retrospectives/CONTENT-WIRING-v1.md` | ✅ | CONTENT_WIRING_v1 (2026-04-28) — covers content land + DESIGN_ITER_3 + BENEFICIO_PAGE in one consolidated retro |
 | **Brand Guidelines v2 (md)** | `/docs/BRAND_GUIDELINES_v2.md` | ✅ | BRAND_V2 (2026-05-10) — Onyx + Paper palette spec. Supersedes v1 Amanecer; ochre accent unchanged |
 | **Brand Guidelines v2 (pdf)** | `/bellavista-brand-guidelines-v2.pdf` | ✅ | BRAND_V2 (2026-05-10) — 6-page printable brand sheet: cover, color-on-dark, color-on-paper, type, voice/form, v1→v2 changelog |
