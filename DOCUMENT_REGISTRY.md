@@ -2,7 +2,7 @@
 ## Bellavista Coffee — Landing Page MVP
 
 **Framework:** AutonomIA+ v3.4
-**Last updated:** 2026-04-28 (CONTENT_WIRING_v1 + DESIGN_ITER_3 + BENEFICIO_PAGE)
+**Last updated:** 2026-05-11 (LOGO_V3 — wordmark component, SVG assets, brand guide v3)
 
 Update this file every time a new deliverable is produced. One row per artifact. Mark location precisely so any agent can fetch cold.
 
@@ -99,8 +99,13 @@ Update this file every time a new deliverable is produced. One row per artifact.
 | **Cert renewal runbook** | `/docs/operations/CERT-RENEWAL.md` | ✅ | DEPLOY_TLS_v1 (2026-05-11) — full runbook for the auto-renewal chain (certbot.timer → deploy hook → docker exec nginx -s reload). Includes verification, troubleshooting matrix, force-renew + rollback commands, and pointers to every relevant path on the server |
 | **Cert health-check script** | `/scripts/check-cert.sh` | ✅ | DEPLOY_TLS_v1 (2026-05-11) — one-command quarterly health check. Pulls cert via `--resolve` (sidesteps local DNS cache), reports issuer/expiry/days-remaining/SAN/public HTTP, queries systemd timer state via SSH. Exit 0 healthy, 1 if <25 days remaining or wrong issuer, 2 if public HTTPS unreachable |
 | **Content wiring retrospective** | `/docs/retrospectives/CONTENT-WIRING-v1.md` | ✅ | CONTENT_WIRING_v1 (2026-04-28) — covers content land + DESIGN_ITER_3 + BENEFICIO_PAGE in one consolidated retro |
-| **Brand Guidelines v2 (md)** | `/docs/BRAND_GUIDELINES_v2.md` | ✅ | BRAND_V2 (2026-05-10) — Onyx + Paper palette spec. Supersedes v1 Amanecer; ochre accent unchanged |
+| **Brand Guidelines v2→v3 (md)** | `/docs/BRAND_GUIDELINES_v2.md` | ✅ | BRAND_V2 (2026-05-10), updated LOGO_V3 (2026-05-11) — Onyx + Paper palette spec + §04 Logo System (ridge mark, three wordmark variants, usage rules, tagline) |
 | **Brand Guidelines v2 (pdf)** | `/bellavista-brand-guidelines-v2.pdf` | ✅ | BRAND_V2 (2026-05-10) — 6-page printable brand sheet: cover, color-on-dark, color-on-paper, type, voice/form, v1→v2 changelog |
+| **Brand Guidelines v3 (pdf)** | `/bellavista-brand-guidelines-v3.pdf` | ✅ | LOGO_V3 (2026-05-11) — 6-page supplier-ready brand sheet: cover, color system, typography, logo system, logo usage, voice & tagline |
+| **BellavistaWordmark component** | `/components/BellavistaWordmark.tsx` | ✅ | LOGO_V3 (2026-05-11) — React component with horizontal lockup variant (onyx/paper themes), ridge mark SVG inline, optional tagline. Wired into Nav.tsx |
+| **Logo SVG — Horizontal Paper** | `/public/brand/logo-horizontal-paper.svg` | ✅ | LOGO_V3 (2026-05-11) — 1200×600 full lockup with tagline, Paper background. Supplier asset |
+| **Logo SVG — Horizontal Onyx** | `/public/brand/logo-horizontal-onyx.svg` | ✅ | LOGO_V3 (2026-05-11) — 1200×600 full lockup with tagline, Onyx background. Digital asset |
+| **Logo SVG — Ridge Mark** | `/public/brand/logo-mark.svg` | ✅ | LOGO_V3 (2026-05-11) — 150×150 standalone ridge mark, transparent background |
 
 ---
 

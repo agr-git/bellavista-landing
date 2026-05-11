@@ -9,6 +9,7 @@
  */
 
 import { useEffect, useRef, useState } from "react";
+import BellavistaWordmark from "./BellavistaWordmark";
 
 const LINKS = [
   { href: "#story", label: "Story" },
@@ -45,7 +46,7 @@ export default function Nav() {
       ref={sentinelRef}
       className="fixed inset-x-0 top-0 z-50 transition-colors duration-300"
       style={{
-        backgroundColor: opaque ? "rgba(27, 36, 55, 0.95)" : "transparent",
+        backgroundColor: opaque ? "rgba(12, 12, 10, 0.95)" : "transparent",
         backdropFilter: opaque ? "blur(8px)" : undefined,
         borderBottom: opaque
           ? "1px solid rgba(254, 245, 226, 0.12)"
@@ -56,10 +57,14 @@ export default function Nav() {
       <nav className="flex items-center justify-between px-8 py-4 max-w-[1400px] mx-auto">
         <a
           href="#top"
-          className="font-serif text-h4 hover:opacity-80 transition-opacity"
-          style={{ color: "#fef5e2" }}
+          aria-label="Bellavista Coffee Farm — home"
+          className="hover:opacity-80 transition-opacity flex items-center"
         >
-          Bellavista Coffee
+          <BellavistaWordmark
+            variant="horizontal"
+            theme="onyx"
+            wordmarkSize={28}
+          />
         </a>
 
         <ul className="hidden md:flex items-center gap-8">
