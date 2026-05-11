@@ -115,6 +115,16 @@ On-server build first. Monitor RAM: `watch docker stats` during build.
 If >85% RAM → activate B11B (GitHub Actions + GHCR). See ADR-004.
 n8n uses a separate `docker-compose.yml` — never merge or touch it.
 
+## TLS / cert renewal
+
+Public site lives at `https://bellavista-coffee.com.co/` behind a
+Let's Encrypt cert. Renewal is fully automated (`certbot.timer` +
+deploy hook that re-copies certs into `/opt/automation/nginx/ssl/`
+and reloads nginx). **Under normal conditions you do nothing.**
+Run `./scripts/check-cert.sh` quarterly to confirm. Full runbook,
+troubleshooting, and rollback commands in
+`/docs/operations/CERT-RENEWAL.md`.
+
 ## Environment variables
 
 ```
