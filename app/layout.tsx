@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import { GeistSans } from "geist/font/sans";
 import Nav from "@/components/Nav";
+import Providers from "@/components/Providers";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -43,8 +44,10 @@ export default function RootLayout({
       className={`${instrumentSerif.variable} ${GeistSans.variable} ${jetbrainsMono.variable}`}
     >
       <body id="top">
-        <Nav />
-        {children}
+        <Providers>
+          <Nav />
+          {children}
+        </Providers>
       </body>
     </html>
   );

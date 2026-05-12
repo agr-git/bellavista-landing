@@ -76,11 +76,36 @@ POST /api/leads
 
 If Resend fails → return 500. If Notion fails → log error, return 200. Email is the guarantee.
 
-## Auth
+## Auth + Members module (AUTH_MEMBERS_v1, 2026-05-11)
 
-NextAuth Credentials provider. JWT strategy, no DB.
-Env vars: `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` (bcrypt), `NEXTAUTH_SECRET`.
-Middleware gates `/admin/*`. Admin surface is read-only in v1.
+**Provider:** Google OAuth (NextAuth v4). JWT session strategy, no DB sessions.
+**Admin gate:** `ADMIN_EMAIL` env var — any Google sign-in matching it → `isAdmin: true` in JWT.
+**Middleware:** `/admin/*` requires `isAdmin`; `/members/*` requires any valid session.
+**User store:** Supabase Postgres (`bv_users`, `bv_waitlist`, `bv_cms_blocks`, `bv_cms_images`).
+**Setup needed before first login:**
+  1. Create Supabase project → run `supabase/migrations/0001_init.sql`
+  2. Create Google OAuth credentials at console.cloud.google.com
+     - Redirect URI: `https://bellavista-coffee.com.co/api/auth/callback/google`
+  3. Add env vars: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
+
+**Key files:**
+```
+/lib/auth.ts              ← authOptions + getSession/requireUser/requireAdmin helpers
+/lib/supabase.ts          ← server-only Supabase client + upsertUser/getUserByEmail
+/lib/substack.ts          ← RSS feed fetch (5-min cache) → JournalCard[]
+/app/api/auth/[...nextauth]/route.ts ← NextAuth handler
+/app/api/waitlist/route.ts           ← authenticated tier waitlist signup
+/app/login/page.tsx       ← Google sign-in page
+/app/members/page.tsx     ← member dashboard
+/app/admin/page.tsx       ← admin landing (waitlists + members viewers)
+/components/members/      ← JournalCards, TierCards
+/supabase/migrations/     ← DB schema
+/app/privacy/page.tsx     ← required for Google OAuth review
+/app/terms/page.tsx       ← required for Google OAuth review
+```
+
+Full plan: `/Users/alejogil/.claude/plans/let-s-go-with-optcion-snug-sonnet.md`
+Phase 2 (journal cards + waitlist) and Phase 3 (admin CMS) still to build.
 
 ## Chapter scrolly — content-driven (post CONTENT_WIRING_v1, 2026-04-28)
 
@@ -133,8 +158,13 @@ NOTION_RESOURCES_DB_ID
 RESEND_API_KEY
 RESEND_FROM
 ADMIN_EMAIL
-ADMIN_PASSWORD_HASH
 NEXTAUTH_SECRET
+GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_SECRET
+SUPABASE_URL
+SUPABASE_SERVICE_ROLE_KEY
+SUBSTACK_FEED_URL          (optional; empty = graceful empty state)
+NEXT_PUBLIC_SUBSTACK_URL   (public Substack URL for "All posts ↗" links)
 ```
 
 Copy `.env.example` → `.env.local`. Never commit `.env.local`.

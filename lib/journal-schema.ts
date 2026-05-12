@@ -5,8 +5,10 @@
  *   - kind: 'project' | 'visit'     → narrative post, renders excerpt + body
  *   - kind: 'experiment'            → data post, renders metrics block
  *
- * `visibility: 'public' | 'private'` is the single source of truth.
- * Public renders on /journal; private renders only inside /admin (B10).
+ * `visibility: 'public' | 'members' | 'private'` is the single source of truth.
+ * - public   → renders on /journal (unauthenticated)
+ * - members  → reserved for logged-in members (not yet consumed in V1; forward-looking)
+ * - private  → admin only
  *
  * Keep this schema strict — `validate-content.ts` runs in prebuild and
  * fails the build on bad frontmatter. Cheap guardrail, huge payoff.
@@ -38,7 +40,7 @@ export const JournalFrontmatter = z
       message: "date must be ISO YYYY-MM-DD",
     }),
     kind: z.enum(["project", "experiment", "visit"]),
-    visibility: z.enum(["public", "private"]),
+    visibility: z.enum(["public", "members", "private"]),
     plot: Plot.optional(),
     tags: z.array(z.string()).default([]),
     metrics: Metrics.optional(),

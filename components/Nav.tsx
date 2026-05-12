@@ -6,10 +6,13 @@
  *   hero sentinel scrolls out of view.
  * - Anchor links scroll smoothly to their sections.
  * - EN | ES (soon) toggle is rendered disabled in v1 (i18n stubbed, copy TBD).
+ * - Shows "Members" or "Sign in" based on NextAuth session state.
  */
 
 import { useEffect, useRef, useState } from "react";
 import BellavistaWordmark from "./BellavistaWordmark";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const LINKS = [
   { href: "#story", label: "Story" },
@@ -23,6 +26,7 @@ const LINKS = [
 export default function Nav() {
   const [opaque, setOpaque] = useState(false);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     // IntersectionObserver watches the hero sentinel (injected in Hero).
@@ -82,6 +86,33 @@ export default function Nav() {
         </ul>
 
         <div className="flex items-center gap-3">
+          {/* Session-aware auth link */}
+          {status !== "loading" && (
+            session ? (
+              <Link
+                href="/members"
+                className="font-mono text-meta uppercase rounded px-3 py-1 transition-opacity hover:opacity-100"
+                style={{
+                  color: "rgba(254, 245, 226, 0.85)",
+                  border: "1px solid rgba(254, 245, 226, 0.35)",
+                }}
+              >
+                Members
+              </Link>
+            ) : (
+              <Link
+                href="/login"
+                className="font-mono text-meta uppercase rounded px-3 py-1 transition-opacity hover:opacity-100"
+                style={{
+                  color: "rgba(254, 245, 226, 0.65)",
+                  border: "1px solid rgba(254, 245, 226, 0.25)",
+                }}
+              >
+                Sign in
+              </Link>
+            )
+          )}
+
           <button
             disabled
             aria-label="Language toggle (Spanish coming soon)"
