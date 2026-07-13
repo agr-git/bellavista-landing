@@ -15,14 +15,16 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import type { Metadata } from "next";
 import { getPublicEntries, getEntryBySlug } from "@/lib/journal";
 
-type Params = { params: { slug: string } };
+type Params = { params: Promise<{ slug: string }> };
+
 
 export function generateStaticParams() {
   return getPublicEntries().map((e) => ({ slug: e.slug }));
 }
 
-export function generateMetadata({ params }: Params): Metadata {
-  const entry = getEntryBySlug(params.slug);
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params;
+  const entry = getEntryBySlug(slug);
   if (!entry) return { title: "Not found" };
   return {
     title: `${entry.frontmatter.title} — Bellavista Journal`,
@@ -38,8 +40,9 @@ function formatFullDate(iso: string) {
   });
 }
 
-export default function JournalEntryPage({ params }: Params) {
-  const entry = getEntryBySlug(params.slug);
+export default async function JournalEntryPage({ params }: Params) {
+  const { slug } = await params;
+  const entry = getEntryBySlug(slug);
   if (!entry) notFound();
 
   const { frontmatter, body } = entry;

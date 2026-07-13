@@ -16,16 +16,17 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function LoginPage({
+export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: { callbackUrl?: string; error?: string };
+  searchParams: Promise<{ callbackUrl?: string; error?: string }>;
 }) {
-  const callbackUrl = searchParams.callbackUrl ?? "/members";
+  const resolvedSearchParams = await searchParams;
+  const callbackUrl = resolvedSearchParams.callbackUrl ?? "/members";
   const errorMsg =
-    searchParams.error === "OAuthAccountNotLinked"
+    resolvedSearchParams.error === "OAuthAccountNotLinked"
       ? "That email is already linked to a different provider."
-      : searchParams.error
+      : resolvedSearchParams.error
       ? "Sign-in failed. Please try again."
       : null;
 
