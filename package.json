@@ -8,7 +8,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "validate:content": "tsx scripts/validate-content.ts"
+    "validate:content": "tsx scripts/validate-content.ts",
+    "validate:auth": "node scripts/auth-readiness.mjs",
+    "validate:auth:fixture": "node scripts/auth-readiness.mjs --fixture",
+    "test:auth-readiness": "node --test scripts/auth-readiness.test.mjs"
   },
   "dependencies": {
     "@notionhq/client": "^5.20.0",

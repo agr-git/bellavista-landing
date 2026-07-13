@@ -40,6 +40,13 @@ services:
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
       NEXTAUTH_URL: ${NEXTAUTH_URL}
       ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH}
+      # Google OAuth + server-only Supabase access (AUTH_MEMBERS_v1).
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+      SUBSTACK_FEED_URL: ${SUBSTACK_FEED_URL:-}
+      NEXT_PUBLIC_SUBSTACK_URL: ${NEXT_PUBLIC_SUBSTACK_URL:-}
     networks:
       - automation_automation
     # Tight memory cap so a runaway request can't starve n8n.
