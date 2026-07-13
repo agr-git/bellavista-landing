@@ -1,6 +1,6 @@
 /**
  * /privacy — Privacy Policy.
- * Required for Google OAuth consent screen verification.
+ * Required public policy for member access and future OAuth review.
  * Minimal but legally sufficient for a small-scale membership site.
  */
 
@@ -38,9 +38,9 @@ export default function PrivacyPage() {
               </h2>
               <ul className="space-y-2 list-disc pl-5">
                 <li>
-                  <strong>Account information</strong>: when you sign in with
-                  Google we receive your email address, display name, and
-                  profile picture.
+                  <strong>Account information</strong>: when you sign in, we
+                  process your email address and display name to create or
+                  verify a member record.
                 </li>
                 <li>
                   <strong>Waitlist entries</strong>: if you join a tier
@@ -75,8 +75,8 @@ export default function PrivacyPage() {
               </h2>
               <ul className="space-y-2 list-disc pl-5">
                 <li>
-                  <strong>Google</strong>: sign-in authentication (Google
-                  Privacy Policy applies).
+                  <strong>NextAuth</strong>: secure session handling for member
+                  authentication.
                 </li>
                 <li>
                   <strong>Supabase</strong>: database storage for user accounts

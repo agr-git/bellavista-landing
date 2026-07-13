@@ -78,30 +78,30 @@ If Resend fails → return 500. If Notion fails → log error, return 200. Email
 
 ## Auth + Members module (AUTH_MEMBERS_v1, 2026-05-11)
 
-**Provider:** Google OAuth (NextAuth v4). JWT session strategy, no DB sessions.
-**Admin gate:** `ADMIN_EMAIL` env var — any Google sign-in matching it → `isAdmin: true` in JWT.
+**Provider:** Simple email/access-code form through NextAuth Credentials. JWT session strategy, no DB sessions.
+**Deferred:** Google OAuth is split to issue #12 and must not block PR #7.
+**Admin gate:** `ADMIN_EMAIL` env var — matching email gets `isAdmin: true` in JWT and can bootstrap its own `bv_users` row.
 **Middleware:** `/admin/*` requires `isAdmin`; `/members/*` requires any valid session.
 **User store:** Supabase Postgres (`bv_users`, `bv_waitlist`, `bv_cms_blocks`, `bv_cms_images`).
 **Setup needed before first login:**
-  1. Create Supabase project → run `supabase/migrations/0001_init.sql`
-  2. Create Google OAuth credentials at console.cloud.google.com
-     - Redirect URI: `https://bellavista-coffee.com.co/api/auth/callback/google`
-  3. Add env vars: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
+  1. Use Supabase project `udtzzagtlnbpoqetugec` → run `supabase/migrations/0001_init.sql`
+  2. Add env vars: `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `ADMIN_EMAIL`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
+  3. Optional: set `MEMBERS_ACCESS_CODE` for a shared access-code gate.
 
 **Key files:**
 ```
-/lib/auth.ts              ← authOptions + getSession/requireUser/requireAdmin helpers
+/lib/auth.ts              ← credentials authOptions + getSession/requireUser/requireAdmin helpers
 /lib/supabase.ts          ← server-only Supabase client + upsertUser/getUserByEmail
 /lib/substack.ts          ← RSS feed fetch (5-min cache) → JournalCard[]
 /app/api/auth/[...nextauth]/route.ts ← NextAuth handler
 /app/api/waitlist/route.ts           ← authenticated tier waitlist signup
-/app/login/page.tsx       ← Google sign-in page
+/app/login/page.tsx       ← email/access-code sign-in page
 /app/members/page.tsx     ← member dashboard
 /app/admin/page.tsx       ← admin landing (waitlists + members viewers)
 /components/members/      ← JournalCards, TierCards
 /supabase/migrations/     ← DB schema
-/app/privacy/page.tsx     ← required for Google OAuth review
-/app/terms/page.tsx       ← required for Google OAuth review
+/app/privacy/page.tsx     ← public privacy policy for members/future OAuth
+/app/terms/page.tsx       ← public terms for members/future OAuth
 ```
 
 Full plan: `/Users/alejogil/.claude/plans/let-s-go-with-optcion-snug-sonnet.md`
@@ -159,8 +159,7 @@ RESEND_API_KEY
 RESEND_FROM
 ADMIN_EMAIL
 NEXTAUTH_SECRET
-GOOGLE_CLIENT_ID
-GOOGLE_CLIENT_SECRET
+MEMBERS_ACCESS_CODE       (optional; blank = existing bv_users emails can sign in without a shared code)
 SUPABASE_URL
 SUPABASE_SERVICE_ROLE_KEY
 SUBSTACK_FEED_URL          (optional; empty = graceful empty state)

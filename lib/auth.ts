@@ -1,22 +1,36 @@
 /**
- * lib/auth.ts — NextAuth v4 config (Google OAuth + Supabase user sync).
+ * lib/auth.ts — simple credentials auth backed by Supabase user records.
  *
- * Strategy: JWT sessions (no DB session table).
+ * Strategy: HTML email form → NextAuth Credentials provider → server-side
+ * Supabase check/upsert → JWT session. No Google OAuth in this PR; OAuth was
+ * split to issue #12.
+ *
  * Admin: any user whose email matches ADMIN_EMAIL env var.
- * User store: bv_users table in Supabase (upserted on every sign-in).
- *
- * Exported helpers:
- *   authOptions   — pass to NextAuth() and getServerSession()
- *   getSession()  — get the current session in Server Components / Route Handlers
- *   requireUser() — redirect to /login if not authenticated
- *   requireAdmin()— redirect to / if not admin
+ * Member access: ADMIN_EMAIL always passes; non-admin users must already exist
+ * in bv_users. Optional MEMBERS_ACCESS_CODE can add a shared-code gate without
+ * exposing Supabase credentials to the client.
  */
 
 import type { NextAuthOptions, Session } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { upsertUser } from "@/lib/supabase";
+import { getUserByEmail, upsertUser } from "@/lib/supabase";
+
+function normalizeEmail(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  const email = value.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return null;
+  return email;
+}
+
+function displayName(email: string, storedName?: string | null): string {
+  return storedName?.trim() || email.split("@")[0] || "Member";
+}
+
+function isAdminEmail(email: string): boolean {
+  return email === process.env.ADMIN_EMAIL?.trim().toLowerCase();
+}
 
 // ─── NextAuth options ─────────────────────────────────────────────────────────
 
@@ -29,52 +43,65 @@ export const authOptions: NextAuthOptions = {
   },
 
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-      authorization: {
-        params: {
-          // Request email + profile so we get name + picture
-          scope: "openid email profile",
+    CredentialsProvider({
+      id: "credentials",
+      name: "Email access",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "you@example.com",
         },
+        accessCode: {
+          label: "Access code",
+          type: "password",
+          placeholder: "Optional access code",
+        },
+      },
+      async authorize(credentials) {
+        const email = normalizeEmail(credentials?.email);
+        if (!email) return null;
+
+        const configuredCode = process.env.MEMBERS_ACCESS_CODE?.trim();
+        if (configuredCode) {
+          const submittedCode = credentials?.accessCode?.trim() ?? "";
+          if (submittedCode !== configuredCode) return null;
+        }
+
+        const admin = isAdminEmail(email);
+        const dbUser = await getUserByEmail(email);
+
+        // Admin gets a bootstrap path so the first operator can enter even when
+        // bv_users is still empty. Everyone else must already have a Supabase row.
+        if (!admin && !dbUser) return null;
+
+        if (admin && !dbUser) {
+          await upsertUser({ email, name: "Bellavista Admin", picture_url: null });
+        }
+
+        return {
+          id: dbUser?.id ?? email,
+          email,
+          name: displayName(email, dbUser?.name),
+          image: dbUser?.picture_url ?? null,
+        };
       },
     }),
   ],
 
   callbacks: {
-    /** Sync the user to Supabase on first sign-in and any subsequent sign-in. */
-    async signIn({ user }) {
-      if (!user.email) return false; // reject sign-ins without an email
-      try {
-        await upsertUser({
-          email: user.email,
-          name: user.name,
-          picture_url: user.image,
-        });
-      } catch (err) {
-        // Log but don't block login — the site still works without Supabase sync.
-        console.error("[auth] Supabase upsert failed:", err);
-      }
-      return true;
-    },
-
-    /** Embed email + isAdmin into the JWT so middleware can read them at the edge. */
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }) {
       if (user?.email) {
         token.email = user.email;
         token.name = user.name ?? token.name;
         token.picture = user.image ?? token.picture;
       }
-      if (account) {
-        // Only compute isAdmin when the account is first linked (login event).
-        token.isAdmin =
-          user?.email?.toLowerCase() ===
-          process.env.ADMIN_EMAIL?.toLowerCase();
+      if (typeof token.email === "string") {
+        token.isAdmin = isAdminEmail(token.email.toLowerCase());
       }
       return token;
     },
 
-    /** Expose email + isAdmin on the session object for server components. */
     async session({ session, token }) {
       if (session.user) {
         session.user.email = token.email as string;
@@ -95,29 +122,17 @@ export interface SessionWithRole extends Session {
 
 // ─── Server-side helpers ──────────────────────────────────────────────────────
 
-/**
- * Get the current NextAuth session in a Server Component or Route Handler.
- * Returns null when unauthenticated.
- */
 export async function getSession(): Promise<SessionWithRole | null> {
   const session = await getServerSession(authOptions);
   return (session as SessionWithRole) ?? null;
 }
 
-/**
- * Require an authenticated user. Redirects to /login if not signed in.
- * Use at the top of any members-only Server Component.
- */
 export async function requireUser(): Promise<SessionWithRole> {
   const session = await getSession();
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent("/members"));
   return session;
 }
 
-/**
- * Require admin access. Redirects to / if not the admin email.
- * Use at the top of any admin-only Server Component.
- */
 export async function requireAdmin(): Promise<SessionWithRole> {
   const session = await getSession();
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent("/admin"));

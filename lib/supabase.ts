@@ -35,7 +35,7 @@ export const supabase = createClient(
   }
 );
 
-/** Upsert a Google-authenticated user into bv_users. */
+/** Upsert an authenticated user into bv_users. */
 export async function upsertUser(user: {
   email: string;
   name?: string | null;
@@ -59,10 +59,16 @@ export async function upsertUser(user: {
 /** Look up a user row by email. Returns null if not found or on error. */
 export async function getUserByEmail(
   email: string
-): Promise<{ id: string; email: string; created_at: string } | null> {
+): Promise<{
+  id: string;
+  email: string;
+  name: string | null;
+  picture_url: string | null;
+  created_at: string;
+} | null> {
   const { data, error } = await supabase
     .from("bv_users")
-    .select("id, email, created_at")
+    .select("id, email, name, picture_url, created_at")
     .eq("email", email)
     .single();
   if (error) return null;
