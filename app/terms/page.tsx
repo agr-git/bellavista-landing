@@ -1,6 +1,6 @@
 /**
  * /terms — Terms of Service.
- * Required for Google OAuth consent screen verification.
+ * Required public terms for member access and future OAuth review.
  */
 
 import type { Metadata } from "next";
@@ -59,8 +59,8 @@ export default function TermsPage() {
                 3. Account responsibility
               </h2>
               <p>
-                You are responsible for maintaining the confidentiality of your
-                Google sign-in credentials. Notify us immediately of any
+                You are responsible for the security of any member access
+                credentials or access codes. Notify us immediately of any
                 unauthorized use of your account.
               </p>
             </section>

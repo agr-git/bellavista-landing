@@ -36,13 +36,11 @@ services:
       NOTION_TOKEN: ${NOTION_TOKEN}
       NOTION_RESOURCES_DB_ID: ${NOTION_RESOURCES_DB_ID}
       ADMIN_EMAIL: ${ADMIN_EMAIL}
-      # NextAuth env — wired in B10, safe to set early.
+      # NextAuth simple credentials auth + server-only Supabase access.
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
       NEXTAUTH_URL: ${NEXTAUTH_URL}
       ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH}
-      # Google OAuth + server-only Supabase access (AUTH_MEMBERS_v1).
-      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
-      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      MEMBERS_ACCESS_CODE: ${MEMBERS_ACCESS_CODE:-}
       SUPABASE_URL: ${SUPABASE_URL}
       SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
       SUBSTACK_FEED_URL: ${SUBSTACK_FEED_URL:-}

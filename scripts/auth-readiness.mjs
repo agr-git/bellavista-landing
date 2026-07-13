@@ -8,8 +8,6 @@ export const REQUIRED_ENV = [
   "NEXTAUTH_SECRET",
   "NEXTAUTH_URL",
   "ADMIN_EMAIL",
-  "GOOGLE_CLIENT_ID",
-  "GOOGLE_CLIENT_SECRET",
   "SUPABASE_URL",
   "SUPABASE_SERVICE_ROLE_KEY",
 ];
@@ -30,7 +28,7 @@ export const DEFAULT_ROUTES = [
   { path: "/api/auth/providers", statuses: [200] },
 ];
 
-const CALLBACK_PATH = "/api/auth/callback/google";
+const CREDENTIALS_CALLBACK_PATH = "/api/auth/callback/credentials";
 
 function diagnostic(level, code, message) {
   return { level, code, message };
@@ -112,14 +110,14 @@ export function validateEnvironment(env, expectedBaseUrl) {
 
   if (baseUrl) {
     try {
-      const callback = new URL(CALLBACK_PATH, `${baseUrl}/`);
+      const callback = new URL(CREDENTIALS_CALLBACK_PATH, `${baseUrl}/`);
       diagnostics.push(
-        callback.origin === baseUrl && callback.pathname === CALLBACK_PATH
-          ? diagnostic("pass", "REDIRECT_VALID", "Google callback resolves from the configured base URL")
-          : diagnostic("error", "REDIRECT_INVALID", "Google callback does not resolve as expected")
+        callback.origin === baseUrl && callback.pathname === CREDENTIALS_CALLBACK_PATH
+          ? diagnostic("pass", "CREDENTIALS_CALLBACK_VALID", "Credentials callback resolves from the configured base URL")
+          : diagnostic("error", "CREDENTIALS_CALLBACK_INVALID", "Credentials callback does not resolve as expected")
       );
     } catch {
-      diagnostics.push(diagnostic("error", "REDIRECT_INVALID", "Google callback could not be resolved"));
+      diagnostics.push(diagnostic("error", "CREDENTIALS_CALLBACK_INVALID", "Credentials callback could not be resolved"));
     }
   }
 
@@ -195,8 +193,6 @@ export function fixtureEnvironment() {
     NEXTAUTH_SECRET: "fixture-only-not-a-secret",
     NEXTAUTH_URL: "https://bellavista-coffee.com.co",
     ADMIN_EMAIL: "fixture@example.com",
-    GOOGLE_CLIENT_ID: "fixture-client-id",
-    GOOGLE_CLIENT_SECRET: "fixture-client-secret",
     SUPABASE_URL: "https://fixture.supabase.co",
     SUPABASE_SERVICE_ROLE_KEY: "fixture-service-role-key",
   };

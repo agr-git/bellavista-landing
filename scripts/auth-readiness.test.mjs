@@ -28,20 +28,20 @@ test("fixture environment passes presence and URL checks", () => {
   const env = fixtureEnvironment();
   const results = validateEnvironment(env, env.NEXTAUTH_URL);
   assert.equal(results.filter((result) => result.level === "error").length, 0);
-  assert.ok(results.some((result) => result.code === "REDIRECT_VALID"));
+  assert.ok(results.some((result) => result.code === "CREDENTIALS_CALLBACK_VALID"));
   assert.ok(results.some((result) => result.code === "BASE_URL_MATCH"));
 });
 
 test("validation reports names but never secret values", () => {
   const sentinel = "DO-NOT-LEAK-THIS-VALUE";
-  const env = { ...fixtureEnvironment(), GOOGLE_CLIENT_SECRET: sentinel };
+  const env = { ...fixtureEnvironment(), SUPABASE_SERVICE_ROLE_KEY: sentinel };
   const output = JSON.stringify(validateEnvironment(env, env.NEXTAUTH_URL));
   assert.equal(output.includes(sentinel), false);
-  assert.equal(output.includes("GOOGLE_CLIENT_SECRET"), true);
+  assert.equal(output.includes("SUPABASE_SERVICE_ROLE_KEY"), true);
 });
 
 test("validation rejects missing variables and unsafe production HTTP", () => {
-  const env = { ...fixtureEnvironment(), GOOGLE_CLIENT_ID: "", NEXTAUTH_URL: "http://example.com" };
+  const env = { ...fixtureEnvironment(), SUPABASE_URL: "", NEXTAUTH_URL: "http://example.com" };
   const results = validateEnvironment(env, "https://example.com");
   assert.ok(results.some((result) => result.code === "ENV_MISSING"));
   assert.ok(results.some((result) => result.code === "BASE_URL_INVALID"));
