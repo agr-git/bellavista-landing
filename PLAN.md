@@ -20,9 +20,9 @@ The framework has **5 phases, advanced by gate criteria, not calendar**:
 |---|---|---|---|---|
 | **0** | **Discover** | Claude Desktop + Notion | Data Inventory, Constraints | ✅ **Complete** (this planning conversation) |
 | **1** | **Design** | Claude Desktop | Architecture, ADRs, Execution Briefs | ✅ **Complete** (D1_DESIGN, 2026-04-21) |
-| **2** | **Build** | Claude Code + GitHub | Working code, deploy scripts | 🟡 **Next** (B1_SCAFFOLD) |
-| **3** | **Validate** | Claude Desktop + Code | Metrics, Feedback | ⬜ |
-| **4** | **Ship** | All tools | Case Study, production live | ⬜ |
+| **2** | **Build** | Claude Code + GitHub | Working code, deploy scripts | ✅ **Complete in repo** |
+| **3** | **Validate** | Claude Desktop + Code | Metrics, Feedback | 🟡 **In progress** (#3) |
+| **4** | **Ship** | All tools | Case Study, production live | 🟡 **In progress** (#6 docs; production gates remain) |
 
 **My implementation milestones (scaffold, tokens, hero, journal, etc.) all live INSIDE Phase 2 (Build)** as sub-checkpoints `B1`–`B11`. Phases 0, 1, 3, 4 each have their own checkpoints (`D1`, `V1`, `S1`). This preserves framework alignment while keeping execution granular.
 
@@ -245,7 +245,7 @@ Each sub-checkpoint ends with the 4-step discipline: commit (`feat(BN): ...`), p
 ### Tasks
 - [ ] Cross-browser smoke test: Chrome, Safari (desktop + iOS), Firefox, Android Chrome
 - [ ] Chapter scrolly specifically re-tested on iOS Safari (known failure modes)
-- [ ] Form end-to-end: submit each of 3 forms → verify email arrives → verify Notion entry
+- [ ] Form end-to-end: submit each approved form → verify email arrives → verify Notion entry. **Issue #2 currently deferred pending PM decision; V1 must label this DEFERRED, not pass/fail.**
 - [ ] Admin login → logout → session expiry
 - [ ] Lighthouse audit: target ≥90 Performance, ≥95 Accessibility, ≥100 SEO, ≥95 Best Practices
 - [ ] Manual a11y pass: keyboard nav, focus visible, screen reader headings
@@ -269,28 +269,21 @@ Each sub-checkpoint ends with the 4-step discipline: commit (`feat(BN): ...`), p
 **Phase output per framework:** Case Study, production live
 
 ### Tasks
-- [ ] Registrar: A records
-  ```
-  @      → [Lightsail static IP]
-  www    → [Lightsail static IP]
-  ```
-- [ ] Verify propagation: `dig +short bellavista-coffee.com.co`
-- [ ] Certbot for Let's Encrypt inside Nginx
-- [ ] HTTP → HTTPS redirect, both `www` + apex work
-- [ ] Cert auto-renewal cron
-- [ ] Delete `/app/(dev)/` (contains `/tokens` and `/scrolly` lab pages) before final build
-- [ ] Final smoke test on production domain
-- [ ] **Author Case Study** (`docs/case-study.md`) — problem, decisions, tradeoffs, outcomes (hiring-manager audience per AutonomIA+ dual-audience rule)
-- [ ] Post-ship retrospective: `docs/retrospectives/S1-ship.md`
-- [ ] Update Blueprint with final phase status
-- [ ] **Commit:** `feat(S1): ship — DNS, Let's Encrypt, production cutover`
-- [ ] **Commit:** `docs(S1): case study + final retrospective`
+- [x] DNS and TLS production cutover documented in deploy/TLS retrospectives.
+- [x] Cert renewal runbook and health-check script created.
+- [x] Case study created at `docs/case-study.md`.
+- [x] Post-ship retrospective created at `docs/retrospectives/S1-ship.md`.
+- [x] README updated to current operational state.
+- [x] Registry updated with Ship artifacts.
+- [ ] Final production smoke test after issues #1, #3, #4, and #5 are approved and deployed.
+- [ ] Update Blueprint with final complete phase status after production evidence exists.
+- [ ] Final completion commit after Alejandro approves merge/deploy gates.
 
 ### Post-ship (ongoing, no gate)
 - Real drone video + photography → `/srv/bellavista/media/`
 - Spanish copy when client delivers → wire i18n routing
 - Analytics (Plausible, optional)
-- OG image + favicon
+- OG image + favicon — OG image tracked by issue #4; favicon already present as `app/favicon.ico`
 
 ---
 

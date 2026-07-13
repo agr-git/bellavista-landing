@@ -2,7 +2,7 @@
 ## Bellavista Coffee — Landing Page MVP
 
 **Framework:** AutonomIA+ v3.4
-**Last updated:** 2026-05-11 (LOGO_V3 — wordmark component, SVG assets, brand guide v3)
+**Last updated:** 2026-07-13 (S1_SHIP_DOCS — README, case study, Ship retrospective)
 
 Update this file every time a new deliverable is produced. One row per artifact. Mark location precisely so any agent can fetch cold.
 
@@ -113,7 +113,7 @@ Update this file every time a new deliverable is produced. One row per artifact.
 
 | Artifact | Path | Status | Notes |
 |---|---|---|---|
-| V1 retrospective | `/docs/retrospectives/V1-validate.md` | ⬜ | After V1 |
+| V1 retrospective | `/docs/retrospectives/V1-validate.md` | ⏳ | Issue #3 — pending production/auth reconciliation; Resend/Notion E2E to be marked deferred while issue #2 is under PM discussion |
 | Design v3 plan | `/docs/decisions/DESIGN-v3-pacing.md` | 🗑 | Superseded — DESIGN_ITER_3 was executed inline during CONTENT_WIRING_v1 (2026-04-28). See `/docs/retrospectives/CONTENT-WIRING-v1.md` for the responsive content-driven overhaul that replaced the 3×250vh runway concern |
 
 ---
@@ -122,8 +122,8 @@ Update this file every time a new deliverable is produced. One row per artifact.
 
 | Artifact | Path | Status | Notes |
 |---|---|---|---|
-| Case study | `/docs/case-study.md` | ⬜ | S1 (hiring-manager audience) |
-| S1 retrospective | `/docs/retrospectives/S1-ship.md` | ⬜ | After S1 |
+| Case study | `/docs/case-study.md` | ✅ | S1_SHIP_DOCS — current release readout with unresolved gates identified |
+| S1 retrospective | `/docs/retrospectives/S1-ship.md` | ✅ | S1_SHIP_DOCS — truthful in-progress Ship retro; final completion requires production evidence |
 
 ---
 
