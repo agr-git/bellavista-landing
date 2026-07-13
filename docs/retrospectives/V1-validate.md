@@ -1,8 +1,8 @@
 # V1 validation — Bellavista Landing
 
-**Date:** 2026-07-13  
-**Branch:** `test/v1-production-validation`  
-**Issue:** #3 — V1 production validation  
+**Date:** 2026-07-13
+**Branch:** `test/v1-production-validation`
+**Issue:** #3 — V1 production validation
 **Base URL:** https://www.bellavista-coffee.com.co
 
 ## Executive result
