@@ -20,16 +20,54 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
 });
 
+const SITE_URL = "https://bellavista-coffee.com.co";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/bellavista-coffee.jpg`;
+
+const pageTitle = "Bellavista Coffee — Manizales, Colombia";
+const pageDescription =
+  "A small specialty coffee production project in the hills of Manizales — documented in drone footage, field notes, and every batch of coffee we ship.";
+const socialTitle = "Bellavista Coffee";
+const socialDescription =
+  "Specialty coffee from the hills of Manizales, Colombia. Documented in drone footage and field notes.";
+const socialImageAlt =
+  "Aerial view of Bellavista Coffee Farm in the hills of Manizales, Colombia";
+
 export const metadata: Metadata = {
-  title: "Bellavista Coffee — Manizales, Colombia",
-  description:
-    "A small specialty coffee production project in the hills of Manizales — documented in drone footage, field notes, and every batch of coffee we ship.",
-  metadataBase: new URL("https://www.bellavista-coffee.com.co"),
+  metadataBase: new URL(SITE_URL),
+  title: pageTitle,
+  description: pageDescription,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "Bellavista Coffee",
-    description:
-      "Specialty coffee from the hills of Manizales, Colombia. Documented in drone footage and field notes.",
+    title: socialTitle,
+    description: socialDescription,
+    url: SITE_URL,
+    siteName: "Bellavista Coffee",
+    locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: SOCIAL_IMAGE_URL,
+        width: 1200,
+        height: 630,
+        alt: socialImageAlt,
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: socialTitle,
+    description: socialDescription,
+    images: [
+      {
+        url: SOCIAL_IMAGE_URL,
+        alt: socialImageAlt,
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
 };
 
